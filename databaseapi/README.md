@@ -23,7 +23,8 @@ Inheritates from ```DatabaseObject``` and provides access to any database record
 import { DatabaseRecordset } from "bdt105databaseapi/dist"
 import { Connexion } from "bdt105connexion/dist";
 
-let mySqlConfiguration = new MySqlConfiguration("localhost", 3306, "admin", "admin_password"); // see https://github.com/bdt105/modules/tree/master/connexion
+let mySqlConfiguration = new MySqlConfiguration("localhost", 3306, "admin", "admin_password"); 
+// see https://github.com/bdt105/modules/tree/master/connexion
 
 let conn = new Connexion(mySqlConfiguration);
 
