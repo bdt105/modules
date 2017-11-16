@@ -70,7 +70,8 @@ Inheritates from ```DatabaseRecordset``` and provides access to crud functions +
 import { DatabaseTable } from "bdt105databaseapi/dist"
 import { Connexion } from "bdt105connexion/dist";
 
-let mySqlConfiguration = new MySqlConfiguration("localhost", 3306, "admin", "admin_password"); // see https://github.com/bdt105/modules/tree/master/connexion
+let mySqlConfiguration = new MySqlConfiguration("localhost", 3306, "admin", "admin_password"); 
+// see https://github.com/bdt105/modules/tree/master/connexion
 
 let conn = new Connexion(mySqlConfiguration);
 
@@ -96,31 +97,31 @@ databaseTable.loadFromId(callback, 1234);
 
 #### Methods ####
 Load data from the id
-loadFromId(callback: Function, id: string)
+- loadFromId(callback: Function, id: string)
 
 Load data from a where condition
-loadFromWhere(callback: Function, where: string)
+- loadFromWhere(callback: Function, where: string)
 
 Retreives data from a string search in any field of the table
-search (callback: Function, q: string, prefix: string, suffix: string)
+- search (callback: Function, q: string, prefix: string, suffix: string)
 
 Inserts a record inside the table
-insert (callback: Function, body: any)
+- insert (callback: Function, body: any)
 
 Deletes a record with a certain field equals a certain value
-deleteFromField (callback: Function, fieldName: string, value: string)
+- deleteFromField (callback: Function, fieldName: string, value: string)
 
 Deletes a record with a certain id
-deleteFromId (callback: Function, value: string)
+- deleteFromId (callback: Function, value: string)
 
 Deletes a record with a certain condition
-deleteFromWhere (callback: Function, where: string)
+- deleteFromWhere (callback: Function, where: string)
 
 Updates a record
-update (callback: Function, body: any, where: string)
+- update (callback: Function, body: any, where: string)
 
 Saves a record. If id is found in the database, then the object is updated if not it is inserted
-save (callback: Function, body: any)
+- save (callback: Function, body: any)
 
 Retreives an empty record
-fresh (callback: Function)
+- fresh (callback: Function)
