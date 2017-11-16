@@ -1,18 +1,6 @@
 import { decode } from 'punycode';
 import { Toolbox } from "bdt105toolbox/dist";
 
-export class Configuration {
-    public userTableName: string;
-    public loginFieldName: string;
-    public passwordFieldName: string;
-
-    constructor(userTableName: string, loginFieldName: string, passwordFieldName: string){
-        this.userTableName = userTableName;
-        this.loginFieldName = loginFieldName;
-        this.passwordFieldName = passwordFieldName;
-    }
-}
-
 export class MySqlConfiguration {
     public host: string;
     public user: string;
@@ -20,12 +8,19 @@ export class MySqlConfiguration {
     public port: number;
     public database: string;
 
-    constructor(host: string, port: number, user: string, password: string, database: string){
+    public userTableName: string;
+    public loginFieldName: string;
+    public passwordFieldName: string;
+
+    constructor(host: string, port: number, user: string, password: string, database: string, userTableName: string = null, loginFieldName: string = null, passwordFieldName: string = null){
         this.host = host;
         this.user = user;
         this.password = password;
         this.port = port;
         this.database = database;
+        this.userTableName = userTableName;
+        this.loginFieldName = loginFieldName;
+        this.passwordFieldName = passwordFieldName;
     }
 }
 
@@ -64,7 +59,6 @@ export class Connexion {
     
     public mySqlConfiguration: MySqlConfiguration;
     public jwtConfiguration: JwtConfiguration;
-    public configuration: Configuration;
 
     public rows: any;
     public err: any;
@@ -72,14 +66,10 @@ export class Connexion {
     public permissions: string;
     public epirationDate: number;
 
-    constructor (mySqlConfiguration: MySqlConfiguration, jwtConfiguration: JwtConfiguration, configuration: Configuration = null){
+    constructor (mySqlConfiguration: MySqlConfiguration = null, jwtConfiguration: JwtConfiguration = null){
         this.toolbox = new Toolbox();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
-        this.configuration = configuration;
-        if (!this.configuration) {
-            this.configuration = new Configuration("user", "login", "password");
-        }
         this.mySql = require('mysql');
         this.jsonwebtoken = require('jsonwebtoken');
     }
@@ -130,7 +120,7 @@ export class Connexion {
         if (rows && rows.length > 0){
             let encryptedPassword = this.encrypt(plainPassword);
             user = rows[0];
-            if (encryptedPassword === user[this.configuration.passwordFieldName]){
+            if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]){
                 jwt = this.jsonwebtoken.sign(user, this.jwtConfiguration.secret);    
                 callback(err, jwt);
             }else{
@@ -160,7 +150,7 @@ export class Connexion {
     getJwt(callback: Function, login: string, plainPassword: string, where: string = null){
         this.connectSql();
         if (this.sqlConnexion){
-            let sql = "select * from " + this.configuration.userTableName + " where " + this.configuration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
+            let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
             this.sqlConnexion.query(sql, 
                 (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, plainPassword));
         }
