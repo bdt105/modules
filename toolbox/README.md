@@ -29,7 +29,10 @@ Calculate Levenshtein distance between two strings.
 ### arrayOfObjectsToString (array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string) ###
 Transforms an array of objects into a string. Mainly used to create sql where strings.
 ~~~
-arrayOfObjectsToString([{"fieldName": "firstName"}, {"fieldName": "lastName"}, {"fieldName": "email"}], "fieldName", "value", "AND", "like '%", "%'")
+arrayOfObjectsToString([
+    {"fieldName": "firstName"}, 
+    {"fieldName": "lastName"}, 
+    {"fieldName": "email"}], "fieldName", "value", "AND", "like '%", "%'")
 ~~~
 becomes
 ~~~
