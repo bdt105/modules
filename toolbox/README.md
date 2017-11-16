@@ -1,7 +1,12 @@
 # Toolbox #
 This package gives functions to use and reuse anywhere.
 
-## How to use ? ##
+## How to install? ##
+~~~
+npm install --save bdt105toolbox
+~~~
+
+## How to use? ##
 Create an object Toolbox 
 ~~~
 import { Toolbox } from "bdt105toolbox/dist";
