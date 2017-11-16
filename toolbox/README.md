@@ -1,10 +1,36 @@
-# Toolbox #
-This package gives functions to use and reuse anywhere.
+# Toolbox - Rest #
+This package gives functions to use and reuse anywhere. It offers simplied Rest functionnalitoes as well
+
+## Dependencies ##
+- pretty-data
+- request
+- xml2js
 
 ## How to install? ##
 ~~~
 npm install --save bdt105toolbox
 ~~~
+
+# Rest #
+Rest functions
+
+## How to use? ##
+Create an object Toolbox 
+~~~
+import { Rest } from "bdt105toolbox/dist";
+
+let t = new Rest(logFile, logToconsole);
+~~~
+
+logFile and logToConsole are optional. they trace each call.
+
+## Functions ##
+
+### call (callback: Function, method: string, url: string, body: any = null, contentType = "application/json", getRaw = false) ###
+Call a http or https url and calls callback function when done. geRw retreives untransformed result of the call.
+
+# Toolbox #
+Series of usefull functions.
 
 ## How to use? ##
 Create an object Toolbox 
@@ -14,6 +40,7 @@ import { Toolbox } from "bdt105toolbox/dist";
 let t = new Toolbox();
 
 ~~~
+
 ## Functions ##
 
 ### dateToDbString(date: Date) ###
