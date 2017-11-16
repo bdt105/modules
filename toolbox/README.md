@@ -36,7 +36,7 @@ arrayOfObjectsToString([
 ~~~
 becomes
 ~~~
-firstName like '%value%' AND lastName like '%value%' AND email like '%value'
+firstName like '%value%' AND lastName like '%value%' AND email like '%value%'
 ~~~
 
 ### urlParamsToObject(url: string) ###
@@ -66,7 +66,7 @@ Retreives the entries of an array of objects matching the filter keySearch == ke
 Retreives the index of an array of objects matching the filter keySearch == keyValue. First value found is retreived.
 
 ### factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string) ###
-For a flat object will create a master slave object.
+For an array of flat objects will create a master slave array of objects.
 ~~~
 factorizeMasterSlave(
 [
@@ -98,12 +98,71 @@ becomes
 ]
 ~~~
 
-### isoDateToDbString(date: Date) ###
-Transforms an iso date into MySql format: "yyyy-MM-ddTHH:mm:ss" => "yyyy-MM-dd HH:mm:ss"
+### updateUrlParameter (url: string, parameter: string, value: string) ###
+Updates a parameter within a an url.
 
-### isoDateToDbString(date: Date) ###
-Transforms an iso date into MySql format: "yyyy-MM-ddTHH:mm:ss" => "yyyy-MM-dd HH:mm:ss"
+### updateUrlParameters (url: string, parameters: any[]) ###
+Updates parameters within a an url. Parameters must an array of object of type {"key": "", "value": ""}
 
-### isoDateToDbString(date: Date) ###
-Transforms an iso date into MySql format: "yyyy-MM-ddTHH:mm:ss" => "yyyy-MM-dd HH:mm:ss"
+### getUrlParams (url: string) ###
+Retreives a array of object of type {"key": "", "value": ""} from an url
 
+### deleteEmptyParams(url: string) ###
+Deletes empty paramters from an url
+
+### deleteStringList (text: string, separator: string, textToDelete: string) ###
+Delete elements in a csv like string.
+
+### pushArray(source: any[], destination: any[]) ###
+Concats source into destination.
+
+### removeKeyFromArray (array: any[], key: string) ###
+Remove a records from an array according to a key. Array must contain objects with at least a "key" field.
+
+### isValidDate(date: string) ###
+Checks if a date is valid.
+
+### dateDbToStringFr(date: string, separator = "-") ###
+Transforms a date into french date format ("dd-MM-yyyy HH:mm:ss")
+
+### dateWithoutTime(date: string) ###
+Removes time information from a date
+
+### diffDateInDays(date1: Date, date2: Date) ###
+Gets the difference in days between two dates
+
+### log (text: string, fileName: string = null, logToConsole: boolean = true) ###
+Logs information into a file. All lines are prefixed by timestamp of the append in the log file.
+
+### postElastic (elasticUrl: string, index: string, type: string, data: any, id: string = null, extra: string = null) ###
+Adds data into an elasticsearch server
+
+### loadFromJsonFile(fileName: string, encoding: string = null) ###
+Retreive an object of the json contained into a file
+
+### uniqueId() ###
+Retreives a unique id base on random 16bit from library "crypto"
+
+### beautifyXml (text: string) ###
+Retreives beautifull string containg xml. Based on pretty-data library
+
+### beautifyJson (text: string) ###
+Retreives beautifull string containg json. Based on pretty-data library
+
+### writeToStorage (key: string, object: any, forever: boolean) ###
+Writes to local browser storage. If forever then localStorage is used if not seesionStorage is used
+
+### parseJson(str: string) ###
+Retreives an object from a Json string
+
+### readFromStorage (key: string) ###
+Gets object from sessionStorage, if not found from localStorage
+
+### removeFromStorage (key: string) ###
+REmoves object from sessionStorage and localStorage
+
+### xml2json(xml: string, callback: Function = null) ###
+Transforms a xml string into Json object. Based on https://github.com/Leonidas-from-XIV/node-xml2js
+
+### fillDocWithContent(doc: any, content: string) ###
+Fills DOM document with string

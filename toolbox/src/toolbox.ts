@@ -160,8 +160,8 @@ export class Toolbox {
         return rows;
     }    
 
-    updateUrlParameter (url: string, param: string, paramVal: string){
-        if (url && url.length > 0 && param && param.length > 0){
+    updateUrlParameter (url: string, parameter: string, value: string){
+        if (url && url.length > 0 && parameter && parameter.length > 0){
             var newAdditionalURL = "";
             var tempArray = url.split("?");
             var baseURL = tempArray[0];
@@ -170,26 +170,26 @@ export class Toolbox {
             if (additionalURL) {
                 tempArray = additionalURL.split("&");
                 for (var i=0; i<tempArray.length; i++){
-                    if (tempArray[i].split('=')[0] != param){
+                    if (tempArray[i].split('=')[0] != parameter){
                         newAdditionalURL += temp + tempArray[i];
                         temp = "&";
                     }
                 }
             }
 
-            var rows_txt = temp + "" + param + "=" + paramVal;
+            var rows_txt = temp + "" + parameter + "=" + value;
             return baseURL + "?" + newAdditionalURL + rows_txt;
         }else{
             return url;
         }
     };
     
-    updateUrlParameters (url: string, params: any[]){
-        if (url && url.length > 0 && params && params.length > 0){
+    updateUrlParameters (url: string, parameters: any[]){
+        if (url && url.length > 0 && parameters && parameters.length > 0){
             var tempArray = url.split("?");
             var tempUrl = tempArray[0];
-            for (var i = 0; i < params.length; i++){
-                var param = params[i];
+            for (var i = 0; i < parameters.length; i++){
+                var param = parameters[i];
                 tempUrl = this.updateUrlParameter(tempUrl, param.key, param.value);
             }
             return tempUrl;
@@ -219,7 +219,7 @@ export class Toolbox {
     };
     
     deleteEmptyParams(url: string){
-        var rawUrl = this.getUrlWithoutParameters(url);
+        var rawUrl = this.urlBase(url);
         var params = this.getUrlParams(url);
         var paramUrl = "";
         if (params && params.length > 0){
@@ -229,11 +229,6 @@ export class Toolbox {
         }
         return rawUrl + "?" + paramUrl;
     }
-
-    getUrlWithoutParameters(url: string){
-        var tempArray = url.split("?");
-        return tempArray[0];
-    };
 
     getKeyValue(obj: any){
         var temp: any[] = [];
@@ -343,7 +338,6 @@ export class Toolbox {
         var crypto = require("crypto");
         return crypto.randomBytes(16).toString("hex");
     }
-
 
     beautifyXml (text: string){
         if (text && text != null){
