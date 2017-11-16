@@ -1,0 +1,16 @@
+{
+  "name": "bdt105connexion",
+  "main": "index.js",
+  "description": "JWT Authentification and MySql connexion",
+  "version": "1.0.6",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bdt105toolbox": "^1.0.12",
+    "jsonwebtoken": "^7.4.3",
+    "mysql": "^2.13.0",
+    "typescript": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.27"
+  }
+}
