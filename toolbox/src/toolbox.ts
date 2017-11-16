@@ -1,7 +1,7 @@
 import { Rest } from './index';
 export class Toolbox {
 
-    formatDate = function(date: Date) {
+    formatDate(date: Date) {
         var year = date.getFullYear(),
             month = date.getMonth() + 1, // months are zero indexed
             day = date.getDate(),
@@ -40,10 +40,10 @@ export class Toolbox {
         return a;
     };
 
-    arrayToCSV(array: string[]): string{
+    arrayToCSV(array: string[], separator = ";"): string{
         var ret = "";
         for (var i = 0; i < array.length; i ++){
-            ret += (ret == "" ? "" : ";") + array[i];
+            ret += (ret == "" ? "" : separator) + array[i];
         }
         return ret;
     }
@@ -82,11 +82,11 @@ export class Toolbox {
         return matrix[bn][an];
     };
 
-    arrayOfObjectsToString (array: any, fieldName: string, search: string, separator: string, prefix: string, suffix: string){
+    arrayOfObjectsToString (array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string){
         var ret = "";
         if (array){
-            for (var i = 0 ; i < array.length; i++){
-                ret += (ret === "" ? "" : separator) + array[i][fieldName] + prefix + search + suffix;
+            for (var i = 0; i < array.length; i++){
+                ret += (ret === "" ? "" : separator) + array[i][fieldName] + prefix + value + suffix;
             }
         }
         return ret;
