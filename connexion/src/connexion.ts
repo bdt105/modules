@@ -166,7 +166,7 @@ export class Connexion {
         }
     }
 
-    checkJwt(token: string): any{
+    checkJwt(token: string): Token{
         var jwt = require('jsonwebtoken');
         try {
             var decoded = jwt.verify(token, this.jwtConfiguration.secret);
