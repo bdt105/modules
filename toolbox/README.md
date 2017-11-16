@@ -22,12 +22,12 @@ import { Rest } from "bdt105toolbox/dist";
 let t = new Rest(logFile, logToconsole);
 ~~~
 
-logFile and logToConsole are optional. they trace each call.
+logFile and logToConsole are optional. They trace each call.
 
 ## Functions ##
 
 ### call (callback: Function, method: string, url: string, body: any = null, contentType = "application/json", getRaw = false) ###
-Call a http or https url and calls callback function when done. geRw retreives untransformed result of the call.
+Call a http or https url and calls callback function when done. geRaw retreives untransformed result of the call.
 
 # Toolbox #
 Series of usefull functions.
