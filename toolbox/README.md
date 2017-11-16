@@ -19,6 +19,9 @@ Create an object Toolbox
 ~~~
 import { Rest } from "bdt105toolbox/dist";
 
+let logFile = "logFile.log";
+let logToConsole = true;
+
 let rest = new Rest(logFile, logToconsole);
 ~~~
 
