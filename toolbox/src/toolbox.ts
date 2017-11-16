@@ -48,7 +48,7 @@ export class Toolbox {
         return ret;
     }
 
-    Levenshtein (a: string, b: string): number {
+    levenshtein (a: string, b: string): number {
         const an = a ? a.length : 0;
         const bn = b ? b.length : 0;
         if (an === 0) {

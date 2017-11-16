@@ -19,7 +19,7 @@ Create an object Toolbox
 ~~~
 import { Rest } from "bdt105toolbox/dist";
 
-let t = new Rest(logFile, logToconsole);
+let rest = new Rest(logFile, logToconsole);
 ~~~
 
 logFile and logToConsole are optional. They trace each call.
@@ -27,7 +27,7 @@ logFile and logToConsole are optional. They trace each call.
 ## Functions ##
 
 ### call (callback: Function, method: string, url: string, body: any = null, contentType = "application/json", getRaw = false) ###
-Call a http or https url and calls callback function when done. geRaw retreives untransformed result of the call.
+Call a http or https url and calls callback function when done. getRaw retreives untransformed result of the call.
 
 # Toolbox #
 Series of usefull functions.
@@ -37,8 +37,7 @@ Create an object Toolbox
 ~~~
 import { Toolbox } from "bdt105toolbox/dist";
 
-let t = new Toolbox();
-
+let toolbox = new Toolbox();
 ~~~
 
 ## Functions ##
@@ -55,7 +54,7 @@ Transforms into an array a csv line. Separator is ";"
 ### arrayToCSV(array: string[], separator = ";"): string ###
 Transforms into a csv string an array.
 
-### Levenshtein (a: string, b: string): number ###
+### levenshtein (a: string, b: string): number ###
 Calculate Levenshtein distance between two strings.
 
 ### arrayOfObjectsToString (array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string) ###
