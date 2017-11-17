@@ -16,9 +16,9 @@
   "devDependencies": {
     "@types/node": "^8.0.27"
   },
-  "author":{
-    "name" : "Bernard Deregnaucourt"
-    , "email" : "bdt105@gmail.com"
+  "author": {
+    "name": "Bernard Deregnaucourt",
+    "email": "bdt105@gmail.com"
   },
   "repository": {
     "type": "git",
