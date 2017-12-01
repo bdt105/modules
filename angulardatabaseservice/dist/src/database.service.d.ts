@@ -1,0 +1,40 @@
+import { Http } from '@angular/http';
+export declare class DatabaseService {
+    private http;
+    constructor(http: Http);
+    body: any;
+    login: string;
+    password: string;
+    contentType: string;
+    private toolbox;
+    configuration: {
+        "baseUrl": string;
+        "baseUrlOld": string;
+        "sql": string;
+        "update": string;
+        "read": string;
+        "fresh": string;
+        "structure": string;
+        "insert": string;
+        "save": string;
+        "delete": string;
+        "fields": string;
+        "count": string;
+    };
+    private setHeaders();
+    private manageData(callback, data);
+    private manageError(callback, error);
+    callPost(callbackSuccess: Function, callbackFailure: Function, url: string, body: any): void;
+    callGet(callbackSuccess: Function, callbackFailure: Function, url: string): void;
+    private calll(callbackSuccess, callbackFailure, api, tableName, element?);
+    connect(login: string, password: string): void;
+    sql(callbackSuccess: Function, callbackFailure: Function, sql: string, limit?: string): void;
+    read(callbackSuccess: Function, callbackFailure: Function, tableName: string, element: any): void;
+    insert(callbackSuccess: Function, callbackFailure: Function, tableName: string, element: any): void;
+    delete(callbackSuccess: Function, callbackFailure: Function, tableName: string, element: any): void;
+    save(callbackSuccess: Function, callbackFailure: Function, tableName: string, element: any): void;
+    fields(callbackSuccess: Function, callbackFailure: Function, tableName: string): void;
+    private successNeww(data, callbackSuccess);
+    private failureNeww(data, callbackFailure);
+    neww(callbackSuccess: Function, callbackFailure: Function, tableName: string): void;
+}

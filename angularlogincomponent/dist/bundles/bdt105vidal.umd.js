@@ -1,70 +1,87 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const dist_1 = require("bdt105toolbox/dist");
-class Vidal {
-    constructor(app_id = "", app_key = "") {
-        this.toolbox = new dist_1.Toolbox();
-        this.rest = new dist_1.Rest();
-        this.contentType = "text/xml";
-        this.configuration = {
-            "baseUrl": "http://api.vidal.fr",
-            "urlVigie": "http://dev-vidal-memo.vidal.fr/api/memo-rules/rules",
-            "apiDomain": "/rest/api",
-            "newsDomain": "/rest/news",
-            "pmsiDomain": "/rest/pmsi",
-            "cim10": "/cim10",
-            "allergies": "/allergies",
-            "pathologies": "/pathologies",
-            "search": "/search",
-            "searchAllergies": "/allergies",
-            "searchPathologies": "/pathologies",
-            "alerts": "/alerts",
-            "alertsFull": "/alerts/full",
-            "alertsHtml": "/alerts/html",
-            "reco": "/reco",
-            "version": "/version",
-            "postComplement": "/postComplement",
-            "indicationGroup": "/indication-group",
-            "prescriptionRecos": "/recos/guidelines",
-            "adaptedDrugs": "/adapted-drugs",
-            "sideEffectSort": "/side-effect/sort-drugs",
-            "app_id": "",
-            "app_key": "",
-            "alertsStyle": false,
-            "alertsHtmlStyle": "#main{max-width: 100%} .jquery_tabs ul.tabs-list{width: 20%} .jquery_tabs .content {width: 79%; border: 0px} #main, #sommaire_summary, .grid, .jquery_tabs .content, td {background: transparent}",
-            "alertsHtmlStyleHideSidebar": "",
-            "alertsHtmlStyleHideHeader": "body {margin-top: 10px}",
-        };
-        this.frequencyToUnitId = [
-            { "key": "PER_24_HOURS", "value": 718 },
-            { "key": "PER_DAY", "value": 717 },
-            { "key": "PER_HOUR", "value": 716 },
-            { "key": "PER_MINUTE", "value": 715 },
-            { "key": "PER_MONTH", "value": 721 },
-            { "key": "PER_WEEK", "value": 720 },
-            { "key": "PER_YEAR", "value": 722 },
-            { "key": "THIS_DAY", "value": 714 },
-            { "key": "TYPE_44", "value": 725 },
-            { "key": "TYPE_66", "value": 724 }
-        ];
-        this.configuration.app_id = app_id;
-        this.configuration.app_key = app_key;
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('bdt105toolbox/dist')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'bdt105toolbox/dist'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.bdt105vidal = {}),global.ng.core,global.dist));
+}(this, (function (exports,core,dist) { 'use strict';
+
+//import { Http, RequestOptions, RequestMethod, Headers } from '@angular/http';
+var VidalService = /** @class */ (function () {
+    function VidalService() {
     }
-    setHeaders(contentType = "text/xml") {
+    VidalService.prototype.setHeaders = function (contentType) {
+        if (contentType === void 0) { contentType = "text/xml"; }
         var headers = new Headers();
         headers.append("Content-Type", contentType);
         headers.append("Access-Control-Allow-Origin", "*");
         return headers;
-    }
-    cleanId(id, type) {
+    };
+    VidalService.prototype.cleanId = function (id, type) {
         var idd = id + "";
         if (Array.isArray(id)) {
             idd = id[0] + "";
         }
         return idd.replace("vidal://" + type.toLowerCase() + "/", "");
-    }
-    ;
-    callback(callback, data, error) {
+    };
+    
+    // get(url: string){
+    //     let rest = new Rest();
+    //     return rest.call()
+    //     return this.http.get(url, {headers: headrs})
+    // }
+    // callGet (callbackSuccess: Function, callbackFailure: Function, url: string){
+    //     var headrs = this.setHeaders();
+    //     return this.get(url).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    // callPost(callbackSuccess: Function, callbackFailure: Function, url: string, body: any, contentType = "text/xml"){
+    //     var headrs = this.setHeaders(contentType);
+    //     this.http.post(url, body, {headers: headrs}).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    // get(url: string){
+    //     let rest = new Rest();
+    //     return rest.call()
+    //     return this.http.get(url, {headers: headrs})
+    // }
+    // callGet (callbackSuccess: Function, callbackFailure: Function, url: string){
+    //     var headrs = this.setHeaders();
+    //     return this.get(url).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    // callPost(callbackSuccess: Function, callbackFailure: Function, url: string, body: any, contentType = "text/xml"){
+    //     var headrs = this.setHeaders(contentType);
+    //     this.http.post(url, body, {headers: headrs}).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    VidalService.prototype.callback = 
+    // get(url: string){
+    //     let rest = new Rest();
+    //     return rest.call()
+    //     return this.http.get(url, {headers: headrs})
+    // }
+    // callGet (callbackSuccess: Function, callbackFailure: Function, url: string){
+    //     var headrs = this.setHeaders();
+    //     return this.get(url).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    // callPost(callbackSuccess: Function, callbackFailure: Function, url: string, body: any, contentType = "text/xml"){
+    //     var headrs = this.setHeaders(contentType);
+    //     this.http.post(url, body, {headers: headrs}).subscribe(
+    //         (data) => this.manageData(callbackSuccess, data),
+    //         (error) => this.manageError(callbackFailure, error)
+    //     );
+    // }
+    function (callback, data, error) {
         if (data._body && (typeof data._body == "string")) {
             if (data._body.startsWith("<?xml version")) {
                 data.json = this.toolbox.xml2json(data._body);
@@ -76,112 +93,110 @@ class Vidal {
         if (callback) {
             callback(data, error);
         }
-    }
-    ;
-    getApiBaseUrl() {
-        var setting = null;
+    };
+    
+    VidalService.prototype.getApiBaseUrl = function () {
+        var setting = this.toolbox.readFromStorage("setting");
         var url = this.configuration.baseUrl;
-        try {
-            setting = this.toolbox.readFromStorage("setting");
-            if (setting && setting.vidalBaseUrl) {
-                url = setting.vidalBaseUrl;
-            }
-        }
-        catch (e) {
+        if (setting && setting.vidalBaseUrl) {
+            url = setting.vidalBaseUrl;
         }
         return url;
-    }
-    ;
-    getHtmlStyle() {
-        var setting = null;
+    };
+    
+    VidalService.prototype.getHtmlStyle = function () {
+        var setting = this.toolbox.readFromStorage("setting");
         var htmlStyle = this.configuration.alertsStyle;
-        try {
-            var setting = this.toolbox.readFromStorage("setting");
-        }
-        catch (e) {
-        }
         if (setting && setting.vidalHtmlStyle) {
             htmlStyle = setting.vidalHtmlStyle;
         }
         return htmlStyle;
-    }
-    ;
-    getApp_key() {
+    };
+    
+    VidalService.prototype.getApp_key = function () {
         return this.configuration.app_key;
-    }
-    ;
-    getApp_id() {
+    };
+    
+    VidalService.prototype.getApp_id = function () {
         return this.configuration.app_id;
-    }
-    ;
-    getUrlCredentials(prefix) {
+    };
+    
+    VidalService.prototype.getUrlCredentials = function (prefix) {
         return prefix + "app_id=" + this.getApp_id() + "&app_key=" + this.getApp_key();
-    }
-    search(callback, params) {
+    };
+    VidalService.prototype.search = function (callback, params) {
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + params + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    searchAllergies(callback, params) {
+    };
+    VidalService.prototype.searchAllergies = function (callback, params) {
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getProducts(callback, params, filter) {
+    };
+    VidalService.prototype.getProducts = function (params, filter) {
+        var _this = this;
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + params + "&filter=" + filter + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getAllergies(callback, params) {
+    };
+    VidalService.prototype.getAllergies = function (params) {
+        var _this = this;
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getPathologies(callback, params) {
+    };
+    VidalService.prototype.getPathologies = function (params) {
+        var _this = this;
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    searchPathologies(callback, params) {
+    };
+    VidalService.prototype.searchPathologies = function (callbackSuccess, callbackFailure, params) {
+        var _this = this;
         if (params && params.length > 2) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getFromId(callback, type, id) {
+    };
+    VidalService.prototype.getFromId = function (callbackSuccess, callbackFailure, type, id) {
+        var _this = this;
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    ;
-    getPrescriptionUnits(callback, type, id) {
+    };
+    
+    VidalService.prototype.getPrescriptionUnits = function (callbackSuccess, callbackFailure, type, id) {
+        var _this = this;
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/units" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/units" + this.getUrlCredentials("?");
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    ;
-    getPrescriptionRoutes(callback, type, id) {
+    };
+    
+    VidalService.prototype.getPrescriptionRoutes = function (callbackSuccess, callbackFailure, type, id) {
+        var _this = this;
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/routes" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/routes" + this.getUrlCredentials("?");
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    ;
-    getIndications(callback, type, id) {
+    };
+    
+    VidalService.prototype.getIndications = function (callbackSuccess, callbackFailure, type, id) {
+        var _this = this;
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/indications" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/indications" + this.getUrlCredentials("?");
+            this.rest.call(function (data, error) { return _this.callback(null, data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    ;
-    getPrescriptionLineXml(prescriptionLine) {
+    };
+    
+    VidalService.prototype.getPrescriptionLineXml = function (prescriptionLine) {
         var xml = "<prescription-line>";
         xml += "<drug>vidal://" + prescriptionLine.productType + "/" + prescriptionLine.productId + "</drug>";
         // xml += "<drugId>" + prescriptionLine.productId + "</drugId>";
@@ -194,8 +209,8 @@ class Vidal {
         xml += (prescriptionLine.routeId ? "<routes><route>vidal://route/" + prescriptionLine.routeId + "</route></routes>" : "");
         xml += (prescriptionLine.indicationId && prescriptionLine.indicationId != "" ? "<indications><indication>vidal://indication/" + prescriptionLine.indicationId + "</indication></indications>" : "");
         return xml + "</prescription-line>";
-    }
-    getBasicPatientXml(patient) {
+    };
+    VidalService.prototype.getBasicPatientXml = function (patient) {
         var xml = "";
         if (patient) {
             xml += patient.dateOfBirth ? ("<dateOfBirth>" + patient.dateOfBirth.replace(" ", "T") + "</dateOfBirth>") : "";
@@ -208,11 +223,10 @@ class Vidal {
             xml += patient.hepaticInsufficiency && patient.hepaticInsufficiency != "" ? "<hepaticInsufficiency>" + patient.hepaticInsufficiency + "</hepaticInsufficiency>" : "";
         }
         return xml;
-    }
-    getPatientXml(patient) {
+    };
+    VidalService.prototype.getPatientXml = function (patient) {
         if (patient) {
             var xml = "<patient>";
-            var arr = [];
             xml += this.getBasicPatientXml(patient);
             if (patient.allergyIds && patient.allergyIds.length > 0) {
                 var all = patient.allergyIds.split("|");
@@ -247,8 +261,8 @@ class Vidal {
             return xml + "</patient>";
         }
         return "";
-    }
-    getPrescriptionXml(prescription) {
+    };
+    VidalService.prototype.getPrescriptionXml = function (prescription) {
         if (prescription) {
             var ret = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><prescription>";
             var xmlLines = "<prescription-lines>";
@@ -262,17 +276,17 @@ class Vidal {
             return ret + xmlPatient + xmlLines + "</prescription>";
         }
         return "";
-    }
-    getAlerts(callback, prescription, params, type) {
+    };
+    VidalService.prototype.getAlerts = function (callback, prescription, params, type) {
         if (prescription && prescription.lines && prescription.lines.length > 0) {
             params.body = this.getPrescriptionXml(prescription);
             this.toolbox.log(params.body);
             params.url = this.getApiBaseUrl() + this.configuration.apiDomain +
                 (type == "html" ? this.configuration.alertsHtml : this.configuration.alertsFull) + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
+            this.rest.call(function (data, error) { return callback(null, data, error); }, "POST", params.url, params.body, this.contentType);
         }
-    }
-    getAlertColor(severity) {
+    };
+    VidalService.prototype.getAlertColor = function (severity) {
         var color = { "background": "red", "font": "" };
         switch (severity) {
             case "LEVEL_1":
@@ -299,8 +313,8 @@ class Vidal {
                 break;
         }
         return color;
-    }
-    getRelevantAlerts(alert) {
+    };
+    VidalService.prototype.getRelevantAlerts = function (alert) {
         var als = [];
         if (alert) {
             if (alert["vidal:maxAllergySeverity"] && alert["vidal:maxAllergySeverity"][0].severity[0] != "NO_ALERT") {
@@ -345,8 +359,8 @@ class Vidal {
             }
         }
         return als;
-    }
-    assignAlertsToLines(prescription, xmlAlerts) {
+    };
+    VidalService.prototype.assignAlertsToLines = function (prescription, xmlAlerts) {
         if (prescription && xmlAlerts && xmlAlerts.feed && xmlAlerts.feed.entry) {
             for (var i = 0; i < prescription.lines.length; i++) {
                 var line = prescription.lines[i];
@@ -361,8 +375,8 @@ class Vidal {
                 }
             }
         }
-    }
-    addStyleToHtml(text, hideSidebar, hideHeader) {
+    };
+    VidalService.prototype.addStyleToHtml = function (text, hideSidebar, hideHeader) {
         if (text && this.getHtmlStyle()) {
             var style = "<style>";
             style += " " + this.configuration.alertsHtmlStyle;
@@ -376,47 +390,45 @@ class Vidal {
             return text.replace("<!-- custom-css -->", style);
         }
         return text;
-    }
-    ;
-    getOptDocument(callback, type, id) {
+    };
+    
+    VidalService.prototype.getOptDocument = function (callback, type, id) {
         if (type && id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/documents/opt" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getDocuments(callback, type, id, params) {
+    };
+    VidalService.prototype.getDocuments = function (callback, type, id, params) {
         if (type && id) {
             params.url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/documents" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", params.url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", params.url, null, this.contentType);
         }
-    }
-    getATCClassFromProduct(callback, type, id) {
+    };
+    VidalService.prototype.getATCClassFromProduct = function (callback, type, id) {
         if (type && id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/atc-classification" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getVIDALClassFromProduct(callback, type, id) {
+    };
+    VidalService.prototype.getVIDALClassFromProduct = function (callback, type, id) {
         if (type && id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/vidal-classification" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getProduct(callback, type, id) {
+    };
+    VidalService.prototype.getProduct = function (callback, type, id) {
         if (type && id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getVigieAlerts(callback, prescription) {
+    };
+    VidalService.prototype.getVigieAlerts = function (callback, prescription) {
         if (prescription && prescription.patient) {
             var arr = prescription.patient.dateOfBirth.split("-");
             var today = new Date();
             var ageYears = today.getFullYear() - arr[0];
             var prescs = [];
             if (prescription.lines && prescription.lines.length > 0) {
-                var atcs = [];
-                var vidals = [];
                 for (var i = 0; i < prescription.lines.length; i++) {
                     var presc = { "atcs": new Array(), "vidalClasses": new Array(), "galenicForms": new Array(), "indications": new Array(), "routes": new Array() };
                     if (prescription.lines[i].atcClass) {
@@ -437,16 +449,16 @@ class Vidal {
             var body = { "age": ageYears, "prescriptions": prescs };
             this.toolbox.log(JSON.stringify(body));
             var url = this.configuration.urlVigie; // + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "POST", url, JSON.stringify(body), "application/json");
+            this.rest.call(function (data, error) { return callback(data, error); }, "POST", url, JSON.stringify(body), "application/json");
         }
-    }
-    getNewsFromProduct(callback, type, id) {
+    };
+    VidalService.prototype.getNewsFromProduct = function (callback, type, id) {
         if (type && id && (type == "product" || type == "package")) {
             var url = this.getApiBaseUrl() + this.configuration.newsDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getPosologyXml(patient, routeIds, indicationIds) {
+    };
+    VidalService.prototype.getPosologyXml = function (patient, routeIds, indicationIds) {
         var routes = "";
         var indications = "";
         var xmlPatient = '<patient>' + this.getBasicPatientXml(patient) + '</patient>';
@@ -465,28 +477,28 @@ class Vidal {
             indications += '</indications>';
         }
         return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><posology-request>' + xmlPatient + routes + indications + '</posology-request>';
-    }
-    getPosologyFromProduct(callback, type, id, patient, routeIds, indicationIds, params) {
+    };
+    VidalService.prototype.getPosologyFromProduct = function (callback, type, id, patient, routeIds, indicationIds, params) {
         if (type && id && patient) {
             params.url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/posology-descriptors" + this.getUrlCredentials("?");
             params.body = this.getPosologyXml(patient, routeIds, indicationIds);
-            this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "POST", params.url, params.body, this.contentType);
         }
-    }
-    getUnitIdFromFrequency(stringFrequency) {
-        var fil = this.frequencyToUnitId.filter((row) => row.key == stringFrequency);
+    };
+    VidalService.prototype.getUnitIdFromFrequency = function (stringFrequency) {
+        var fil = this.frequencyToUnitId.filter(function (row) { return row.key == stringFrequency; });
         return fil[0].value;
-    }
-    getFrequencyFromUnitId(unitId) {
+    };
+    VidalService.prototype.getFrequencyFromUnitId = function (unitId) {
         if (unitId) {
-            var fil = this.frequencyToUnitId.filter((row) => row.value == unitId);
+            var fil = this.frequencyToUnitId.filter(function (row) { return row.value == unitId; });
             return fil[0].key;
         }
         else {
             return "";
         }
-    }
-    getPostComplementXml(drugs, icd10Codes, text) {
+    };
+    VidalService.prototype.getPostComplementXml = function (drugs, icd10Codes, text) {
         var ret = '<?xml version="1.0" encoding="UTF-8"?><request>';
         if (drugs && drugs.length > 0) {
             ret += "<drugs>";
@@ -507,39 +519,39 @@ class Vidal {
         }
         ret += "<engine>VIDAL</engine><drugCursor>DEFAULT</drugCursor></request>";
         return ret;
-    }
-    getPostComplement(callback, drugs, icd10Codes, text, params) {
+    };
+    VidalService.prototype.getPostComplement = function (callback, drugs, icd10Codes, text, params) {
         if ((drugs && drugs.length > 0) || (text && text.length > 0)) {
             params.url = this.getApiBaseUrl() + this.configuration.pmsiDomain + this.configuration.postComplement + this.getUrlCredentials("?");
             params.body = this.getPostComplementXml(drugs, icd10Codes, text);
-            this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "POST", params.url, params.body, this.contentType);
         }
-    }
-    getCim10FromIndicationGroupId(callback, id) {
+    };
+    VidalService.prototype.getCim10FromIndicationGroupId = function (callback, id) {
         if (id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.indicationGroup + "/" + id + "/cim10s" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getRecosFromIndicationGroupId(callback, id) {
+    };
+    VidalService.prototype.getRecosFromIndicationGroupId = function (callback, id) {
         if (id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.indicationGroup + "/" + id + "/recos" + this.getUrlCredentials("?");
-            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "GET", url, null, this.contentType);
         }
-    }
-    getPrescriptionRecos(callback, prescription, params) {
+    };
+    VidalService.prototype.getPrescriptionRecos = function (callback, prescription, params) {
         params.body = this.getPrescriptionXml(prescription);
         params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.prescriptionRecos + this.getUrlCredentials("?");
         this.toolbox.log(prescription.xmlBody);
-        this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
-    }
-    getRecoUrl(id) {
+        this.rest.call(function (data, error) { return callback(data, error); }, "POST", params.url, params.body, this.contentType);
+    };
+    VidalService.prototype.getRecoUrl = function (id) {
         return this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.reco + "/" + id + "/html" + this.getUrlCredentials("?");
-    }
-    getReco(callback, id) {
-        this.rest.call((data, error) => callback(data, error), "GET", this.getRecoUrl(id), null, this.contentType);
-    }
-    getAdaptedDugsXml(vmpId, facets, page, pageSize) {
+    };
+    VidalService.prototype.getReco = function (callback, id) {
+        this.rest.call(function (data, error) { return callback(data, error); }, "GET", this.getRecoUrl(id), null, this.contentType);
+    };
+    VidalService.prototype.getAdaptedDugsXml = function (vmpId, facets, page, pageSize) {
         var ret = "<adapted-drugs>";
         ret += "<vmp-id>" + vmpId + "</vmp-id>";
         ret += "<output-drug-type>PRODUCT</output-drug-type>";
@@ -556,16 +568,16 @@ class Vidal {
         ret += "<page-size>" + pageSize + "</page-size>";
         ret += "</adapted-drugs>";
         return ret;
-    }
-    getAdaptedDrugs(callback, vmpId, facets, page, pageSize, params) {
+    };
+    VidalService.prototype.getAdaptedDrugs = function (callback, vmpId, facets, page, pageSize, params) {
         if (vmpId) {
             params.body = this.getAdaptedDugsXml(vmpId, facets, page, pageSize);
             params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.adaptedDrugs + this.getUrlCredentials("?");
             this.toolbox.log(params.xmlBody);
-            this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "POST", params.url, params.body, this.contentType);
         }
-    }
-    getSideEffectsXml(drugs, sideEffectId) {
+    };
+    VidalService.prototype.getSideEffectsXml = function (drugs, sideEffectId) {
         var ret = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><adapted-drugs>";
         ret += "<request>";
         ret += "<ids>";
@@ -578,16 +590,16 @@ class Vidal {
         ret += "<sideEffectId>" + sideEffectId + "</sideEffectId>";
         ret += "</request>";
         return ret;
-    }
-    getSideEffects(callback, drugs, sideEffectId, params) {
+    };
+    VidalService.prototype.getSideEffects = function (callback, drugs, sideEffectId, params) {
         if (sideEffectId) {
             params.body = this.getSideEffectsXml(drugs, sideEffectId);
             params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.sideEffectSort + this.getUrlCredentials("?");
             this.toolbox.log(params.xmlBody);
-            this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
+            this.rest.call(function (data, error) { return callback(data, error); }, "POST", params.url, params.body, this.contentType);
         }
-    }
-    getVigieHtml(data, title) {
+    };
+    VidalService.prototype.getVigieHtml = function (data, title) {
         if (data.json && data.json.feed && data.json.feed.entry) {
             var html = "";
             for (var i = 0; i < data.json.feed.entry.length; i++) {
@@ -597,12 +609,13 @@ class Vidal {
             }
             return "<div class='notificationVigie'><h1>" + title + "</h1>" + html + "</div>";
         }
-    }
-    getVersion(callback, params, credentials = null) {
+    };
+    VidalService.prototype.getVersion = function (callback, params, credentials) {
+        if (credentials === void 0) { credentials = null; }
         params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.version + (credentials ? "?" + credentials : this.getUrlCredentials("?"));
-        this.rest.call((data, error) => callback(data, error), "GET", params.url, null, this.contentType);
-    }
-    flattenObject(object) {
+        this.rest.call(function (data, error) { return callback(data, error); }, "GET", params.url, null, this.contentType);
+    };
+    VidalService.prototype.flattenObject = function (object) {
         if (object.isArray()) {
             if (object.length == 1) {
                 if (typeof object[0] == "string") {
@@ -619,6 +632,12 @@ class Vidal {
             return object["_"];
         }
         return object;
-    }
-}
-exports.Vidal = Vidal;
+    };
+    return VidalService;
+}());
+
+exports.VidalService = VidalService;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

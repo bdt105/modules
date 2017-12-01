@@ -1,4 +1,4 @@
-export declare class Vidal {
+export declare class VidalService {
     body: any;
     private toolbox;
     private rest;
@@ -6,6 +6,7 @@ export declare class Vidal {
     configuration: {
         "baseUrl": string;
         "urlVigie": string;
+        "apiDomain0": string;
         "apiDomain": string;
         "newsDomain": string;
         "pmsiDomain": string;
@@ -33,7 +34,7 @@ export declare class Vidal {
         "alertsHtmlStyleHideHeader": string;
     };
     private frequencyToUnitId;
-    constructor(app_id?: string, app_key?: string);
+    constructor();
     private setHeaders(contentType?);
     cleanId(id: any, type: string): string;
     private callback(callback, data, error);
@@ -44,14 +45,14 @@ export declare class Vidal {
     getUrlCredentials(prefix: string): string;
     search(callback: Function, params: string): void;
     searchAllergies(callback: Function, params: string): void;
-    getProducts(callback: Function, params: string, filter: string): void;
-    getAllergies(callback: Function, params: string): void;
-    getPathologies(callback: Function, params: string): void;
-    searchPathologies(callback: Function, params: string): void;
-    getFromId(callback: Function, type: string, id: string): void;
-    getPrescriptionUnits(callback: Function, type: string, id: string): void;
-    getPrescriptionRoutes(callback: Function, type: string, id: string): void;
-    getIndications(callback: Function, type: string, id: string): void;
+    getProducts(params: string, filter: string): void;
+    getAllergies(params: string): void;
+    getPathologies(params: string): void;
+    searchPathologies(callbackSuccess: Function, callbackFailure: Function, params: string): void;
+    getFromId(callbackSuccess: Function, callbackFailure: Function, type: string, id: string): void;
+    getPrescriptionUnits(callbackSuccess: Function, callbackFailure: Function, type: string, id: string): void;
+    getPrescriptionRoutes(callbackSuccess: Function, callbackFailure: Function, type: string, id: string): void;
+    getIndications(callbackSuccess: Function, callbackFailure: Function, type: string, id: string): void;
     private getPrescriptionLineXml(prescriptionLine);
     private getBasicPatientXml(patient);
     private getPatientXml(patient);
@@ -83,7 +84,7 @@ export declare class Vidal {
     getAdaptedDrugs(callback: Function, vmpId: number, facets: any[], page: number, pageSize: number, params: any): void;
     private getSideEffectsXml(drugs, sideEffectId);
     getSideEffects(callback: Function, drugs: string[], sideEffectId: number, params: any): void;
-    getVigieHtml(data: any, title: string): string;
+    getVigieHtml(data: any, title: string): string | undefined;
     getVersion(callback: Function, params: any, credentials?: any): void;
     flattenObject(object: any): any;
 }

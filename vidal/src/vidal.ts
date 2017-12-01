@@ -53,7 +53,9 @@ export class Vidal {
         {"key": "TYPE_66", "value": 724}
     ]
 
-    constructor() {
+    constructor(app_id: string = "", app_key: string = "") {
+        this.configuration.app_id = app_id;
+        this.configuration.app_key = app_key;
     }
 
     private setHeaders (contentType = "text/xml"): Headers{

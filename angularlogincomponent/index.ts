@@ -1,0 +1,1 @@
+export { LoginComponent } from './src/login.component';
