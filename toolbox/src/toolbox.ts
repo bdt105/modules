@@ -365,9 +365,13 @@ export class Toolbox {
             str = object;
         }
         if (forever){
-            localStorage.setItem(key, str);
+            if (localStorage){
+                localStorage.setItem(key, str);
+            }
         }else{
-            sessionStorage.setItem(key, str);
+            if (sessionStorage){
+                sessionStorage.setItem(key, str);
+            }
         }
     };
 
@@ -381,17 +385,37 @@ export class Toolbox {
         return json;
     }
 
-    readFromStorage (key: string){
-        var res = sessionStorage.getItem(key);
-        if (res == null){
-            res = localStorage.getItem(key);
+    isJson(str: string){
+        try
+        {
+           var json = JSON.parse(str);
+           return true;
         }
-        return this.parseJson(res);
+        catch(e)
+        {
+            return false;
+        }        
+    }
+
+    readFromStorage (key: string){
+        if (sessionStorage){
+            var res = sessionStorage.getItem(key);
+            if (res == null){
+                res = localStorage.getItem(key);
+            }
+            return this.parseJson(res);
+        }else{
+            return null;
+        }
     };
 
     removeFromStorage (key: string){
-        localStorage.removeItem(key);
-        sessionStorage.removeItem(key);
+        if (localStorage){
+            localStorage.removeItem(key);
+        }
+        if (sessionStorage){
+            sessionStorage.removeItem(key);
+        }
     };    
 
     // https://www.npmjs.com/package/xml2js

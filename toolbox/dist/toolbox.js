@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
 var Toolbox = (function () {
     function Toolbox() {
-        this.formatDate = function (date) {
-            var year = date.getFullYear(), month = date.getMonth() + 1, // months are zero indexed
-            day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds(), hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-            minuteFormatted = minute < 10 ? "0" + minute : minute, morning = hour < 12 ? "am" : "pm";
-            return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
-        };
     }
+    Toolbox.prototype.formatDate = function (date) {
+        var year = date.getFullYear(), month = date.getMonth() + 1, // months are zero indexed
+        day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds(), hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+        minuteFormatted = minute < 10 ? "0" + minute : minute, morning = hour < 12 ? "am" : "pm";
+        return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+    };
     Toolbox.prototype.dateToDbString = function (date) {
         return date.getFullYear() + "-" +
             (date.getMonth().toString().length < 2 ? "0" : "") + date.getMonth() + "-" +
@@ -33,14 +33,15 @@ var Toolbox = (function () {
         return a;
     };
     ;
-    Toolbox.prototype.arrayToCSV = function (array) {
+    Toolbox.prototype.arrayToCSV = function (array, separator) {
+        if (separator === void 0) { separator = ";"; }
         var ret = "";
         for (var i = 0; i < array.length; i++) {
-            ret += (ret == "" ? "" : ";") + array[i];
+            ret += (ret == "" ? "" : separator) + array[i];
         }
         return ret;
     };
-    Toolbox.prototype.Levenshtein = function (a, b) {
+    Toolbox.prototype.levenshtein = function (a, b) {
         var an = a ? a.length : 0;
         var bn = b ? b.length : 0;
         if (an === 0) {
@@ -74,11 +75,11 @@ var Toolbox = (function () {
         return matrix[bn][an];
     };
     ;
-    Toolbox.prototype.arrayOfObjectsToString = function (array, fieldName, search, separator, prefix, suffix) {
+    Toolbox.prototype.arrayOfObjectsToString = function (array, fieldName, value, separator, prefix, suffix) {
         var ret = "";
         if (array) {
             for (var i = 0; i < array.length; i++) {
-                ret += (ret === "" ? "" : separator) + array[i][fieldName] + prefix + search + suffix;
+                ret += (ret === "" ? "" : separator) + array[i][fieldName] + prefix + value + suffix;
             }
         }
         return ret;
@@ -148,8 +149,8 @@ var Toolbox = (function () {
         }
         return rows;
     };
-    Toolbox.prototype.updateUrlParameter = function (url, param, paramVal) {
-        if (url && url.length > 0 && param && param.length > 0) {
+    Toolbox.prototype.updateUrlParameter = function (url, parameter, value) {
+        if (url && url.length > 0 && parameter && parameter.length > 0) {
             var newAdditionalURL = "";
             var tempArray = url.split("?");
             var baseURL = tempArray[0];
@@ -158,13 +159,13 @@ var Toolbox = (function () {
             if (additionalURL) {
                 tempArray = additionalURL.split("&");
                 for (var i = 0; i < tempArray.length; i++) {
-                    if (tempArray[i].split('=')[0] != param) {
+                    if (tempArray[i].split('=')[0] != parameter) {
                         newAdditionalURL += temp + tempArray[i];
                         temp = "&";
                     }
                 }
             }
-            var rows_txt = temp + "" + param + "=" + paramVal;
+            var rows_txt = temp + "" + parameter + "=" + value;
             return baseURL + "?" + newAdditionalURL + rows_txt;
         }
         else {
@@ -172,12 +173,12 @@ var Toolbox = (function () {
         }
     };
     ;
-    Toolbox.prototype.updateUrlParameters = function (url, params) {
-        if (url && url.length > 0 && params && params.length > 0) {
+    Toolbox.prototype.updateUrlParameters = function (url, parameters) {
+        if (url && url.length > 0 && parameters && parameters.length > 0) {
             var tempArray = url.split("?");
             var tempUrl = tempArray[0];
-            for (var i = 0; i < params.length; i++) {
-                var param = params[i];
+            for (var i = 0; i < parameters.length; i++) {
+                var param = parameters[i];
                 tempUrl = this.updateUrlParameter(tempUrl, param.key, param.value);
             }
             return tempUrl;
@@ -209,7 +210,7 @@ var Toolbox = (function () {
     };
     ;
     Toolbox.prototype.deleteEmptyParams = function (url) {
-        var rawUrl = this.getUrlWithoutParameters(url);
+        var rawUrl = this.urlBase(url);
         var params = this.getUrlParams(url);
         var paramUrl = "";
         if (params && params.length > 0) {
@@ -219,11 +220,6 @@ var Toolbox = (function () {
         }
         return rawUrl + "?" + paramUrl;
     };
-    Toolbox.prototype.getUrlWithoutParameters = function (url) {
-        var tempArray = url.split("?");
-        return tempArray[0];
-    };
-    ;
     Toolbox.prototype.getKeyValue = function (obj) {
         var temp = [];
         if (typeof obj == "object") {
@@ -357,10 +353,14 @@ var Toolbox = (function () {
             str = object;
         }
         if (forever) {
-            localStorage.setItem(key, str);
+            if (localStorage) {
+                localStorage.setItem(key, str);
+            }
         }
         else {
-            sessionStorage.setItem(key, str);
+            if (sessionStorage) {
+                sessionStorage.setItem(key, str);
+            }
         }
     };
     ;
@@ -374,17 +374,35 @@ var Toolbox = (function () {
         }
         return json;
     };
-    Toolbox.prototype.readFromStorage = function (key) {
-        var res = sessionStorage.getItem(key);
-        if (res == null) {
-            res = localStorage.getItem(key);
+    Toolbox.prototype.isJson = function (str) {
+        try {
+            var json = JSON.parse(str);
+            return true;
         }
-        return this.parseJson(res);
+        catch (e) {
+            return false;
+        }
+    };
+    Toolbox.prototype.readFromStorage = function (key) {
+        if (sessionStorage) {
+            var res = sessionStorage.getItem(key);
+            if (res == null) {
+                res = localStorage.getItem(key);
+            }
+            return this.parseJson(res);
+        }
+        else {
+            return null;
+        }
     };
     ;
     Toolbox.prototype.removeFromStorage = function (key) {
-        localStorage.removeItem(key);
-        sessionStorage.removeItem(key);
+        if (localStorage) {
+            localStorage.removeItem(key);
+        }
+        if (sessionStorage) {
+            sessionStorage.removeItem(key);
+        }
     };
     ;
     // https://www.npmjs.com/package/xml2js
