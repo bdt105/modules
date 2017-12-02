@@ -20,6 +20,10 @@ export class TranslateService {
         }
     }
 
+    public setDatabaseBaseUrl(baseUrl: string){
+        this.databaseService.configuration.baseUrl = baseUrl;
+    }
+
     public translate(text: string): string{
         if (this.translation){
             for (var i = 0; i < this.translation.length; i++){

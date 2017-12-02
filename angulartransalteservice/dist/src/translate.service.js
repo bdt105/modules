@@ -15,6 +15,9 @@ var TranslateService = /** @class */ (function () {
             this.loadFromDatabase(callback, callback);
         }
     }
+    TranslateService.prototype.setDatabaseBaseUrl = function (baseUrl) {
+        this.databaseService.configuration.baseUrl = baseUrl;
+    };
     TranslateService.prototype.translate = function (text) {
         if (this.translation) {
             for (var i = 0; i < this.translation.length; i++) {

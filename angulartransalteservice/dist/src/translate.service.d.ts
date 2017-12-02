@@ -7,6 +7,7 @@ export declare class TranslateService {
     private configuration;
     private toolbox;
     constructor(databaseService: DatabaseService, connexionService: ConnexionService);
+    setDatabaseBaseUrl(baseUrl: string): void;
     translate(text: string): string;
     t(text: string): string;
     private loadFromDatabase(callBackSuccess, callBackFailure);
