@@ -73,7 +73,7 @@ export class TranslateService {
         return translateTags;
     };
 
-    refresh(callBackSuccess: Function, callBackFailure: Function){
+    public refresh(callBackSuccess: Function, callBackFailure: Function){
         this.loadFromDatabase(callBackSuccess, callBackFailure);
     }
     
