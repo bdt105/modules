@@ -56,7 +56,7 @@ export class Rest {
         505: "HTTP Version Not Supported, Server Error"
     }
 
-    call (callback: Function, method: string, url: string, body: any = null, contentType = "application/json", getRaw = false){
+    call (callback: Function, method: string, url: string, body: any = null, contentType = "application/json", getRaw = true){
         var request = require('request')
         
         let bod = body;

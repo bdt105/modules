@@ -55,7 +55,7 @@ var Rest = (function () {
         var _this = this;
         if (body === void 0) { body = null; }
         if (contentType === void 0) { contentType = "application/json"; }
-        if (getRaw === void 0) { getRaw = false; }
+        if (getRaw === void 0) { getRaw = true; }
         var request = require('request');
         var bod = body;
         if (this.toolbox.isJson(bod)) {
