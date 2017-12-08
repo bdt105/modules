@@ -60,10 +60,17 @@ export class Rest {
         var request = require('request')
         
         let bod = body;
-        if (this.toolbox.isJson(bod)){
-            bod = JSON.stringify(bod);
-        }
 
+        if (typeof bod == "string"){
+            if (this.toolbox.isJson(bod)){
+                bod = JSON.stringify(bod);
+            }
+        }
+        
+        if (typeof bod == "object"){
+            bod = JSON.stringify(bod);
+        }        
+        
         var options = {
             "method": method, 
             "headers": {

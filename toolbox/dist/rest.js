@@ -58,7 +58,12 @@ var Rest = (function () {
         if (getRaw === void 0) { getRaw = true; }
         var request = require('request');
         var bod = body;
-        if (this.toolbox.isJson(bod)) {
+        if (typeof bod == "string") {
+            if (this.toolbox.isJson(bod)) {
+                bod = JSON.stringify(bod);
+            }
+        }
+        if (typeof bod == "object") {
             bod = JSON.stringify(bod);
         }
         var options = {

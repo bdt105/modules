@@ -21,6 +21,7 @@ export declare class Vidal {
         "reco": string;
         "version": string;
         "postComplement": string;
+        "postControl": string;
         "indicationGroup": string;
         "prescriptionRecos": string;
         "adaptedDrugs": string;
@@ -72,8 +73,9 @@ export declare class Vidal {
     getPosologyFromProduct(callback: Function, type: string, id: number, patient: any, routeIds: number[], indicationIds: number[], params: any): void;
     getUnitIdFromFrequency(stringFrequency: string): number;
     getFrequencyFromUnitId(unitId: Number): string;
-    private getPostComplementXml(drugs, icd10Codes, text);
-    getPostComplement(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any): void;
+    private getPostComplementXml(drugs, icd10Codes, text, removeAlreadyCoded, drugCoefficient, textCoefficient);
+    getPostComplement(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any, removeAlreadyCoded: boolean, drugCoefficient: number, textCoefficient: number): void;
+    getPostControl(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any): void;
     getCim10FromIndicationGroupId(callback: Function, id: number): void;
     getRecosFromIndicationGroupId(callback: Function, id: number): void;
     getPrescriptionRecos(callback: Function, prescription: any, params: any): void;

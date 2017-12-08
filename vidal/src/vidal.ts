@@ -27,6 +27,7 @@ export class Vidal {
         "reco": "/reco",
         "version": "/version",
         "postComplement": "/postComplement",
+        "postControl": "/postControl",
         "indicationGroup": "/indication-group",
         "prescriptionRecos": "/recos/guidelines",
         "adaptedDrugs": "/adapted-drugs",
@@ -527,7 +528,7 @@ export class Vidal {
         }
     }
 
-    private getPostComplementXml(drugs: string[], icd10Codes: string[], text: string){
+    private getPostComplementXml(drugs: string[], icd10Codes: string[], text: string, removeAlreadyCoded: boolean, drugCoefficient: number, textCoefficient: number){
         var ret = '<?xml version="1.0" encoding="UTF-8"?><request>';
         if (drugs && drugs.length > 0){
             ret += "<drugs>";
@@ -546,14 +547,32 @@ export class Vidal {
         if (text && text.length > 0){
             ret += "<text>" + text + "</text>";
         }
-        ret += "<engine>VIDAL</engine><drugCursor>DEFAULT</drugCursor></request>";
+        ret += "<engine>VIDAL</engine><drugCursor>DEFAULT</drugCursor>";
+        if (removeAlreadyCoded){
+            ret += "<removeAlreadyCoded>true</removeAlreadyCoded>"
+        }
+        if (textCoefficient){
+            ret += "<textCoefficient>" + textCoefficient + "</textCoefficient>"
+        }
+        if (drugCoefficient){
+            ret += "<drugCoefficient>" + drugCoefficient + "</drugCoefficient>"
+        }
+        ret += "</request>";
         return ret;
     }
 
-    getPostComplement(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any){
+    getPostComplement(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any, removeAlreadyCoded: boolean, drugCoefficient: number, textCoefficient: number){
         if ((drugs && drugs.length > 0) || (text && text.length > 0)){
             params.url = this.getApiBaseUrl() + this.configuration.pmsiDomain + this.configuration.postComplement + this.getUrlCredentials("?");
-            params.body = this.getPostComplementXml(drugs, icd10Codes, text);
+            params.body = this.getPostComplementXml(drugs, icd10Codes, text, removeAlreadyCoded, drugCoefficient, textCoefficient);
+            this.rest.call((data: any, error: any) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
+        }
+    }
+
+    getPostControl(callback: Function, drugs: string[], icd10Codes: string[], text: string, params: any){
+        if ((drugs && drugs.length > 0) || (text && text.length > 0)){
+            params.url = this.getApiBaseUrl() + this.configuration.pmsiDomain + this.configuration.postControl + this.getUrlCredentials("?");
+            params.body = this.getPostComplementXml(drugs, icd10Codes, text, null, null, null);
             this.rest.call((data: any, error: any) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
         }
     }
