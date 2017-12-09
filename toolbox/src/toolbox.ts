@@ -454,4 +454,15 @@ export class Toolbox {
         }
     }      
 
+    sortArrayOfObjects(arr: any[], sortProperty: string){
+        function compare(a,b) {
+            if (a[sortProperty] < b[sortProperty])
+              return -1;
+            if (a[sortProperty] > b[sortProperty])
+              return 1;
+            return 0;
+        }
+          
+        return arr.sort(compare);
+    }
 }

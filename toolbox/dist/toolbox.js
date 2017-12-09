@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
@@ -442,6 +442,16 @@ var Toolbox = (function () {
             doc.write(content);
             doc.close();
         }
+    };
+    Toolbox.prototype.sortArrayOfObjects = function (arr, sortProperty) {
+        function compare(a, b) {
+            if (a[sortProperty] < b[sortProperty])
+                return -1;
+            if (a[sortProperty] > b[sortProperty])
+                return 1;
+            return 0;
+        }
+        return arr.sort(compare);
     };
     return Toolbox;
 }());

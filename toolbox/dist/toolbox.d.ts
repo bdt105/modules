@@ -36,4 +36,5 @@ export declare class Toolbox {
     removeFromStorage(key: string): void;
     xml2json(xml: string, callback?: Function): any;
     fillDocWithContent(doc: any, content: string): void;
+    sortArrayOfObjects(arr: any[], sortProperty: string): any[];
 }
