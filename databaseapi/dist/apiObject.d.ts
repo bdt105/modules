@@ -20,5 +20,5 @@ export declare class TableApi extends BaseApi {
         "message": string;
     };
     assign(tableName: string, idFieldName: string, fields?: any): void;
-    protected assignObject(tableName: string, idFieldName: string, fields?: any): void;
+    protected assignObject(tableName: string, idFieldName?: string, fields?: any): void;
 }

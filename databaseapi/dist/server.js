@@ -23,9 +23,7 @@ app.use(function (req, res, next) {
 });
 let conn = new dist_1.Connexion(configuration.mySql, configuration.authentification);
 conn.tryConnectSql();
-// Contacts
-new index_1.RecordsetApi(app, conn, true).assignObject();
 // Contact Header
-new index_1.TableApi(app, conn, true).assign("contactheader", "idcontactheader");
+new index_1.TableApi(app, conn, false).assign("contactheader", "idcontactheader");
 app.listen(port);
 //# sourceMappingURL=server.js.map

@@ -63,7 +63,7 @@ class TableApi extends BaseApi {
     assign(tableName, idFieldName, fields = null) {
         this.assignObject(tableName, idFieldName, fields);
     }
-    assignObject(tableName, idFieldName, fields = null) {
+    assignObject(tableName, idFieldName = null, fields = null) {
         this.myToolbox.logg(tableName + " ==> API launched");
         this.app.get('/', function (request, response) {
             response.send('API to ' + tableName + ' is running');
@@ -102,7 +102,6 @@ class TableApi extends BaseApi {
         this.app.put('/' + tableName, upload.array(), (request, response) => {
             let token = request.body.token;
             let object = request.body.object;
-            let idFieldName = request.body.idFieldName;
             let queryAttributes = new databaseObject_2.QueryAttribute();
             queryAttributes.from = tableName;
             queryAttributes.select = "*";

@@ -33,6 +33,6 @@ let conn = new Connexion(configuration.mySql, configuration.authentification);
 conn.tryConnectSql();
 
 // Contact Header
-new TableApi(app, conn, true).assign("contactheader", "idcontactheader");
+new TableApi(app, conn, false).assign("contactheader", "idcontactheader");
 
 app.listen(port);

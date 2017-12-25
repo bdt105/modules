@@ -147,7 +147,7 @@ export class TableApi extends BaseApi {
             }
         
             if (!object){
-                response.send(this.errorMessage('Please define a ' + tableName));
+                response.send(this.errorMessage('Please define a ' + tableName + '"object":{...}'));
                 return;
             }
         
