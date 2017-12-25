@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const dist_1 = require("bdt105connexion/dist");
 const dist_2 = require("bdt105toolbox/dist");
-const apiTest_1 = require("./apiTest");
+const index_1 = require("./index");
 let app = express();
 // For POST-Support
 let toolbox = new dist_2.Toolbox();
@@ -23,7 +23,9 @@ app.use(function (req, res, next) {
 });
 let conn = new dist_1.Connexion(configuration.mySql, configuration.authentification);
 conn.tryConnectSql();
-// Prescribable
-new apiTest_1.ApiTest(app, conn, true).assign();
+// Contacts
+new index_1.RecordsetApi(app, conn, true).assignObject();
+// Contact Header
+new index_1.TableApi(app, conn, true).assign("contactheader", "idcontactheader");
 app.listen(port);
 //# sourceMappingURL=server.js.map

@@ -2,14 +2,25 @@ export declare class MySqlConfiguration {
     host: string;
     user: string;
     password: string;
-    port: string;
+    port: number;
     database: string;
+    userTableName: string;
+    loginFieldName: string;
+    passwordFieldName: string;
+    constructor(host: string, port: number, user: string, password: string, database: string, userTableName?: string, loginFieldName?: string, passwordFieldName?: string);
 }
 export declare class JwtConfiguration {
     secret: string;
     salt: string;
     userRequestEmail: string;
     adminToken: string;
+    constructor(secret: string, salt: string, userRequestEmail: string, adminToken: string);
+}
+export declare class Token {
+    token: string;
+    status: string;
+    decoded: string;
+    constructor(token: string, status: string, decoded: string);
 }
 export declare class Connexion {
     private mySql;
@@ -25,10 +36,7 @@ export declare class Connexion {
     iss: string;
     permissions: string;
     epirationDate: number;
-    userTableName: string;
-    loginFieldName: string;
-    passwordFieldName: string;
-    constructor(mySqlConfiguration: MySqlConfiguration, jwtConfiguration: JwtConfiguration);
+    constructor(mySqlConfiguration?: MySqlConfiguration, jwtConfiguration?: JwtConfiguration);
     private log(text);
     private connectSql();
     private releaseSql();
@@ -37,13 +45,9 @@ export declare class Connexion {
     private callbackQuerySql(callback, err, rows);
     querySql(callback: Function, sql: string): void;
     getJwt(callback: Function, login: string, plainPassword: string, where?: string): void;
-    checkJwt(token: string): {
-        "token": string;
-        "status": string;
-        "decoded": any;
-    };
+    checkJwt(token: string): Token;
     isTokenValid(token: string): boolean;
-    encrypt(plain: string): any;
+    encrypt(plain: string): string;
     compareEncrypt(encrypted: string, plain: string): boolean;
     tryConnectSql(): void;
 }

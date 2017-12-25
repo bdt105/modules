@@ -2,18 +2,39 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const dist_1 = require("bdt105toolbox/dist");
 class MySqlConfiguration {
+    constructor(host, port, user, password, database, userTableName = null, loginFieldName = null, passwordFieldName = null) {
+        this.host = host;
+        this.user = user;
+        this.password = password;
+        this.port = port;
+        this.database = database;
+        this.userTableName = userTableName;
+        this.loginFieldName = loginFieldName;
+        this.passwordFieldName = passwordFieldName;
+    }
 }
 exports.MySqlConfiguration = MySqlConfiguration;
 class JwtConfiguration {
+    constructor(secret, salt, userRequestEmail, adminToken) {
+        this.secret = secret;
+        this.salt = salt;
+        this.userRequestEmail = userRequestEmail;
+        this.adminToken = adminToken;
+    }
 }
 exports.JwtConfiguration = JwtConfiguration;
+class Token {
+    constructor(token, status, decoded) {
+        this.token = token;
+        this.status = status;
+        this.decoded = decoded;
+    }
+}
+exports.Token = Token;
 class Connexion {
-    constructor(mySqlConfiguration, jwtConfiguration) {
+    constructor(mySqlConfiguration = null, jwtConfiguration = null) {
         this.jwtStatusOk = "OK";
         this.jwtStatusERR = "ERR";
-        this.userTableName = "user";
-        this.loginFieldName = "login";
-        this.passwordFieldName = "password";
         this.toolbox = new dist_1.Toolbox();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
@@ -60,7 +81,7 @@ class Connexion {
         if (rows && rows.length > 0) {
             let encryptedPassword = this.encrypt(plainPassword);
             user = rows[0];
-            if (encryptedPassword === user[this.passwordFieldName]) {
+            if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]) {
                 jwt = this.jsonwebtoken.sign(user, this.jwtConfiguration.secret);
                 callback(err, jwt);
             }
@@ -87,7 +108,7 @@ class Connexion {
     getJwt(callback, login, plainPassword, where = null) {
         this.connectSql();
         if (this.sqlConnexion) {
-            let sql = "select * from " + this.userTableName + " where " + this.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
+            let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
             this.sqlConnexion.query(sql, (err, rows) => this.callbackGetJwt(callback, err, rows, plainPassword));
         }
     }
@@ -98,10 +119,10 @@ class Connexion {
             if (decoded.iduser) {
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }
-            return { "token": token, "status": this.jwtStatusOk, "decoded": decoded };
+            return new Token(token, this.jwtStatusOk, decoded);
         }
         catch (err) {
-            return { "token": token, "status": this.jwtStatusERR, "decoded": null };
+            return new Token(token, this.jwtStatusERR, null);
         }
     }
     isTokenValid(token) {

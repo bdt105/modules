@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const databaseObject_1 = require("./databaseObject");
 const databaseObject_2 = require("./databaseObject");
-const MyToolbox_1 = require("./MyToolbox");
+const myToolbox_1 = require("./myToolbox");
 class BaseApi {
     constructor(app, connexion, requiresToken = false) {
         this.app = app;
         this.connexion = connexion;
         this.requiresToken = requiresToken;
-        this.myToolbox = new MyToolbox_1.MyToolbox();
+        this.myToolbox = new myToolbox_1.MyToolbox();
     }
 }
 exports.BaseApi = BaseApi;
@@ -50,8 +50,8 @@ class RecordsetApi extends BaseApi {
                     return;
                 }
             }
-            let table = new databaseObject_1.DatabaseRecordset(this.connexion, queryAttributes);
-            table.load(callback);
+            let recordset = new databaseObject_1.DatabaseRecordset(this.connexion, queryAttributes);
+            recordset.load(callback);
         });
     }
 }
@@ -66,7 +66,7 @@ class TableApi extends BaseApi {
     assignObject(tableName, idFieldName, fields = null) {
         this.myToolbox.logg(tableName + " ==> API launched");
         this.app.get('/', function (request, response) {
-            response.send('API Authentification is running');
+            response.send('API to ' + tableName + ' is running');
         });
         let multer = require('multer');
         let upload = multer();

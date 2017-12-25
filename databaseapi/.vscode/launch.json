@@ -14,11 +14,11 @@
             "type": "node",
             "request": "launch",
             "name": "Lancer le programme",
-            "program": "${workspaceRoot}\\build\\server.js",
-            "cwd": "${workspaceRoot}\\build\\",
+            "program": "${workspaceRoot}/dist/server.js",
+            "cwd": "${workspaceRoot}/dist/",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/build/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ]
         }
     ]

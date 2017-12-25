@@ -62,7 +62,7 @@ class DatabaseRecordset extends DatabaseObject {
      * @param {QueryAttribute} - Content of the sql query QueryAttribute object
      * @return {void}
      */
-    constructor(connexion, attributes) {
+    constructor(connexion, attributes = null) {
         super(connexion);
         this.attributes = attributes;
     }
@@ -102,6 +102,15 @@ class DatabaseRecordset extends DatabaseObject {
      */
     load(callback) {
         this.query((err, rows) => callback(err, rows), this.getSql());
+    }
+    /**
+     * Queries the recordset an popultates the result
+     * @param {Function} - Callback function to cal when work is done
+     * @param {string} - Sql string
+     * @return {void}
+     */
+    sql(callback, sql) {
+        this.query((err, rows) => callback(err, rows), sql);
     }
 }
 exports.DatabaseRecordset = DatabaseRecordset;

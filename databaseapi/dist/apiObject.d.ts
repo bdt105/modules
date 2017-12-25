@@ -1,5 +1,5 @@
 import { Connexion } from "bdt105connexion/dist";
-import { MyToolbox } from "./MyToolbox";
+import { MyToolbox } from "./myToolbox";
 export declare class BaseApi {
     protected app: any;
     protected connexion: Connexion;
@@ -12,7 +12,7 @@ export declare class RecordsetApi extends BaseApi {
         "status": string;
         "message": string;
     };
-    protected assignObject(): void;
+    assignObject(): void;
 }
 export declare class TableApi extends BaseApi {
     protected errorMessage(text: string): {

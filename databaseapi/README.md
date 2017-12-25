@@ -1,12 +1,54 @@
 # Database API #
 This package aims to make your life easier when it comes to create an API based on MySql data.
 
+You may be able to access very easily a database object with CRUD functionnalities.
+
+You may also create API object in order to create an api server based on MySql database in a blink.
+
 ## Dependencies ##
 
 - bdt105toolbox
 - bdt105connexion
 
-## How to use ? ##
+## How to use api objects? ##
+3 main objects are available.
+
+### RecordsetApi ###
+That object allows you to directecly create an api server to qury you MySql database.
+
+~~~
+// Connect to your database
+import { DatabaseRecordset } from "bdt105databaseapi/dist"
+import { Connexion } from "bdt105connexion/dist";
+
+// Prescription header, third parameter is token
+new RecordsetApi(app, conn, true).assignObject("prescribableheader", "idprescribableheader");
+
+~~~
+
+#### Methods ####
+Constructor
+ApiTable(app: any, connexion: Connexion, requiresToken: boolean = false)
+
+For connexion object see https://github.com/bdt105/modules/tree/master/connexion
+
+Creates all post api entry points
+assign(tableName: string, idFieldName: string = null, fields: any = null)
+
+For each entry don't forget in your post body the "token" if you've set requiresToken to true.
+
+- POST /tableNames (with "s" at the end of the tble name)
+Lists all elements of the table.
+In the post use: where|limit|offset
+- PUT /tableName
+Saves the data only if idFieldName is set. If the record exixts then it's updated if not it is added.
+In the post body use: 'object' in the post body to set the data to save. 
+- POST /tableName/fresh
+Returns a full empty record of the table.
+- DELETE /tableName
+Deletes some records, use: 'where' in the post body to select the records to delete. 
+
+## How to use database objects? ##
 3 main objects are exposed here as follows.
 
 ### DatabaseObject ###

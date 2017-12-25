@@ -1,7 +1,7 @@
 import { DatabaseRecordset } from './databaseObject';
 import { DatabaseTable, QueryAttribute } from './databaseObject';
 import { Connexion } from "bdt105connexion/dist";
-import { MyToolbox } from "./MyToolbox";
+import { MyToolbox } from "./myToolbox";
 
 export class BaseApi {
     protected app: any;
@@ -24,7 +24,7 @@ export class RecordsetApi extends BaseApi {
         return {"status": "ERR", "message": text};
     }
 
-    protected assignObject(){
+    assignObject(){
         
         this.app.get('/', function (request: any, response: any) {
             response.send('API Authentification is running');
@@ -62,9 +62,9 @@ export class RecordsetApi extends BaseApi {
                 }
             }
 
-            let table = new DatabaseRecordset(this.connexion, queryAttributes);
+            let recordset = new DatabaseRecordset(this.connexion, queryAttributes);
         
-            table.load(callback);
+            recordset.load(callback);
         });    
     }
 }
@@ -79,11 +79,11 @@ export class TableApi extends BaseApi {
         this.assignObject(tableName, idFieldName, fields);
     }
 
-    protected assignObject(tableName: string, idFieldName: string, fields: any = null){
+    protected assignObject(tableName: string, idFieldName: string = null, fields: any = null){
         this.myToolbox.logg(tableName + " ==> API launched");
         
         this.app.get('/', function (request: any, response: any) {
-            response.send('API Authentification is running');
+            response.send('API to ' + tableName + ' is running');
         });
         let multer = require('multer');
         let upload = multer();
@@ -124,7 +124,6 @@ export class TableApi extends BaseApi {
         this.app.put('/' + tableName, upload.array(), (request: any, response: any) => {
             let token = request.body.token;
             let object = request.body.object;
-            let idFieldName = request.body.idFieldName;
             let queryAttributes = new QueryAttribute();
             queryAttributes.from = tableName;
             queryAttributes.select = "*";
