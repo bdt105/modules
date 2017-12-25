@@ -20,14 +20,14 @@ See full full example here: https://github.com/bdt105/modules/blob/master/databa
 
 #### Methods ####
 Constructor
-ApiTable(app: any, connexion: Connexion, requiresToken: boolean = false)
+- ApiTable(app: any, connexion: Connexion, requiresToken: boolean = false)
 
-For connexion object see https://github.com/bdt105/modules/tree/master/connexion
+For connexion object see https://github.com/bdt105/modules/tree/master/connexion.
 
-Creates all post api entry points
-assign(tableName: string, idFieldName: string = null, fields: any = null)
+Creates all post api entry points: 
+- assign(tableName: string, idFieldName: string = null, fields: any = null)
 
-For each entry don't forget in your post body the "token" if you've set requiresToken to true.
+For each entry don't forget in your post body the "token" if you've set requiresToken to true. See https://github.com/bdt105/modules/tree/master/connexion for more details.
 
 - POST /tableNames (with "s" at the end of the tble name)
 Lists all elements of the table.
