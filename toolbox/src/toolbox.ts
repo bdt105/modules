@@ -323,7 +323,11 @@ export class Toolbox {
                 }
             }
             
-            rest.call((data: any, err: any) => callback(data, err), (id ? "PUT": "POST"), elasticUrl + "/" + index + "/" + type + "/" + (id ? id : "") + (extra ? extra : ""), data);
+            rest.call(
+                (data: any, err: any) => callback(data, err), 
+                (id ? "PUT": "POST"), 
+                elasticUrl + "/" + index + "/" + type + "/" + (id ? id : "") + (extra ? extra : ""), 
+                data);
         }
     }
 

@@ -75,7 +75,8 @@ export class Rest {
             "method": method, 
             "headers": {
                 "content-type": contentType,  
-                "Accept": "*/*"
+                "Accept": "*/*", 
+                "Access-Control-Allow-Origin": "*"
             },
             "uri": url,
             "body": bod
