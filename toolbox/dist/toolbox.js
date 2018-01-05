@@ -11,12 +11,13 @@ var Toolbox = /** @class */ (function () {
         return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
     };
     Toolbox.prototype.dateToDbString = function (date) {
-        return date.getFullYear() + "-" +
-            (date.getMonth().toString().length < 2 ? "0" : "") + date.getMonth() + "-" +
-            (date.getDay().toString().length < 2 ? "0" : "") + date.getDay() + " " +
-            (date.getHours().toString().length < 2 ? "0" : "") + date.getHours() + ":" +
-            (date.getMinutes().toString().length < 2 ? "0" : "") + date.getMinutes() + ":" +
-            (date.getSeconds().toString().length < 2 ? "0" : "") + date.getSeconds();
+        return date.toISOString().substr(0, 19).replace('T', ' ');
+        // return date.getFullYear() + "-" + 
+        //     (date.getMonth().toString().length < 2 ? "0" : "") + date.getMonth() + "-" + 
+        //     (date.getDay().toString().length < 2 ? "0" : "") + date.getDay() + " " + 
+        //     (date.getHours().toString().length < 2 ? "0" : "") + date.getHours() + ":" + 
+        //     (date.getMinutes().toString().length < 2 ? "0" : "") + date.getMinutes() + ":" + 
+        //     (date.getSeconds().toString().length < 2 ? "0" : "") + date.getSeconds();
     };
     Toolbox.prototype.isoDateToDbString = function (date) {
         return date.substring(0, 19).replace("T", " ");
@@ -301,9 +302,10 @@ var Toolbox = /** @class */ (function () {
             console.log(txt);
         }
     };
-    Toolbox.prototype.postElastic = function (elasticUrl, index, type, data, id, extra) {
+    Toolbox.prototype.postElastic = function (elasticUrl, index, type, data, id, extra, headers) {
         if (id === void 0) { id = null; }
         if (extra === void 0) { extra = null; }
+        if (headers === void 0) { headers = null; }
         if (elasticUrl && index && type && data) {
             var rest = new index_1.Rest();
             var callback_1 = function (data, err) {
@@ -311,7 +313,7 @@ var Toolbox = /** @class */ (function () {
                     throw new Error("No way to get to Elasticsearch! url: " + elasticUrl + ", index: " + index + ", type: " + type + ", id: " + id + ", data: " + JSON.stringify(data) + ". Err: " + JSON.stringify(err));
                 }
             };
-            rest.call(function (data, err) { return callback_1(data, err); }, (id ? "PUT" : "POST"), elasticUrl + "/" + index + "/" + type + "/" + (id ? id : "") + (extra ? extra : ""), data);
+            rest.call(function (data, err) { return callback_1(data, err); }, (id ? "PUT" : "POST"), elasticUrl + "/" + index + "/" + type + "/" + (id ? id : "") + (extra ? extra : ""), data, "application/json", true, headers);
         }
     };
     Toolbox.prototype.loadFromJsonFile = function (fileName, encoding) {
@@ -453,6 +455,60 @@ var Toolbox = /** @class */ (function () {
         }
         return arr.sort(compare);
     };
+    // Retreives a node of an object.
+    // If the object is an array with only one element wich is not an array nor an object then it's retreived
+    Toolbox.prototype.searchElementSpecial = function (list, key, value) {
+        for (var i = 0; i < list.length; i++) {
+            if (Array.isArray(list[i][key]) && list[i][key].length == 1) {
+                if (list[i][key][0] == value)
+                    return list[i];
+            }
+            else {
+                if (list[i][key] == value)
+                    return list[i];
+            }
+        }
+    };
+    Toolbox.prototype.sES = function (list, key, value) {
+        return (this.searchElementSpecial(list, key, value));
+    };
+    // get value of an object. 
+    // If the object is an array with only one element wich is not an array nor an object then it's retreived
+    Toolbox.prototype.getValueSpecial = function (object, fieldName, subFieldName) {
+        if (subFieldName === void 0) { subFieldName = null; }
+        if (object) {
+            if (object[fieldName]) {
+                if (Array.isArray(object[fieldName])) {
+                    if (object[fieldName].length == 1) {
+                        if (typeof object[fieldName][0] == "string") {
+                            return object[fieldName][0];
+                        }
+                        else {
+                            if (subFieldName) {
+                                return this.getValueSpecial(object[fieldName][0], subFieldName);
+                            }
+                            else {
+                                return object[fieldName][0];
+                            }
+                        }
+                    }
+                    else {
+                        return object[fieldName];
+                    }
+                }
+            }
+        }
+        return null;
+    };
+    // idem to getValueSpecial
+    Toolbox.prototype.gVS = function (object, fieldName, subFieldName) {
+        if (subFieldName === void 0) { subFieldName = null; }
+        return this.getValueSpecial(object, fieldName, subFieldName);
+    };
+    Toolbox.prototype.replaceAll = function (text, search, replacement) {
+        return text.replace(new RegExp(search, 'g'), replacement);
+    };
+    ;
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

@@ -24,7 +24,7 @@ export declare class Toolbox {
     dateWithoutTime(date: string): string;
     diffDateInDays(date1: Date, date2: Date): number;
     log(text: string, fileName?: string, logToConsole?: boolean): void;
-    postElastic(elasticUrl: string, index: string, type: string, data: any, id?: string, extra?: string): void;
+    postElastic(elasticUrl: string, index: string, type: string, data: any, id?: string, extra?: string, headers?: any): void;
     loadFromJsonFile(fileName: string, encoding?: string): any;
     uniqueId(): any;
     beautifyXml(text: string): any;
@@ -37,4 +37,9 @@ export declare class Toolbox {
     xml2json(xml: string, callback?: Function): any;
     fillDocWithContent(doc: any, content: string): void;
     sortArrayOfObjects(arr: any[], sortProperty: string): any[];
+    searchElementSpecial(list: any[], key: string, value: string): any;
+    sES(list: any[], key: string, value: string): any;
+    getValueSpecial(object: any, fieldName: string, subFieldName?: string): any;
+    gVS(object: any, fieldName: string, subFieldName?: string): any;
+    replaceAll(text: string, search: string, replacement: string): string;
 }

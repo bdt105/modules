@@ -87,5 +87,5 @@ export declare class Vidal {
     getSideEffects(callback: Function, drugs: string[], sideEffectId: number, params: any): void;
     getVigieHtml(data: any, title: string): string;
     getVersion(callback: Function, params: any, credentials?: any): void;
-    flattenObject(object: any): any;
+    refactorAlerts(alerts: any, idPrescription: string): any[];
 }

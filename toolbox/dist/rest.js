@@ -51,11 +51,12 @@ var Rest = /** @class */ (function () {
         this.logToConsole = logToConsole;
         this.toolbox = new toolbox_1.Toolbox();
     }
-    Rest.prototype.call = function (callback, method, url, body, contentType, getRaw) {
+    Rest.prototype.call = function (callback, method, url, body, contentType, getRaw, headers) {
         var _this = this;
         if (body === void 0) { body = null; }
         if (contentType === void 0) { contentType = "application/json"; }
         if (getRaw === void 0) { getRaw = true; }
+        if (headers === void 0) { headers = null; }
         var request = require('request');
         var bod = body;
         if (typeof bod == "string") {
@@ -75,6 +76,9 @@ var Rest = /** @class */ (function () {
             "uri": url,
             "body": bod
         };
+        if (headers) {
+            options.headers = headers;
+        }
         request(options, function (error, response, bbody) {
             var data = {};
             if (getRaw) {

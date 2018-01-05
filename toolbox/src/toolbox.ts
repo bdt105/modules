@@ -16,12 +16,13 @@ export class Toolbox {
     }   
     
     dateToDbString(date: Date){
-        return date.getFullYear() + "-" + 
-            (date.getMonth().toString().length < 2 ? "0" : "") + date.getMonth() + "-" + 
-            (date.getDay().toString().length < 2 ? "0" : "") + date.getDay() + " " + 
-            (date.getHours().toString().length < 2 ? "0" : "") + date.getHours() + ":" + 
-            (date.getMinutes().toString().length < 2 ? "0" : "") + date.getMinutes() + ":" + 
-            (date.getSeconds().toString().length < 2 ? "0" : "") + date.getSeconds();
+        return date.toISOString().substr(0, 19).replace('T', ' ')
+        // return date.getFullYear() + "-" + 
+        //     (date.getMonth().toString().length < 2 ? "0" : "") + date.getMonth() + "-" + 
+        //     (date.getDay().toString().length < 2 ? "0" : "") + date.getDay() + " " + 
+        //     (date.getHours().toString().length < 2 ? "0" : "") + date.getHours() + ":" + 
+        //     (date.getMinutes().toString().length < 2 ? "0" : "") + date.getMinutes() + ":" + 
+        //     (date.getSeconds().toString().length < 2 ? "0" : "") + date.getSeconds();
     }
 
     isoDateToDbString(date: string){
@@ -314,7 +315,7 @@ export class Toolbox {
         }
     }    
 
-    postElastic (elasticUrl: string, index: string, type: string, data: any, id: string = null, extra: string = null){
+    postElastic (elasticUrl: string, index: string, type: string, data: any, id: string = null, extra: string = null, headers: any = null){
         if (elasticUrl && index && type && data){
             let rest = new Rest();
             let callback = function(data: any, err: any){
@@ -327,7 +328,7 @@ export class Toolbox {
                 (data: any, err: any) => callback(data, err), 
                 (id ? "PUT": "POST"), 
                 elasticUrl + "/" + index + "/" + type + "/" + (id ? id : "") + (extra ? extra : ""), 
-                data);
+                data, "application/json", true, headers);
         }
     }
 
@@ -469,4 +470,56 @@ export class Toolbox {
           
         return arr.sort(compare);
     }
+
+    // Retreives a node of an object.
+    // If the object is an array with only one element wich is not an array nor an object then it's retreived
+    searchElementSpecial(list: any[], key: string, value: string){
+        for (var i=0; i < list.length; i++){
+            if (Array.isArray(list[i][key]) && list[i][key].length == 1){
+                if (list[i][key][0] == value)
+                    return list[i];
+            }else{
+                if (list[i][key] == value)
+                    return list[i];
+            }
+        }
+    }
+
+    sES(list: any[], key: string, value: string){
+        return (this.searchElementSpecial(list, key, value));
+    }
+
+    // get value of an object. 
+    // If the object is an array with only one element wich is not an array nor an object then it's retreived
+    getValueSpecial(object: any, fieldName: string, subFieldName: string = null){
+        if (object){
+            if (object[fieldName]){
+                if (Array.isArray(object[fieldName])) {
+                    if (object[fieldName].length == 1){
+                        if (typeof object[fieldName][0] == "string"){
+                            return object[fieldName][0];
+                        }else{
+                            if (subFieldName){
+                                return this.getValueSpecial(object[fieldName][0], subFieldName);
+                            }else{
+                                return object[fieldName][0]
+                            }
+                        }
+                    }else{
+                        return object[fieldName];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    // idem to getValueSpecial
+    gVS(object: any, fieldName: string, subFieldName: string = null){
+        return this.getValueSpecial(object, fieldName, subFieldName);
+    }    
+
+    replaceAll (text: string, search: string, replacement: string) {
+        return text.replace(new RegExp(search, 'g'), replacement);
+    };
 }

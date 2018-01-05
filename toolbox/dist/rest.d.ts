@@ -4,5 +4,5 @@ export declare class Rest {
     private toolbox;
     constructor(logFileName?: string, logToConsole?: boolean);
     private statusText;
-    call(callback: Function, method: string, url: string, body?: any, contentType?: string, getRaw?: boolean): void;
+    call(callback: Function, method: string, url: string, body?: any, contentType?: string, getRaw?: boolean, headers?: any): void;
 }

@@ -676,10 +676,11 @@ export class Vidal {
         this.rest.call((data: any, error: any) => callback(data, error), "GET", params.url, null, this.contentType, true);        
     }
 
+/*    
     flattenObject(object: any){
         if (object.isArray()){
             if (object.length == 1){
-                if (typeof object[0] == "string"){
+                if (typeof object[0] != "object"){
                     return object[0];
                 }else{
                     if (object[0]["_"]){
@@ -688,10 +689,43 @@ export class Vidal {
                 }
             }
         }
-        if (object["_"] == "string"){
+        if (object["_"] != "object"){
             return object["_"];
         }
         return object;
     }
+*/
 
+    refactorAlerts(alerts: any, idPrescription: string){
+        var ret = [];
+        if (alerts){
+            for (var i = 0; i < alerts.length; i++){
+                let entr = alerts[i];
+                if (entr.link && entr["vidal:categories"] && entr["vidal:categories"][0] == "PRESCRIPTION_LINE"){
+                    for (var j = 0; j < entr.link.length; j++){
+                        if (entr.link[j].rel[0] == "inline"){
+                            let href = entr.link[j].href[0];
+                            let elem = this.toolbox.sES(alerts, "id", href);
+                            if (elem){
+                                let al = {
+                                    "id": "",
+                                    "prescriptionId": idPrescription,
+                                    "type": this.toolbox.gVS(elem, "vidal:alertType", "name"), 
+                                    "severity": this.toolbox.gVS(elem, "vidal:severity"), 
+                                    "detail": this.toolbox.gVS(elem, "vidal:alertType", "_"), 
+                                    "content": this.toolbox.gVS(elem, "_"), 
+                                    "drugId": this.toolbox.gVS(entr, "vidal:drugId"), 
+                                    "drugName": this.toolbox.gVS(entr, "title"),
+                                    "drugType": this.toolbox.gVS(entr, "vidal:type")
+                                };
+                                al.id = this.toolbox.gVS(elem, "id").replace("vidal://", "").replace(new RegExp("/", 'g'), "_");
+                                ret.push(al);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ret;
+    }    
 }
