@@ -12,6 +12,7 @@ export class Vidal {
     public configuration = {
         "baseUrl": "http://api.vidal.fr",
         "urlVigie": "http://dev-vidal-memo.vidal.fr/api/memo-rules/rules",
+        "drugInteractionClassWsdl": "http://apisoap-demo.vidal.fr/soap/DrugInteractionClassService?wsdl",
         "apiDomain": "/rest/api",
         "newsDomain": "/rest/news",
         "pmsiDomain": "/rest/pmsi",
@@ -124,13 +125,20 @@ export class Vidal {
         return prefix + "app_id=" + this.getApp_id() + "&app_key=" + this.getApp_key();
     }
 
-    search(callback: Function, params: string){
-        if (params && params.length > 2){
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + params + this.getUrlCredentials("&");
+    search(callback: Function, searchTerm: string){
+        if (searchTerm && searchTerm.length > 2){
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + searchTerm + this.getUrlCredentials("&");
             this.rest.call((data: any, error: any) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
 
+    searchByCode(callback: Function, code: string){
+        if (code && code.length > 2){
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?code=" + code + this.getUrlCredentials("&");
+            this.rest.call((data: any, error: any) => callback(data, error), "GET", url, null, this.contentType, true);
+        }
+    }
+    
     searchAllergies(callback: Function, params: string){
         if (params && params.length > 2){
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
@@ -431,6 +439,20 @@ export class Vidal {
         if (type && id){
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/vidal-classification" + this.getUrlCredentials("?");
             this.rest.call((data: any, error: any) => callback(data, error), "GET", url, null, this.contentType);
+        }
+    }
+
+    getInteractionClassFromProduct(callback: Function, type: string, id: number){
+        if (type && id && type == "PRODUCT"){
+            var soap = require('soap');
+            var args = {"productId": id};
+            soap.createClient(this.configuration.drugInteractionClassWsdl, function(err: any, client: any) {
+                client.searchByProductId(args, function(err: any, result: any) {
+                    if (callback){
+                        callback(result, null);
+                    } 
+                });
+            });            
         }
     }
 

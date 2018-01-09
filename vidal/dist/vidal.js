@@ -9,6 +9,7 @@ class Vidal {
         this.configuration = {
             "baseUrl": "http://api.vidal.fr",
             "urlVigie": "http://dev-vidal-memo.vidal.fr/api/memo-rules/rules",
+            "drugInteractionClassWsdl": "http://apisoap-demo.vidal.fr/soap/DrugInteractionClassService?wsdl",
             "apiDomain": "/rest/api",
             "newsDomain": "/rest/news",
             "pmsiDomain": "/rest/pmsi",
@@ -118,9 +119,15 @@ class Vidal {
     getUrlCredentials(prefix) {
         return prefix + "app_id=" + this.getApp_id() + "&app_key=" + this.getApp_key();
     }
-    search(callback, params) {
-        if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + params + this.getUrlCredentials("&");
+    search(callback, searchTerm) {
+        if (searchTerm && searchTerm.length > 2) {
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + searchTerm + this.getUrlCredentials("&");
+            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
+        }
+    }
+    searchByCode(callback, code) {
+        if (code && code.length > 2) {
+            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?code=" + code + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
@@ -401,6 +408,19 @@ class Vidal {
         if (type && id) {
             var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/vidal-classification" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
+        }
+    }
+    getInteractionClassFromProduct(callback, type, id) {
+        if (type && id && type == "PRODUCT") {
+            var soap = require('soap');
+            var args = { "productId": id };
+            soap.createClient(this.configuration.drugInteractionClassWsdl, function (err, client) {
+                client.searchByProductId(args, function (err, result) {
+                    if (callback) {
+                        callback(result, null);
+                    }
+                });
+            });
         }
     }
     getProduct(callback, type, id) {

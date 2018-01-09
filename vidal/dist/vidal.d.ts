@@ -6,6 +6,7 @@ export declare class Vidal {
     configuration: {
         "baseUrl": string;
         "urlVigie": string;
+        "drugInteractionClassWsdl": string;
         "apiDomain": string;
         "newsDomain": string;
         "pmsiDomain": string;
@@ -43,7 +44,8 @@ export declare class Vidal {
     getApp_key(): string;
     getApp_id(): string;
     getUrlCredentials(prefix: string): string;
-    search(callback: Function, params: string): void;
+    search(callback: Function, searchTerm: string): void;
+    searchByCode(callback: Function, code: string): void;
     searchAllergies(callback: Function, params: string): void;
     getProducts(callback: Function, params: string, filter: string): void;
     getAllergies(callback: Function, params: string): void;
@@ -66,6 +68,7 @@ export declare class Vidal {
     getDocuments(callback: Function, type: string, id: number, params: any): void;
     getATCClassFromProduct(callback: Function, type: string, id: number): void;
     getVIDALClassFromProduct(callback: Function, type: string, id: number): void;
+    getInteractionClassFromProduct(callback: Function, type: string, id: number): void;
     getProduct(callback: Function, type: string, id: number): void;
     getVigieAlerts(callback: Function, prescription: any): void;
     getNewsFromProduct(callback: Function, type: string, id: number): void;
