@@ -465,9 +465,9 @@ export class Vidal {
 
     getVigieAlerts(callback: Function, prescription: any){
         if (prescription && prescription.patient){
-            var arr = prescription.patient.dateOfBirth.split("-");
+            //var arr = prescription.patient.dateOfBirth.split("-");
             var today = new Date();
-            var ageYears = today.getFullYear() - arr[0];
+            var ageYears = today.getFullYear() - prescription.patient.dateOfBirth.getFullYear();
             var prescs = [];
             if (prescription.lines && prescription.lines.length > 0){
                 var atcs = [];

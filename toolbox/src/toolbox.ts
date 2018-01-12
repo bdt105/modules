@@ -522,4 +522,10 @@ export class Toolbox {
     replaceAll (text: string, search: string, replacement: string) {
         return text.replace(new RegExp(search, 'g'), replacement);
     };
+
+    substractMinutesFromDate(date: Date, minutesToSubstract: number){
+        var d: number = date.getTime();
+        return new Date(d + (minutesToSubstract * 60000));
+    }
+
 }

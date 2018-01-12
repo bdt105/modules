@@ -42,4 +42,5 @@ export declare class Toolbox {
     getValueSpecial(object: any, fieldName: string, subFieldName?: string): any;
     gVS(object: any, fieldName: string, subFieldName?: string): any;
     replaceAll(text: string, search: string, replacement: string): string;
+    substractMinutesFromDate(date: Date, minutesToSubstract: number): Date;
 }

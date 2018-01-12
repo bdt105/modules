@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = /** @class */ (function () {
+var Toolbox = (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
@@ -509,6 +509,10 @@ var Toolbox = /** @class */ (function () {
         return text.replace(new RegExp(search, 'g'), replacement);
     };
     ;
+    Toolbox.prototype.substractMinutesFromDate = function (date, minutesToSubstract) {
+        var d = date.getTime();
+        return new Date(d + (minutesToSubstract * 60000));
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;
