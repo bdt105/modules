@@ -513,6 +513,9 @@ var Toolbox = (function () {
         var d = date.getTime();
         return new Date(d + (minutesToSubstract * 60000));
     };
+    Toolbox.prototype.cloneObject = function (object) {
+        return JSON.parse(JSON.stringify(object));
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

@@ -528,4 +528,8 @@ export class Toolbox {
         return new Date(d + (minutesToSubstract * 60000));
     }
 
+    cloneObject(object: any){
+        return JSON.parse(JSON.stringify(object));
+    }
+
 }

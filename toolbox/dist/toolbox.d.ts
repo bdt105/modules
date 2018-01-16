@@ -43,4 +43,5 @@ export declare class Toolbox {
     gVS(object: any, fieldName: string, subFieldName?: string): any;
     replaceAll(text: string, search: string, replacement: string): string;
     substractMinutesFromDate(date: Date, minutesToSubstract: number): Date;
+    cloneObject(object: any): any;
 }
