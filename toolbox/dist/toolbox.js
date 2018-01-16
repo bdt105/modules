@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {

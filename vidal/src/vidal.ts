@@ -220,7 +220,14 @@ export class Vidal {
     private getBasicPatientXml(patient: any){
         var xml = "";
         if (patient){
-            xml += patient.dateOfBirth ? ("<dateOfBirth>" + patient.dateOfBirth.replace(" ", "T") + "</dateOfBirth>") : "";
+            var dateOfBirth = patient.dateOfBirth;
+            if (typeof dateOfBirth == "string"){
+                dateOfBirth = patient.dateOfBirth.replace(" ", "T");
+            }else{
+                dateOfBirth = patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19);
+            }
+
+            xml += patient.dateOfBirth ? ("<dateOfBirth>" + dateOfBirth + "</dateOfBirth>") : "";
             xml += "<gender>" + patient.gender + "</gender>";
             xml += "<weight>" + patient.weight + "</weight>";
             xml += "<height>" + patient.height + "</height>";
@@ -295,12 +302,18 @@ export class Vidal {
     }
 
     getAlerts(callback: Function, prescription: any, params: any, type: string){
-        if (prescription && prescription.lines && prescription.lines.length > 0){
-            params.body = this.getPrescriptionXml(prescription);
-            this.toolbox.log(params.body);
-            params.url = this.getApiBaseUrl() + this.configuration.apiDomain + 
+        params.url = this.getApiBaseUrl() + this.configuration.apiDomain + 
                 (type == "html" ? this.configuration.alertsHtml : this.configuration.alertsFull) + this.getUrlCredentials("?");
-            this.rest.call((data: any, error: any) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
+        params.body = this.getPrescriptionXml(prescription);
+        if (prescription && prescription.lines){
+            this.toolbox.log(params.body);
+            if (prescription.lines.length > 0){
+                this.rest.call((data: any, error: any) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
+            }else{
+                callback(null, "No line in the prescription or no prescription");
+            }
+        }else{
+            callback(null, "No line in the prescription or no prescription");
         }
     }
 
@@ -382,15 +395,17 @@ export class Vidal {
     }
 
     assignAlertsToLines(prescription: any, xmlAlerts: any){
-        if (prescription && xmlAlerts && xmlAlerts.feed && xmlAlerts.feed.entry){
+        if (prescription){
             for (var i = 0; i < prescription.lines.length; i++){
                 var line = prescription.lines[i];
                 line.alertSummary = [];
-                for (var j = 0; j < xmlAlerts.feed.entry.length; j++){
-                    var alert = xmlAlerts.feed.entry[j];
-                    if (alert.id[0].startsWith("vidal://prescription_line")){
-                        if (alert["vidal:drugId"][0] == line.productId){
-                            line.alertSummary = this.getRelevantAlerts(alert);
+                if (xmlAlerts && xmlAlerts.feed && xmlAlerts.feed.entry){
+                    for (var j = 0; j < xmlAlerts.feed.entry.length; j++){
+                        var alert = xmlAlerts.feed.entry[j];
+                        if (alert.id[0].startsWith("vidal://prescription_line")){
+                            if (alert["vidal:drugId"][0] == line.productId){
+                                line.alertSummary = this.getRelevantAlerts(alert);
+                            }
                         }
                     }
                 }
