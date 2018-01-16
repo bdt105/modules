@@ -430,10 +430,14 @@ class Vidal {
         }
     }
     getVigieAlerts(callback, prescription) {
-        if (prescription && prescription.patient) {
+        if (prescription && prescription.patient && prescription.patient.dateOfBirth) {
             //var arr = prescription.patient.dateOfBirth.split("-");
             var today = new Date();
-            var ageYears = today.getFullYear() - prescription.patient.dateOfBirth.getFullYear();
+            var dob = prescription.patient.dateOfBirth;
+            if (typeof dob == "string") {
+                dob = new Date(dob);
+            }
+            var ageYears = today.getFullYear() - dob.getFullYear();
             var prescs = [];
             if (prescription.lines && prescription.lines.length > 0) {
                 var atcs = [];
