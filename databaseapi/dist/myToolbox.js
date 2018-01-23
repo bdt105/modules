@@ -14,4 +14,4 @@ class MyToolbox extends dist_1.Toolbox {
     }
 }
 exports.MyToolbox = MyToolbox;
-//# sourceMappingURL=myToolbox.js.map
+//# sourceMappingURL=MyToolbox.js.map

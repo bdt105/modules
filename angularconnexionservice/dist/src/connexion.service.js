@@ -1,8 +1,13 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 import { Injectable } from '@angular/core';
-import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Vidal } from 'bdt105vidal/dist';
-var ConnexionService = /** @class */ (function () {
+var ConnexionService = (function () {
     function ConnexionService(databaseService) {
         this.databaseService = databaseService;
         this.tableName = "user";
@@ -77,13 +82,14 @@ var ConnexionService = /** @class */ (function () {
         }
     };
     ConnexionService.prototype.failureAfterLogin = function (customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data) {
+        var _this = this;
         var params = [];
         var callback = function (data, error) {
             if (data) {
-                this.callbackAfterAfterLogin(data, customCallBackSuccess, login, password, rememberMe);
+                _this.callbackAfterAfterLogin(data, error, customCallBackSuccess, login, password, rememberMe);
             }
             if (error) {
-                this.failureAfterAfterLogin(data, customCallBackFailure);
+                _this.failureAfterAfterLogin(data, customCallBackFailure);
             }
         };
         this.vidal.getVersion(function (data, error) { return callback(data, error); }, params, "app_id=" + login + "&app_key=" + password);
@@ -92,13 +98,9 @@ var ConnexionService = /** @class */ (function () {
         this.failureAfterLogin(customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data);
     };
     ;
-    ConnexionService.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    ConnexionService.ctorParameters = function () { return [
-        { type: DatabaseService, },
-    ]; };
+    ConnexionService = __decorate([
+        Injectable()
+    ], ConnexionService);
     return ConnexionService;
 }());
 export { ConnexionService };

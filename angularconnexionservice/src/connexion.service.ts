@@ -95,9 +95,9 @@ export class ConnexionService {
 
     private failureAfterLogin (customCallBackSuccess: Function, customCallBackFailure: Function, login: string, password: string, rememberMe: boolean, data: any){
         let params: any = [];
-        let callback = function(data: any, error: any){
+        let callback = (data: any, error: any) => {
             if (data){
-                this.callbackAfterAfterLogin(data, customCallBackSuccess, login, password, rememberMe);
+                this.callbackAfterAfterLogin(data, error, customCallBackSuccess, login, password, rememberMe);
             }
             if (error){
                 this.failureAfterAfterLogin(data, customCallBackFailure);

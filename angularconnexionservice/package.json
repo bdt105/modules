@@ -1,6 +1,6 @@
 {
   "name": "bdt105angularconnexionservice",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connexion check",
   "main": "index.js",
   "repository": "https://github.com/bdt105/modules",
