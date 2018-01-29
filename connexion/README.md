@@ -64,6 +64,7 @@ class JwtConfiguration {
 
 If "jwtConfiguration" parameter is not set then no JWT functions are usable.
 If "mySqlConfiguration" parameter is not set then no MySql functions are usable. If user table name, login field name or password field name are ommited, then no authentification is possible (MySql queries remain possible).
+To generate an encrypted password you may use function encrypt().
 
 ## Functions ##
 
