@@ -74,7 +74,7 @@ export class Rest {
         var options = {
             "method": method, 
             "headers": {
-                "content-type": contentType,  
+                "Content-type": contentType,  
                 "Accept": "*/*"
             },
             "uri": url,

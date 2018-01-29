@@ -94,6 +94,20 @@ class Vidal {
         return url;
     }
     ;
+    getApiDomain() {
+        var setting = null;
+        var apiDomain = this.configuration.apiDomain;
+        try {
+            setting = this.toolbox.readFromStorage("setting");
+            if (setting && setting.vidalApiDomain) {
+                apiDomain = setting.vidalApiDomain;
+            }
+        }
+        catch (e) {
+        }
+        return apiDomain;
+    }
+    ;
     getHtmlStyle() {
         var setting = null;
         var htmlStyle = this.configuration.alertsStyle;
@@ -121,70 +135,70 @@ class Vidal {
     }
     search(callback, searchTerm) {
         if (searchTerm && searchTerm.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + searchTerm + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.search + "?q=" + searchTerm + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     searchByCode(callback, code) {
         if (code && code.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?code=" + code + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.search + "?code=" + code + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     searchAllergies(callback, params) {
         if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getProducts(callback, params, filter) {
         if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.search + "?q=" + params + "&filter=" + filter + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.search + "?q=" + params + "&filter=" + filter + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getAllergies(callback, params) {
         if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.searchAllergies + "?q=" + params + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getPathologies(callback, params) {
         if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     searchPathologies(callback, params) {
         if (params && params.length > 2) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.searchPathologies + "?q=" + params + this.getUrlCredentials("&");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getFromId(callback, type, id) {
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     ;
     getPrescriptionUnits(callback, type, id) {
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/units" + this.getUrlCredentials("?");
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/units" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     ;
     getPrescriptionRoutes(callback, type, id) {
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/routes" + this.getUrlCredentials("?");
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/routes" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     ;
     getIndications(callback, type, id) {
         if (type && id) {
-            let url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/indications" + this.getUrlCredentials("?");
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/indications" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
@@ -279,7 +293,7 @@ class Vidal {
         return "";
     }
     getAlerts(callback, prescription, params, type) {
-        params.url = this.getApiBaseUrl() + this.configuration.apiDomain +
+        params.url = this.getApiBaseUrl() + this.getApiDomain() +
             (type == "html" ? this.configuration.alertsHtml : this.configuration.alertsFull) + this.getUrlCredentials("?");
         params.body = this.getPrescriptionXml(prescription);
         if (prescription && prescription.lines) {
@@ -405,25 +419,25 @@ class Vidal {
     ;
     getOptDocument(callback, type, id) {
         if (type && id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/documents/opt" + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/documents/opt" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
         }
     }
     getDocuments(callback, type, id, params) {
         if (type && id) {
-            params.url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/documents" + this.getUrlCredentials("?");
+            params.url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/documents" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", params.url, null, this.contentType);
         }
     }
     getATCClassFromProduct(callback, type, id) {
         if (type && id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/atc-classification" + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/atc-classification" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
         }
     }
     getVIDALClassFromProduct(callback, type, id) {
         if (type && id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/vidal-classification" + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/vidal-classification" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
         }
     }
@@ -442,7 +456,7 @@ class Vidal {
     }
     getProduct(callback, type, id) {
         if (type && id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType);
         }
     }
@@ -510,7 +524,7 @@ class Vidal {
     }
     getPosologyFromProduct(callback, type, id, patient, routeIds, indicationIds, params) {
         if (type && id && patient) {
-            params.url = this.getApiBaseUrl() + this.configuration.apiDomain + "/" + type + "/" + id + "/posology-descriptors" + this.getUrlCredentials("?");
+            params.url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/posology-descriptors" + this.getUrlCredentials("?");
             params.body = this.getPosologyXml(patient, routeIds, indicationIds);
             this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType);
         }
@@ -576,24 +590,24 @@ class Vidal {
     }
     getCim10FromIndicationGroupId(callback, id) {
         if (id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.indicationGroup + "/" + id + "/cim10s" + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.indicationGroup + "/" + id + "/cim10s" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getRecosFromIndicationGroupId(callback, id) {
         if (id) {
-            var url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.indicationGroup + "/" + id + "/recos" + this.getUrlCredentials("?");
+            var url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.indicationGroup + "/" + id + "/recos" + this.getUrlCredentials("?");
             this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
         }
     }
     getPrescriptionRecos(callback, prescription, params) {
         params.body = this.getPrescriptionXml(prescription);
-        params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.prescriptionRecos + this.getUrlCredentials("?");
+        params.url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.prescriptionRecos + this.getUrlCredentials("?");
         this.toolbox.log(prescription.xmlBody);
         this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
     }
     getRecoUrl(id) {
-        return this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.reco + "/" + id + "/html" + this.getUrlCredentials("?");
+        return this.getApiBaseUrl() + this.getApiDomain() + this.configuration.reco + "/" + id + "/html" + this.getUrlCredentials("?");
     }
     getReco(callback, id) {
         this.rest.call((data, error) => callback(data, error), "GET", this.getRecoUrl(id), null, this.contentType, true);
@@ -619,7 +633,7 @@ class Vidal {
     getAdaptedDrugs(callback, vmpId, facets, page, pageSize, params) {
         if (vmpId) {
             params.body = this.getAdaptedDugsXml(vmpId, facets, page, pageSize);
-            params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.adaptedDrugs + this.getUrlCredentials("?");
+            params.url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.adaptedDrugs + this.getUrlCredentials("?");
             this.toolbox.log(params.xmlBody);
             this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
         }
@@ -641,7 +655,7 @@ class Vidal {
     getSideEffects(callback, drugs, sideEffectId, params) {
         if (sideEffectId) {
             params.body = this.getSideEffectsXml(drugs, sideEffectId);
-            params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.sideEffectSort + this.getUrlCredentials("?");
+            params.url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.sideEffectSort + this.getUrlCredentials("?");
             this.toolbox.log(params.xmlBody);
             this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
         }
@@ -658,7 +672,7 @@ class Vidal {
         }
     }
     getVersion(callback, params, credentials = null) {
-        params.url = this.getApiBaseUrl() + this.configuration.apiDomain + this.configuration.version + (credentials ? "?" + credentials : this.getUrlCredentials("?"));
+        params.url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.version + (credentials ? "?" + credentials : this.getUrlCredentials("?"));
         this.rest.call((data, error) => callback(data, error), "GET", params.url, null, this.contentType, true);
     }
     /*

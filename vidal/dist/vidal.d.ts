@@ -40,6 +40,7 @@ export declare class Vidal {
     cleanId(id: any, type: string): string;
     private callback(callback, data, error);
     getApiBaseUrl(): string;
+    getApiDomain(): string;
     getHtmlStyle(): boolean;
     getApp_key(): string;
     getApp_id(): string;
