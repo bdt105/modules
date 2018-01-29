@@ -19,7 +19,7 @@ Create a table containing at least two fields: login and password (the name of t
 
 Example
 ~~~
-CREATE TABLE `barcode`.`user` (
+CREATE TABLE `database`.`user` (
   `iduser` INT NOT NULL,
   `login` VARCHAR(200) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
