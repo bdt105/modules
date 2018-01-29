@@ -1,6 +1,6 @@
 {
   "name": "bdt105angulardatabaseservice",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Access to MySql database API",
   "main": "index.js",
   "repository": "https://github.com/bdt105/modules",
@@ -16,7 +16,7 @@
   "author": "bdt105 <bdt105@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "bdt105toolbox": "~1.0.38"
+    "bdt105toolbox": "~1.0.55"
   },
   "devDependencies": {
     "@angular/core": "~4.0.0",

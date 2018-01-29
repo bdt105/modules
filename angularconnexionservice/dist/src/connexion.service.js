@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Injectable } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Vidal } from 'bdt105vidal/dist';
-var ConnexionService = (function () {
+var ConnexionService = /** @class */ (function () {
     function ConnexionService(databaseService) {
         this.databaseService = databaseService;
         this.tableName = "user";

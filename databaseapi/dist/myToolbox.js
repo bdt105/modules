@@ -9,9 +9,9 @@ class MyToolbox extends dist_1.Toolbox {
     }
     logg(text) {
         if (this.configuration) {
-            this.log(this.configuration.common.logFile, text, this.configuration.common.logToConsole);
+            this.log(text, this.configuration.common.logFile, this.configuration.common.logToConsole);
         }
     }
 }
 exports.MyToolbox = MyToolbox;
-//# sourceMappingURL=MyToolbox.js.map
+//# sourceMappingURL=myToolbox.js.map
