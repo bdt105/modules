@@ -532,4 +532,35 @@ export class Toolbox {
         return JSON.parse(JSON.stringify(object));
     }
 
+    translate(text: string, language: string, localStorageKey: string, forever: boolean = true, fileName: string = null){
+        let trans = this.readFromStorage(localStorageKey);
+        var ret = text;
+        // var t = {
+        //     "key": "Bonjour",
+        //     "value": [
+        //         {
+        //             "language": "EN",
+        //             "value": "Hello"
+        //         },
+        //         {
+        //             "language": "ES",
+        //             "value": "Holà"
+        //         }
+        //     ]
+        // };
+        if (trans){
+            var rets = trans[text];
+            for (var i = 0; i < rets.length; i++){
+                
+            }
+        }else{
+            if (fileName){
+                var data = this.loadFromJsonFile(fileName);
+                if (data){
+                    trans = JSON.parse(data);
+                    this.writeToStorage(localStorageKey, trans, forever);
+                }
+            }           
+        }
+    }
 }
