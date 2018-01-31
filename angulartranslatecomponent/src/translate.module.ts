@@ -6,21 +6,21 @@ export const USER_OPTIONS: InjectionToken<string> = new InjectionToken('Translat
 
 
 @NgModule({
-  declarations: [
-    TranslateComponent
-  ],
-  exports: [TranslateComponent]
+    declarations: [
+        TranslateComponent
+    ],
+    exports: [TranslateComponent]
 })
 
 export class TranslateModule {
-  static forRoot(options: TranslateOptions): ModuleWithProviders {
-    return {
-      ngModule: TranslateModule,
-      providers: [{
-        provide: USER_OPTIONS,
-        useValue: options
-      }]
+    static forRoot(options: TranslateOptions): ModuleWithProviders {
+        return {
+        ngModule: TranslateModule,
+        providers: [{
+            provide: USER_OPTIONS,
+            useValue: options
+        }]
     };
-  }
+}
 
 };

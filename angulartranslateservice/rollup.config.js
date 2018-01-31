@@ -1,11 +1,11 @@
 export default {
     "input": './dist/index.js',
     "output":{
-        "file": './dist/bundles/bdt105angulardatabaseservice.umd.js',
-        "sourceMap": false,
+        "file": './dist/bundles/bdt105angulartranslateservice.umd.js',
+        "sourcemap": false,
         "format": 'umd',
-        "name": 'ng.bdt105angulardatabaseservice',
-    },  
+        "name": 'ng.bdt105angulartranslateservice',
+    },
     globals: {
       '@angular/core': 'ng.core',
       'rxjs/Observable': 'Rx',
@@ -15,4 +15,4 @@ export default {
       'rxjs/add/observable/fromEvent': 'Rx.Observable',
       'rxjs/add/observable/of': 'Rx.Observable'
     }
-  }
+}

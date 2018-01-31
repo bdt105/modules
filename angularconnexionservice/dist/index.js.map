@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { ConnexionService } from './src/connexion.service';"]}
+{"version":3,"sources":["../index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,yBAAyB,CAAC","file":"index.js","sourceRoot":"","sourcesContent":["export { ConnexionService } from './src/connexion.service';"]}

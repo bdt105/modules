@@ -1,13 +1,15 @@
 {
   "name": "bdt105angulardatabaseservice",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Access to MySql database API",
-  "main": "index.js",
+  "main": "./dist/bundles/bdt105angulardatabaseservice.umd.js",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",  
   "repository": "https://github.com/bdt105/modules",
   "scripts": {
     "transpile": "ngc",
     "package": "rollup -c",
-    "minify": "uglifyjs dist/bundles/bdt105vidal.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/bdt105vidal.umd.min.js",
+    "minify": "uglifyjs dist/bundles/bdt105angulardatabaseservice.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/bdt105angulardatabaseservice.umd.min.js",
     "build": "npm run transpile && npm run package && npm run minify"
   },
   "keywords": [

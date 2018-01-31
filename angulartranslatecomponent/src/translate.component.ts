@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Injectable } from '@angular/core';
 
 import { TranslateService } from 'bdt105angulartranslateservice';
 import { Toolbox } from 'bdt105toolbox/dist';
@@ -10,6 +10,7 @@ import { TranslateOptions } from './translateoptions.service';
     providers: [TranslateService]
 })
 
+@Injectable()
 export class TranslateComponent implements OnInit {
     @Input() text: string;
     @Input() isTag = false;

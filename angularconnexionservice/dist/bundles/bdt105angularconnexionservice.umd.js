@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
-import { DatabaseService } from 'bdt105angulardatabaseservice';
-import { Toolbox } from 'bdt105toolbox/dist';
-import { Vidal } from 'bdt105vidal/dist';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('bdt105angulardatabaseservice'), require('bdt105toolbox/dist'), require('bdt105vidal/dist')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'bdt105angulardatabaseservice', 'bdt105toolbox/dist', 'bdt105vidal/dist'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.bdt105angularconnexionservice = {}),global.ng.core,global.bdt105angulardatabaseservice,global.dist,global.dist$1));
+}(this, (function (exports,core,bdt105angulardatabaseservice,dist,dist$1) { 'use strict';
+
 var ConnexionService = /** @class */ (function () {
     function ConnexionService(databaseService) {
         this.databaseService = databaseService;
         this.tableName = "user";
-        this.toolbox = new Toolbox();
-        this.vidal = new Vidal("dbd540aa", "8343650ea233a4716f524ab77dc24948");
+        this.toolbox = new dist.Toolbox();
+        this.vidal = new dist$1.Vidal("dbd540aa", "8343650ea233a4716f524ab77dc24948");
         this.disconnect = function () {
             this.toolbox.removeFromStorage("connexion");
             this.connexion = null;
@@ -37,7 +39,7 @@ var ConnexionService = /** @class */ (function () {
         var body = { "__where": where };
         this.databaseService.read(function (data) { return _this.success(customCallBackSuccess, rememberMe, data); }, function (data) { return _this.failure(customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data); }, this.tableName, body);
     };
-    ;
+    
     ConnexionService.prototype.changeCurrentUserLang = function (lang) {
         if (this.connexion && this.connexion.currentUser) {
             this.connexion.currentUser.lang = lang;
@@ -53,7 +55,7 @@ var ConnexionService = /** @class */ (function () {
             customCallBackSuccess(this.connexion);
         }
     };
-    ;
+    
     ConnexionService.prototype.successAfterLogin = function (customCallBackSuccess, login, password, rememberMe, data) {
         var currentUser = { "login": login, "password": password };
         this.connexion = { "currentUser": currentUser };
@@ -92,15 +94,19 @@ var ConnexionService = /** @class */ (function () {
     ConnexionService.prototype.failure = function (customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data) {
         this.failureAfterLogin(customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data);
     };
-    ;
+    
     ConnexionService.decorators = [
-        { type: Injectable },
+        { type: core.Injectable },
     ];
     /** @nocollapse */
     ConnexionService.ctorParameters = function () { return [
-        { type: DatabaseService, },
+        { type: bdt105angulardatabaseservice.DatabaseService, },
     ]; };
     return ConnexionService;
 }());
-export { ConnexionService };
-//# sourceMappingURL=connexion.service.js.map
+
+exports.ConnexionService = ConnexionService;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

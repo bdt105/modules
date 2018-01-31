@@ -46,6 +46,7 @@ var TranslateComponent = /** @class */ (function () {
                     template: '{{translation}}',
                     providers: [bdt105angulartranslateservice.TranslateService]
                 },] },
+        { type: core.Injectable },
     ];
     /** @nocollapse */
     TranslateComponent.ctorParameters = function () { return [

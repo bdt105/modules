@@ -8,9 +8,9 @@
 
 import * as import0 from '@angular/core';
 import * as import1 from './translate.component';
-import * as import2 from 'bdt105angulartranslateservice/src/translate.service';
-import * as import3 from 'bdt105angulardatabaseservice/src/database.service';
-import * as import4 from 'bdt105angularconnexionservice/src/connexion.service';
+import * as import2 from 'bdt105angulartranslateservice/dist/src/translate.service';
+import * as import3 from 'bdt105angulardatabaseservice/dist/src/database.service';
+import * as import4 from 'bdt105angularconnexionservice/dist/src/connexion.service';
 import * as import5 from './translateoptions.service';
 const styles_TranslateComponent:any[] = ([] as any[]);
 export const RenderType_TranslateComponent:import0.RendererType2 = import0.ɵcrt({

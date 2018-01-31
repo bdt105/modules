@@ -1,8 +1,10 @@
 {
   "name": "bdt105angulartranslatecomponent",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "description": "Access to MySql database API",
-  "main": "index.js",
+  "main": "./dist/bundles/bdt105angulartranslatecomponent.umd.js",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "repository": "https://github.com/bdt105/modules",
   "scripts": {
     "transpile": "ngc",
@@ -17,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "bdt105toolbox": "~1.0.55",
-    "bdt105angulartranslateservice": "~1.0.3"
+    "bdt105angulartranslateservice": "~1.0.14"
   },
   "devDependencies": {
     "@angular/core": "~4.0.0",

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Injectable } from '@angular/core';
 import { TranslateService } from 'bdt105angulartranslateservice';
 import { TranslateOptions } from './translateoptions.service';
 var TranslateComponent = /** @class */ (function () {
@@ -32,6 +32,7 @@ var TranslateComponent = /** @class */ (function () {
                     template: '{{translation}}',
                     providers: [TranslateService]
                 },] },
+        { type: Injectable },
     ];
     /** @nocollapse */
     TranslateComponent.ctorParameters = function () { return [
