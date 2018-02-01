@@ -5,6 +5,38 @@ var t = new Toolbox();
 var s = t.beautifyJson('{"a1": "0", "a2": "2"}');
 console.log(s);
 
+var tr = [{
+    "key": "Bonjour",
+    "values": [
+        {
+            "language": "EN",
+            "value": "Hello"
+        },
+        {
+            "language": "ES",
+            "value": "Holà"
+        }
+    ]
+},
+{
+    "key": "Au revoir",
+    "values": [
+        {
+            "language": "EN",
+            "value": "Good bye"
+        },
+        {
+            "language": "ES",
+            "value": "Adios"
+        }
+    ]
+}];
+var ttt = t.translateFromObject(tr, "Bonjour", "EN");
+
+var ttt1 = t.translateFromObject(tr, "Au revoir", "ES");
+
+var ttttt = t.translateFromFile("Bonjour", "EN", "./trans.json");
+
 var xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <prescription>
     <patient>

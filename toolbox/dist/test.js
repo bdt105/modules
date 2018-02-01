@@ -4,6 +4,35 @@ var index_1 = require("./index");
 var t = new index_1.Toolbox();
 var s = t.beautifyJson('{"a1": "0", "a2": "2"}');
 console.log(s);
+var tr = [{
+        "key": "Bonjour",
+        "values": [
+            {
+                "language": "EN",
+                "value": "Hello"
+            },
+            {
+                "language": "ES",
+                "value": "Holà"
+            }
+        ]
+    },
+    {
+        "key": "Au revoir",
+        "values": [
+            {
+                "language": "EN",
+                "value": "Good bye"
+            },
+            {
+                "language": "ES",
+                "value": "Adios"
+            }
+        ]
+    }];
+var ttt = t.translateFromObject(tr, "Bonjour", "EN");
+var ttt1 = t.translateFromObject(tr, "Au revoir", "ES");
+var ttttt = t.translateFromFile("Bonjour", "EN", "./trans.json");
 var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<prescription>\n    <patient>\n        <dateOfBirth>1980-10-26T01:01:01</dateOfBirth>\n        <gender>MALE</gender>\n        <!-- MALE FEMALE NONE -->\n        <weight>80</weight>\n        <!-- kg -->\n        <height>180</height>\n        <!-- cm -->\n        <breastFeeding>NONE</breastFeeding>\n        <!-- NONE LESS_THAN_ONE_MONTH MORE_THAN_ONE_MONTH ALL (if no information available) -->\n        <creatin>80</creatin>\n        <!-- ml/min -->\n        <hepaticInsufficiency>NONE</hepaticInsufficiency>\n        <!-- NONE MODERATE SEVERE -->\n        <weeksOfAmenorrhea>1</weeksOfAmenorrhea>\n        <allergies>\n            <!-- use /rest/api/allergies?q=xxx -->\n            <allergy>vidal://allergy/635</allergy>\n        </allergies>\n        <molecules>\n            <!-- use /rest/api/allergies?q=xxx -->\n            <molecule>vidal://molecule/309</molecule>\n        </molecules>\n        <pathologies>\n            <!-- /rest/api/pathologies?q=xxx&type=CIM10 -->\n            <pathology>vidal://cim10/4398</pathology>\n            <!-- vidal://cim10/idXXX -->\n            <pathology>vidal://cim10/code/J45</pathology>\n            <!-- vidal://cim10/code/XXX -->\n        </pathologies>\n    </patient>\n    <prescription-lines>\n        <prescription-line>\n            <drugId>12759</drugId>\n            <drugType>COMMON_NAME_GROUP</drugType>\n            <!--COMMON_NAME_GROUP PRODUCT PACK UCD -->\n            <dose>2.000</dose>\n            <unitId>129</unitId>\n            <duration>3</duration>\n            <durationType>DAY</durationType>\n            <!-- MINUTE HOUR DAY WEEK MONTH YEAR -->\n            <frequencyType>PER_DAY</frequencyType>\n            <!-- THIS_DAY PER_DAY PER_24_HOURS PER_WEEK PER_MONTH PER_YEAR PER_2_DAYS PER_HOUR PER_MINUTE -->\n        </prescription-line>\n        <prescription-line>\n            <drug>vidal://package/41929</drug>\n            <!-- vidal://package/idXXXX vidal://product/idXXX vidal://vmp/idXXX vidal://ucd/idXXX-->\n            <dose>2.000</dose>\n            <unitId>35</unitId>\n            <duration>2</duration>\n            <durationType>DAY</durationType>\n            <frequencyType>PER_DAY</frequencyType>\n            <routes>\n                <!-- use /rest/api/routes?q=xxx -->\n                <route>vidal://route/38</route>\n                <route>vidal://route/14</route>\n            </routes>\n        </prescription-line>\n        <prescription-line>\n            <drugId>1037</drugId>\n            <drugType>PRODUCT</drugType>\n            <dose>2</dose>\n            <unitId>129</unitId>\n            <duration>5</duration>\n            <durationType>DAY</durationType>\n            <frequencyType>PER_DAY</frequencyType>\n            <routes>\n                <route>vidal://route/38</route>\n            </routes>\n        </prescription-line>\n        <prescription-line>\n            <drug>vidal://ucd/ucd13/3400892676739</drug>\n            <!-- vidal://cip7/XXXX vidal://cip13/XXX vidal://ucd13/XXX vidal://cis/XXX -->\n            <dose>2</dose>\n            <unitId>129</unitId>\n            <duration>5</duration>\n            <durationType>DAY</durationType>\n            <frequencyType>PER_DAY</frequencyType>\n            <routes>\n                <route>vidal://route/38</route>\n            </routes>\n        </prescription-line>\n    </prescription-lines>\n</prescription>";
 var callback = function (json) {
     console.log(JSON.stringify(json));

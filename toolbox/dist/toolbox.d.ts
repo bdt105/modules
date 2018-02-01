@@ -44,4 +44,6 @@ export declare class Toolbox {
     replaceAll(text: string, search: string, replacement: string): string;
     substractMinutesFromDate(date: Date, minutesToSubstract: number): Date;
     cloneObject(object: any): any;
+    translateFromObject(jsonArrray: any, text: string, language: string): string;
+    translateFromFile(text: string, language: string, fileName?: string): string;
 }

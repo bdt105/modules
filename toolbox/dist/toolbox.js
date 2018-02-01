@@ -1,14 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
-        var year = date.getFullYear(), month = date.getMonth() + 1, // months are zero indexed
-        day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds(), hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-        minuteFormatted = minute < 10 ? "0" + minute : minute, morning = hour < 12 ? "am" : "pm";
-        return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        if (date) {
+            var year = date.getFullYear(), month = date.getMonth() + 1, // months are zero indexed
+            day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds(), hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+            minuteFormatted = minute < 10 ? "0" + minute : minute, morning = hour < 12 ? "am" : "pm";
+            return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        }
+        else {
+            return "";
+        }
     };
     Toolbox.prototype.dateToDbString = function (date) {
         return date.toISOString().substr(0, 19).replace('T', ' ');
@@ -103,7 +108,7 @@ var Toolbox = (function () {
         return arr1[0];
     };
     Toolbox.prototype.filterArrayOfObjects = function (array, keySearch, keyValue) {
-        return array.filter(function (row) { return row[keySearch] == keySearch; });
+        return array.filter(function (row) { return row[keySearch] == keyValue; });
     };
     Toolbox.prototype.findIndexArrayOfObjects = function (array, keySearch, keyValue) {
         for (var i = 0; i < array.length; i++) {
@@ -388,7 +393,7 @@ var Toolbox = (function () {
     Toolbox.prototype.readFromStorage = function (key) {
         if (sessionStorage) {
             var res = sessionStorage.getItem(key);
-            if (res == null) {
+            if (localStorage && res == null) {
                 res = localStorage.getItem(key);
             }
             return this.parseJson(res);
@@ -515,6 +520,43 @@ var Toolbox = (function () {
     };
     Toolbox.prototype.cloneObject = function (object) {
         return JSON.parse(JSON.stringify(object));
+    };
+    Toolbox.prototype.translateFromObject = function (jsonArrray, text, language) {
+        var rets = this.filterArrayOfObjects(jsonArrray, "key", text);
+        var ret = text;
+        for (var i = 0; i < rets.length; i++) {
+            var values = rets[i].values;
+            for (var j = 0; j < values.length; j++) {
+                if (values[j].language == language) {
+                    ret = values[j].value;
+                }
+            }
+        }
+        return ret;
+    };
+    Toolbox.prototype.translateFromFile = function (text, language, fileName) {
+        if (fileName === void 0) { fileName = null; }
+        var ret = text;
+        // var t = [{
+        //     "key": "Bonjour",
+        //     "values": [
+        //         {
+        //             "language": "EN",
+        //             "value": "Hello"
+        //         },
+        //         {
+        //             "language": "ES",
+        //             "value": "Holà"
+        //         }
+        //     ]
+        // }];
+        if (fileName) {
+            var data = this.loadFromJsonFile(fileName);
+            if (data) {
+                ret = this.translateFromObject(data, text, language);
+            }
+        }
+        return ret;
     };
     return Toolbox;
 }());

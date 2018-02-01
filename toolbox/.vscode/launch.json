@@ -9,8 +9,8 @@
             "request": "launch",
             "name": "Launch Program",
             "sourceMaps": true,
-            "program": "${workspaceFolder}\\dist\\test.js",
-            "cwd": "${workspaceRoot}\\dist\\",
+            "program": "${workspaceFolder}/dist/test.js",
+            "cwd": "${workspaceRoot}/dist/",
             "outFiles": [
                 "${workspaceRoot}/dist/**/*.js"
             ]

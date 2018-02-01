@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var toolbox_1 = require("./toolbox");
-var Rest = (function () {
+var Rest = /** @class */ (function () {
     function Rest(logFileName, logToConsole) {
         if (logFileName === void 0) { logFileName = null; }
         if (logToConsole === void 0) { logToConsole = false; }
@@ -70,20 +70,12 @@ var Rest = (function () {
         var options = {
             "method": method,
             "headers": {
-                "Content-type": contentType
+                "Content-type": contentType,
+                "Accept": "*/*"
             },
             "uri": url,
             "body": bod
         };
-        // var options = {
-        //     "method": method, 
-        //     "headers": {
-        //         "Content-type": contentType,  
-        //         "Accept": "*/*"
-        //     },
-        //     "uri": url,
-        //     "body": bod
-        // }
         if (headers) {
             options.headers = headers;
         }

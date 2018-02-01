@@ -2,17 +2,21 @@ import { Rest } from './index';
 export class Toolbox {
 
     formatDate(date: Date) {
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1, // months are zero indexed
-            day = date.getDate(),
-            hour = date.getHours(),
-            minute = date.getMinutes(),
-            second = date.getSeconds(),
-            hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-            minuteFormatted = minute < 10 ? "0" + minute : minute,
-            morning = hour < 12 ? "am" : "pm";
-    
-        return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        if (date){
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1, // months are zero indexed
+                day = date.getDate(),
+                hour = date.getHours(),
+                minute = date.getMinutes(),
+                second = date.getSeconds(),
+                hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+                minuteFormatted = minute < 10 ? "0" + minute : minute,
+                morning = hour < 12 ? "am" : "pm";
+        
+            return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        }else{
+            return "";
+        }
     }   
     
     dateToDbString(date: Date){
@@ -112,7 +116,7 @@ export class Toolbox {
     } 
 
     filterArrayOfObjects(array: any[], keySearch: string, keyValue: string){
-        return array.filter((row) => row[keySearch] == keySearch);
+        return array.filter(function (row) { return row[keySearch] == keyValue });
     }
 
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string){
@@ -405,7 +409,7 @@ export class Toolbox {
     readFromStorage (key: string){
         if (sessionStorage){
             var res = sessionStorage.getItem(key);
-            if (res == null){
+            if (localStorage && res == null){
                 res = localStorage.getItem(key);
             }
             return this.parseJson(res);
@@ -532,12 +536,25 @@ export class Toolbox {
         return JSON.parse(JSON.stringify(object));
     }
 
-    translate(text: string, language: string, localStorageKey: string, forever: boolean = true, fileName: string = null){
-        let trans = this.readFromStorage(localStorageKey);
+    translateFromObject(jsonArrray: any, text: string, language: string){
+        var rets = this.filterArrayOfObjects(jsonArrray, "key", text);
         var ret = text;
-        // var t = {
+        for (var i = 0; i < rets.length; i++) {
+            var values = rets[i].values;
+            for (var j = 0; j < values.length; j++) {
+                if (values[j].language == language) {
+                    ret = values[j].value;
+                }
+            }
+        }
+        return ret;
+    }
+
+    translateFromFile(text: string, language: string, fileName: string = null){
+        var ret = text;
+        // var t = [{
         //     "key": "Bonjour",
-        //     "value": [
+        //     "values": [
         //         {
         //             "language": "EN",
         //             "value": "Hello"
@@ -547,20 +564,14 @@ export class Toolbox {
         //             "value": "Holà"
         //         }
         //     ]
-        // };
-        if (trans){
-            var rets = trans[text];
-            for (var i = 0; i < rets.length; i++){
-                
+        // }];
+        if (fileName){
+            var data = this.loadFromJsonFile(fileName);
+            if (data){
+                ret = this.translateFromObject(data, text, language);
             }
-        }else{
-            if (fileName){
-                var data = this.loadFromJsonFile(fileName);
-                if (data){
-                    trans = JSON.parse(data);
-                    this.writeToStorage(localStorageKey, trans, forever);
-                }
-            }           
-        }
+        }           
+        return ret;
     }
+
 }
