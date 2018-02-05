@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
 var t = new index_1.Toolbox();
+var d = t.addMomentToDate(new Date(), 'minute', -30);
+var moment = require('moment');
+var d = moment();
+var f = d.format("L LTS");
 var s = t.beautifyJson('{"a1": "0", "a2": "2"}');
 console.log(s);
 var tr = [{

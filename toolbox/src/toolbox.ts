@@ -33,6 +33,16 @@ export class Toolbox {
         return date.substring(0, 19).replace("T", " ");
     }
 
+    formatDateToLocal(date: Date, showTime = false){
+        var moment = require('moment');
+        if (this.isValidDate(date)){
+            var d = moment(date);
+            return d.format('L') + " " + showTime ? d.format('LTS'): "";
+        }else{
+            return "";
+        }
+    }
+
     CSVtoArray (text: string) : string[] {
         var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^;'"\s\\]*(?:\s+[^;'"\s\\]+)*)\s*(?:;\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^;'"\s\\]*(?:\s+[^;'"\s\\]+)*)\s*)*$/;
         var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^;'"\s\\]*(?:\s+[^;'"\s\\]+)*))\s*(?:;|$)/g;
@@ -277,12 +287,22 @@ export class Toolbox {
         return false;
     };    
 
-    isValidDate(date: string){
-        if (date){
-            var timestamp = Date.parse(date)
-            return isNaN(timestamp) == false;
-        }
-        return false;
+    isValidDate(date: any){
+        if (Object.prototype.toString.call(date) === "[object Date]" ) {
+            // it is a date
+            if (isNaN(date.getTime())) {
+              return false;
+            } else {
+              return true;
+            }
+        } else {
+            if (typeof date == "string"){
+                var timestamp = Date.parse(date)
+                return isNaN(timestamp) == false;
+            }else{
+                return false;
+            }
+        }        
     }
 
     dateDbToStringFr(date: string, separator = "-"){
@@ -527,9 +547,10 @@ export class Toolbox {
         return text.replace(new RegExp(search, 'g'), replacement);
     };
 
-    substractMinutesFromDate(date: Date, minutesToSubstract: number){
-        var d: number = date.getTime();
-        return new Date(d + (minutesToSubstract * 60000));
+    addMomentToDate(date: Date, unit: string, value: number){
+        var moment = require('moment');
+        var dd = moment();
+        return dd.add(value, unit).toDate();
     }
 
     cloneObject(object: any){

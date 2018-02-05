@@ -2,6 +2,11 @@ import { Toolbox, Rest } from './index';
 
 var t = new Toolbox();
 
+var d = t.addMomentToDate(new Date(), 'minute', -30);
+var moment = require('moment');
+var d = moment();
+var f = d.format("L LTS");
+
 var s = t.beautifyJson('{"a1": "0", "a2": "2"}');
 console.log(s);
 

@@ -27,6 +27,17 @@ var Toolbox = /** @class */ (function () {
     Toolbox.prototype.isoDateToDbString = function (date) {
         return date.substring(0, 19).replace("T", " ");
     };
+    Toolbox.prototype.formatDateToLocal = function (date, showTime) {
+        if (showTime === void 0) { showTime = false; }
+        var moment = require('moment');
+        if (this.isValidDate(date)) {
+            var d = moment(date);
+            return d.format('L') + " " + showTime ? d.format('LTS') : "";
+        }
+        else {
+            return "";
+        }
+    };
     Toolbox.prototype.CSVtoArray = function (text) {
         var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^;'"\s\\]*(?:\s+[^;'"\s\\]+)*)\s*(?:;\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^;'"\s\\]*(?:\s+[^;'"\s\\]+)*)\s*)*$/;
         var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^;'"\s\\]*(?:\s+[^;'"\s\\]+)*))\s*(?:;|$)/g;
@@ -267,11 +278,24 @@ var Toolbox = /** @class */ (function () {
     };
     ;
     Toolbox.prototype.isValidDate = function (date) {
-        if (date) {
-            var timestamp = Date.parse(date);
-            return isNaN(timestamp) == false;
+        if (Object.prototype.toString.call(date) === "[object Date]") {
+            // it is a date
+            if (isNaN(date.getTime())) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
-        return false;
+        else {
+            if (typeof date == "string") {
+                var timestamp = Date.parse(date);
+                return isNaN(timestamp) == false;
+            }
+            else {
+                return false;
+            }
+        }
     };
     Toolbox.prototype.dateDbToStringFr = function (date, separator) {
         if (separator === void 0) { separator = "-"; }
@@ -514,9 +538,10 @@ var Toolbox = /** @class */ (function () {
         return text.replace(new RegExp(search, 'g'), replacement);
     };
     ;
-    Toolbox.prototype.substractMinutesFromDate = function (date, minutesToSubstract) {
-        var d = date.getTime();
-        return new Date(d + (minutesToSubstract * 60000));
+    Toolbox.prototype.addMomentToDate = function (date, unit, value) {
+        var moment = require('moment');
+        var dd = moment();
+        return dd.add(value, unit).toDate();
     };
     Toolbox.prototype.cloneObject = function (object) {
         return JSON.parse(JSON.stringify(object));

@@ -235,9 +235,9 @@ export class Vidal {
         if (patient){
             var dateOfBirth = patient.dateOfBirth;
             if (typeof dateOfBirth == "string"){
-                dateOfBirth = patient.dateOfBirth.replace(" ", "T");
+                dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.replace(" ", "T") : "";
             }else{
-                dateOfBirth = patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19);
+                dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19): "";
             }
 
             xml += patient.dateOfBirth ? ("<dateOfBirth>" + dateOfBirth + "</dateOfBirth>") : "";

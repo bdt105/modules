@@ -2,6 +2,7 @@ export declare class Toolbox {
     formatDate(date: Date): string;
     dateToDbString(date: Date): string;
     isoDateToDbString(date: string): string;
+    formatDateToLocal(date: Date, showTime?: boolean): any;
     CSVtoArray(text: string): string[];
     arrayToCSV(array: string[], separator?: string): string;
     levenshtein(a: string, b: string): number;
@@ -19,7 +20,7 @@ export declare class Toolbox {
     deleteStringList(text: string, separator: string, textToDelete: string): string;
     pushArray(source: any[], destination: any[]): void;
     removeKeyFromArray(array: any[], key: string): boolean;
-    isValidDate(date: string): boolean;
+    isValidDate(date: any): boolean;
     dateDbToStringFr(date: string, separator?: string): string;
     dateWithoutTime(date: string): string;
     diffDateInDays(date1: Date, date2: Date): number;
@@ -42,7 +43,7 @@ export declare class Toolbox {
     getValueSpecial(object: any, fieldName: string, subFieldName?: string): any;
     gVS(object: any, fieldName: string, subFieldName?: string): any;
     replaceAll(text: string, search: string, replacement: string): string;
-    substractMinutesFromDate(date: Date, minutesToSubstract: number): Date;
+    addMomentToDate(date: Date, unit: string, value: number): any;
     cloneObject(object: any): any;
     translateFromObject(jsonArrray: any, text: string, language: string): string;
     translateFromFile(text: string, language: string, fileName?: string): string;
