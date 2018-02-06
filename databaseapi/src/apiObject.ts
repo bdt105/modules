@@ -16,13 +16,13 @@ export class BaseApi {
         this.requiresToken = requiresToken;
         this.myToolbox = new MyToolbox();
     }
-}
-
-export class RecordsetApi extends BaseApi {
 
     protected errorMessage(text: string){
         return {"status": "ERR", "message": text};
-    }
+    }    
+}
+
+export class RecordsetApi extends BaseApi {
 
     assignObject(){
         
@@ -71,10 +71,6 @@ export class RecordsetApi extends BaseApi {
 
 export class TableApi extends BaseApi {
     
-    protected errorMessage(text: string){
-        return {"status": "ERR", "message": text};
-    }
-
     assign(tableName: string, idFieldName: string, fields: any = null){
         this.assignObject(tableName, idFieldName, fields);
     }

@@ -53,8 +53,8 @@ export class Connexion {
     private mySql: any;
     private sqlConnexion: any;
     private jsonwebtoken: any;
-    private jwtStatusOk = "OK";
-    private jwtStatusERR = "ERR";
+    public static readonly jwtStatusOk = "OK";
+    public static readonly jwtStatusERR = "ERR";
     private toolbox: Toolbox;
     
     public mySqlConfiguration: MySqlConfiguration;
@@ -163,16 +163,16 @@ export class Connexion {
             if (decoded.iduser){
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }
-            return new Token(token, this.jwtStatusOk, decoded);
+            return new Token(token, Connexion.jwtStatusOk, decoded);
         } catch(err) {
-            return new Token(token, this.jwtStatusERR, null);
+            return new Token(token, Connexion.jwtStatusERR, null);
         }        
     }
 
     isTokenValid(token: string) : boolean{
         let jwt = this.checkJwt(token);
         if (jwt){
-            return jwt.status == this.jwtStatusOk;
+            return jwt.status == Connexion.jwtStatusOk;
         }else{
             return false;
         }

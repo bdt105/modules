@@ -10,12 +10,12 @@ class BaseApi {
         this.requiresToken = requiresToken;
         this.myToolbox = new myToolbox_1.MyToolbox();
     }
-}
-exports.BaseApi = BaseApi;
-class RecordsetApi extends BaseApi {
     errorMessage(text) {
         return { "status": "ERR", "message": text };
     }
+}
+exports.BaseApi = BaseApi;
+class RecordsetApi extends BaseApi {
     assignObject() {
         this.app.get('/', function (request, response) {
             response.send('API Authentification is running');
@@ -57,9 +57,6 @@ class RecordsetApi extends BaseApi {
 }
 exports.RecordsetApi = RecordsetApi;
 class TableApi extends BaseApi {
-    errorMessage(text) {
-        return { "status": "ERR", "message": text };
-    }
     assign(tableName, idFieldName, fields = null) {
         this.assignObject(tableName, idFieldName, fields);
     }

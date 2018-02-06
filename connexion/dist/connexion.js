@@ -33,8 +33,6 @@ class Token {
 exports.Token = Token;
 class Connexion {
     constructor(mySqlConfiguration = null, jwtConfiguration = null) {
-        this.jwtStatusOk = "OK";
-        this.jwtStatusERR = "ERR";
         this.toolbox = new dist_1.Toolbox();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
@@ -119,16 +117,16 @@ class Connexion {
             if (decoded.iduser) {
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }
-            return new Token(token, this.jwtStatusOk, decoded);
+            return new Token(token, Connexion.jwtStatusOk, decoded);
         }
         catch (err) {
-            return new Token(token, this.jwtStatusERR, null);
+            return new Token(token, Connexion.jwtStatusERR, null);
         }
     }
     isTokenValid(token) {
         let jwt = this.checkJwt(token);
         if (jwt) {
-            return jwt.status == this.jwtStatusOk;
+            return jwt.status == Connexion.jwtStatusOk;
         }
         else {
             return false;
@@ -148,5 +146,7 @@ class Connexion {
         this.connectSql();
     }
 }
+Connexion.jwtStatusOk = "OK";
+Connexion.jwtStatusERR = "ERR";
 exports.Connexion = Connexion;
 //# sourceMappingURL=connexion.js.map

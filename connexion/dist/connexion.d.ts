@@ -26,8 +26,8 @@ export declare class Connexion {
     private mySql;
     private sqlConnexion;
     private jsonwebtoken;
-    private jwtStatusOk;
-    private jwtStatusERR;
+    static readonly jwtStatusOk: string;
+    static readonly jwtStatusERR: string;
     private toolbox;
     mySqlConfiguration: MySqlConfiguration;
     jwtConfiguration: JwtConfiguration;
