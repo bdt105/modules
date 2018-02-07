@@ -19,6 +19,12 @@ export class BaseApi {
 
     protected errorMessage(text: string){
         return {"status": "ERR", "message": text};
+    }  
+
+    protected respond(response: any, statusCode: number, data: any, contentType = 'application/json'){
+        response.status(statusCode);
+        response.setHeader('content-type', contentType);
+        response.send(JSON.stringify(data));
     }    
 }
 

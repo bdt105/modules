@@ -10,6 +10,7 @@ export declare class BaseApi {
         "status": string;
         "message": string;
     };
+    protected respond(response: any, statusCode: number, data: any, contentType?: string): void;
 }
 export declare class RecordsetApi extends BaseApi {
     assignObject(): void;

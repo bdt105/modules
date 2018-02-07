@@ -13,6 +13,11 @@ class BaseApi {
     errorMessage(text) {
         return { "status": "ERR", "message": text };
     }
+    respond(response, statusCode, data, contentType = 'application/json') {
+        response.status(statusCode);
+        response.setHeader('content-type', contentType);
+        response.send(JSON.stringify(data));
+    }
 }
 exports.BaseApi = BaseApi;
 class RecordsetApi extends BaseApi {
