@@ -5,6 +5,7 @@ This package gives functions to use and reuse anywhere. It offers simplied Rest 
 - pretty-data
 - request
 - xml2js
+- moment
 
 ## How to install? ##
 ~~~
