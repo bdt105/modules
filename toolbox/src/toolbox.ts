@@ -549,7 +549,7 @@ export class Toolbox {
 
     addMomentToDate(date: Date, unit: string, value: number){
         var moment = require('moment');
-        var dd = moment();
+        var dd = moment(date);
         return dd.add(value, unit).toDate();
     }
 
