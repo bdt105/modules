@@ -557,8 +557,8 @@ export class Toolbox {
         return JSON.parse(JSON.stringify(object));
     }
 
-    translateFromObject(jsonArrray: any, text: string, language: string){
-        var rets = this.filterArrayOfObjects(jsonArrray, "key", text);
+    translateFromObject(jsonArray: any, text: string, language: string){
+        var rets = this.filterArrayOfObjects(jsonArray, "key", text);
         var ret = text;
         for (var i = 0; i < rets.length; i++) {
             var values = rets[i].values;
