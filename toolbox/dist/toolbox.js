@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = /** @class */ (function () {
+var Toolbox = (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
@@ -540,7 +540,7 @@ var Toolbox = /** @class */ (function () {
     ;
     Toolbox.prototype.addMomentToDate = function (date, unit, value) {
         var moment = require('moment');
-        var dd = moment();
+        var dd = moment(date);
         return dd.add(value, unit).toDate();
     };
     Toolbox.prototype.cloneObject = function (object) {
