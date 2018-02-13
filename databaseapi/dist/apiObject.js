@@ -107,7 +107,7 @@ class TableApi extends BaseApi {
             let queryAttributes = new databaseObject_2.QueryAttribute();
             queryAttributes.from = tableName;
             queryAttributes.select = "*";
-            queryAttributes.idFieldName = idFieldName;
+            queryAttributes.idFieldName = request.body.idFieldName;
             let callback = (err, data) => {
                 if (err) {
                     response.send(JSON.stringify(this.errorMessage(err)));

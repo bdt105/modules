@@ -129,7 +129,7 @@ export class TableApi extends BaseApi {
             let queryAttributes = new QueryAttribute();
             queryAttributes.from = tableName;
             queryAttributes.select = "*";
-            queryAttributes.idFieldName = idFieldName;
+            queryAttributes.idFieldName = request.body.idFieldName;
             
             let callback = (err: any, data: any) => {
                 if (err){
