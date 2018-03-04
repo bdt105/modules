@@ -70,8 +70,8 @@ export class DatabaseService {
         this.toolbox.log(body);
         this.toolbox.log(JSON.stringify(body));
         this.http.post(url, body, {headers: headrs}).subscribe(
-            (data) => this.manageData(callbackSuccess, data),
-            (error) => this.manageError(callbackFailure, error)
+            (data: any) => this.manageData(callbackSuccess, data),
+            (error: any) => this.manageError(callbackFailure, error)
         );
     }
 
@@ -79,8 +79,8 @@ export class DatabaseService {
         var headrs = this.setHeaders();
         this.toolbox.log(url);
         this.http.get(url, {headers: headrs}).subscribe(
-            (data) => this.manageData(callbackSuccess, data),
-            (error) => this.manageError(callbackFailure, error)
+            (data: any) => this.manageData(callbackSuccess, data),
+            (error: any) => this.manageError(callbackFailure, error)
         );
     }
 

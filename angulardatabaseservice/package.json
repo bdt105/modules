@@ -4,7 +4,7 @@
   "description": "Access to MySql database API",
   "main": "./dist/bundles/bdt105angulardatabaseservice.umd.js",
   "module": "./dist/index.js",
-  "typings": "./dist/index.d.ts",  
+  "typings": "./dist/index.d.ts",
   "repository": "https://github.com/bdt105/modules",
   "scripts": {
     "transpile": "ngc",

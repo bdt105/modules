@@ -44,7 +44,7 @@ export declare class Vidal {
     getHtmlStyle(): boolean;
     getApp_key(): string;
     getApp_id(): string;
-    getUrlCredentials(prefix: string): string;
+    getUrlCredentials(prefix: string, app_id?: string, app_key?: string): string;
     search(callback: Function, searchTerm: string): void;
     searchByCode(callback: Function, code: string): void;
     searchAllergies(callback: Function, params: string): void;
@@ -92,4 +92,5 @@ export declare class Vidal {
     getVigieHtml(data: any, title: string): string;
     getVersion(callback: Function, params: any, credentials?: any): void;
     refactorAlerts(alerts: any, idPrescription: string): any[];
+    checkCredentials(callback: Function, app_id: string, app_key: string): void;
 }

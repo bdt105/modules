@@ -1,6 +1,6 @@
 {
     "name": "bdt105angularconnexionservice",
-    "version": "1.0.5",
+    "version": "1.0.20",
     "description": "Connexion check",
     "main": "./dist/bundles/bdt105angularconnexionservice.umd.js",
     "module": "./dist/index.js",
@@ -19,8 +19,7 @@
     "license": "ISC",
     "dependencies": {
         "bdt105toolbox": "~1.0.55",
-        "bdt105angulardatabaseservice": "~1.0.3",
-        "bdt105vidal": "~1.0.44"
+        "bdt105angulardatabaseservice": "~1.0.3"
     },
     "devDependencies": {
         "@angular/core": "~4.0.0",
