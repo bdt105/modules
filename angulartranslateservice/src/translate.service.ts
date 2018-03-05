@@ -7,7 +7,7 @@ import { Toolbox } from 'bdt105toolbox/dist';
 export class TranslateService {
     translation: any[];
     
-    private configuration = {"translateTags": true};
+    private configuration = { "translateTags" : true};
     private toolbox: Toolbox = new Toolbox();
     
     constructor(private databaseService: DatabaseService, private connexionService: ConnexionService){
