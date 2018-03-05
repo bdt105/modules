@@ -40,7 +40,7 @@ export class TranslateService {
     }
 
     private loadFromDatabase(callBackSuccess: Function, callBackFailure: Function) {
-        var conn = this.connexionService.getConnexion();
+        var conn = this.connexionService.get();
         if (conn){
             this.databaseService.connect(conn.currentUser.login, conn.currentUser.password);
             var sql = "SELECT * FROM label where user = 'everyone' and domain = 'rest' and lang = '" + conn.currentUser.lang + "'";

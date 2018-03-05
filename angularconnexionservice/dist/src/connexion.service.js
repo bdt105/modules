@@ -89,7 +89,10 @@ var ConnexionService = /** @class */ (function () {
     };
     ConnexionService.prototype.isConnected = function () {
         var conn = this.get();
-        return conn && conn.currentUser;
+        if (conn && conn.currentUser) {
+            return true;
+        }
+        return false;
     };
     ConnexionService = __decorate([
         Injectable(),

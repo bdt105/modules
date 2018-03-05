@@ -1,6 +1,6 @@
 {
     "name": "bdt105angularconnexionservice",
-    "version": "1.0.20",
+    "version": "1.0.21",
     "description": "Connexion check",
     "main": "./dist/bundles/bdt105angularconnexionservice.umd.js",
     "module": "./dist/index.js",

@@ -16,7 +16,7 @@
   "author": "bdt105 <bdt105@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "bdt105toolbox": "~1.0.55"
+    "bdt105toolbox": "~1.0.65"
   },
   "devDependencies": {
     "@angular/core": "~4.0.0",

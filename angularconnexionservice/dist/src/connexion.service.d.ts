@@ -16,5 +16,5 @@ export declare class ConnexionService {
     private failure(customCallBackFailure, data);
     getUser(): any;
     getCurrentUser(): any;
-    isConnected(): any;
+    isConnected(): boolean;
 }

@@ -95,7 +95,10 @@ export class ConnexionService {
 
     public isConnected(){
         let conn = this.get();
-        return conn && conn.currentUser;
+        if (conn && conn.currentUser){
+            return true;
+        }
+        return false;
     }
 
 }
