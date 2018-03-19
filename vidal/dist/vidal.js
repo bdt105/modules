@@ -130,8 +130,8 @@ class Vidal {
         return this.configuration.app_id;
     }
     ;
-    getUrlCredentials(prefix) {
-        return prefix + "app_id=" + this.getApp_id() + "&app_key=" + this.getApp_key();
+    getUrlCredentials(prefix, app_id = null, app_key = null) {
+        return prefix + "app_id=" + (app_id ? app_id : this.getApp_id()) + "&app_key=" + (app_key ? app_key : this.getApp_key());
     }
     search(callback, searchTerm) {
         if (searchTerm && searchTerm.length > 2) {
@@ -746,6 +746,10 @@ class Vidal {
             }
         }
         return ret;
+    }
+    checkCredentials(callback, app_id, app_key) {
+        let url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.version + this.getUrlCredentials("?", app_id, app_key);
+        this.rest.call((data, error) => callback(data, error), "GET", url);
     }
 }
 exports.Vidal = Vidal;

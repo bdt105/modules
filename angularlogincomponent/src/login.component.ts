@@ -32,7 +32,7 @@ export class LoginComponent implements GenericComponent{
     }
 
     ngOnInit(){
-        this.connexion = this.connexionService.getConnexion();
+        this.connexion = this.connexionService.get();
     }
 
     translate(text: string){

@@ -9,7 +9,7 @@ export declare class Toolbox {
     arrayOfObjectsToString(array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string): string;
     urlParamsToObject(url: string): any;
     urlBase(url: string): string;
-    filterArrayOfObjects(array: any[], keySearch: string, keyValue: string): any[];
+    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any): any[];
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string): number;
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string): any[];
     updateUrlParameter(url: string, parameter: string, value: string): string;
@@ -45,6 +45,6 @@ export declare class Toolbox {
     replaceAll(text: string, search: string, replacement: string): string;
     addMomentToDate(date: Date, unit: string, value: number): any;
     cloneObject(object: any): any;
-    translateFromObject(jsonArrray: any, text: string, language: string): string;
+    translateFromObject(jsonArray: any, text: string, language: string): string;
     translateFromFile(text: string, language: string, fileName?: string): string;
 }

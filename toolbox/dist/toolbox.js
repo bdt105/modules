@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
@@ -546,8 +546,8 @@ var Toolbox = (function () {
     Toolbox.prototype.cloneObject = function (object) {
         return JSON.parse(JSON.stringify(object));
     };
-    Toolbox.prototype.translateFromObject = function (jsonArrray, text, language) {
-        var rets = this.filterArrayOfObjects(jsonArrray, "key", text);
+    Toolbox.prototype.translateFromObject = function (jsonArray, text, language) {
+        var rets = this.filterArrayOfObjects(jsonArray, "key", text);
         var ret = text;
         for (var i = 0; i < rets.length; i++) {
             var values = rets[i].values;

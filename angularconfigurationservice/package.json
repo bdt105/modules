@@ -1,17 +1,16 @@
 {
-    "name": "bdt105angulartranslateservice",
-    "version": "1.0.16",
-    "description": "Connexion check",
-    "main": "./dist/bundles/bdt105angulartranslateservice.umd.js",
+    "name": "bdt105angularconfigurationservice",
+    "version": "1.0.1",
+    "description": "Configuration",
+    "main": "./dist/bundles/bdt105angularconfigurationservice.umd.js",
     "module": "./dist/index.js",
     "typings": "./dist/index.d.ts",
     "repository": "https://github.com/bdt105/modules",
     "scripts": {
         "transpile": "ngc",
         "package": "rollup -c",
-        "minify": "uglifyjs dist/bundles/bdt105angulartranslateservice.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/bdt105angulartranslateservice.umd.min.js",
-        "build": "npm run transpile && npm run package && npm run minify",
-        "prepare": "tsc"
+        "minify": "uglifyjs dist/bundles/bdt105angularconfigurationservice.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/bdt105angularconfigurationservice.umd.min.js",
+        "build": "npm run transpile && npm run package && npm run minify"
     },
     "keywords": [
         "vidal"
@@ -19,9 +18,7 @@
     "author": "bdt105 <bdt105@gmail.com>",
     "license": "ISC",
     "dependencies": {
-        "bdt105toolbox": "~1.0.65",
-        "bdt105angulardatabaseservice": "~1.0.3",
-        "bdt105angularconnexionservice": "~1.0.20"
+        "bdt105toolbox": "~1.0.65"
     },
     "devDependencies": {
         "@angular/core": "^5.2.7",

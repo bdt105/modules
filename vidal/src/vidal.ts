@@ -134,8 +134,8 @@ export class Vidal {
         return this.configuration.app_id;
     };       
 
-    getUrlCredentials(prefix: string){
-        return prefix + "app_id=" + this.getApp_id() + "&app_key=" + this.getApp_key();
+    getUrlCredentials(prefix: string, app_id: string = null, app_key: string = null){
+        return prefix + "app_id=" + (app_id ? app_id : this.getApp_id()) + "&app_key=" + (app_key ? app_key : this.getApp_key());
     }
 
     search(callback: Function, searchTerm: string){
@@ -804,4 +804,9 @@ export class Vidal {
         }
         return ret;
     }    
+
+    checkCredentials(callback: Function, app_id: string, app_key: string){
+        let url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.version + this.getUrlCredentials("?", app_id, app_key);
+        this.rest.call((data: any, error: any) => callback(data, error), "GET", url);
+    }
 }

@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { Toolbox } from 'bdt105toolbox/dist';
-import { Vidal } from 'bdt105vidal/dist';
 
 @Injectable()
 export class ConnexionService {
@@ -10,29 +9,28 @@ export class ConnexionService {
 
     public redirectUrl: string;
 
-    private toolbox: Toolbox = new Toolbox();  
-    private vidal: Vidal = new Vidal("dbd540aa", "8343650ea233a4716f524ab77dc24948");  
+    private toolbox: Toolbox = new Toolbox();
 
-    constructor (private databaseService: DatabaseService){
+    constructor(@Inject(DatabaseService) public databaseService: DatabaseService ) {
 
     }
 
-    connectFake(){
-        let callback = function(){
+    public connectFake() {
+        let callback = () => {
 
         }
         this.connect(callback, callback, "chlux", "chlux", true);
     }
 
-    disconnect = function (){
+    disconnect() {
         this.toolbox.removeFromStorage("connexion")
         this.connexion = null;
         return true;
     };
-    
-    getConnexion = function(){
+
+    public get() {
         var conn = this.toolbox.readFromStorage("connexion");
-        if (typeof conn == "object"){
+        if (typeof conn == "object") {
             this.connexion = conn;
             return this.connexion;
         } else {
@@ -40,75 +38,67 @@ export class ConnexionService {
         }
     };
 
-    connect (customCallBackSuccess: Function, customCallBackFailure: Function, login: string, password: string, rememberMe: boolean){
+    public save(connexion: any = null, rememberMe: boolean = false){
+        if (connexion){
+            this.connexion = connexion;
+        }
+
+        this.toolbox.writeToStorage("connexion", this.connexion, rememberMe);        
+    }
+
+    public connect(customCallBackSuccess: Function, customCallBackFailure: Function, login: string, password: string, rememberMe: boolean) {
         this.databaseService.login = login;
         this.databaseService.password = password;
         var where = "email='" + login + "' AND password='" + password + "'";
-        var body = {"__where": where};
+        var body = { "__where": where };
         this.databaseService.read(
             (data: any) => this.success(customCallBackSuccess, rememberMe, data),
-            (data: any) => this.failure(customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data), this.tableName, body
+            (data: any) => this.failure(customCallBackSuccess, data), this.tableName, body
         );
     };
 
-	changeCurrentUserLang(lang: string){
-		if (this.connexion && this.connexion.currentUser){
-			this.connexion.currentUser.lang = lang;
-			this.toolbox.writeToStorage("connexion", this.connexion, false);
-		}
-	}    
+    public changeCurrentUserLang(lang: string) {
+        if (this.connexion && this.connexion.currentUser) {
+            this.connexion.currentUser.lang = lang;
+            this.toolbox.writeToStorage("connexion", this.connexion, false);
+        }
+    }
 
-    private success (customCallBackSuccess: Function, rememberMe: boolean, data: any){
+    private success(customCallBackSuccess: Function, rememberMe: boolean, data: any) {
         var currentUser = data.json.results[0];
         currentUser.login = currentUser.email;
-        this.connexion = {"currentUser": currentUser};
+        this.connexion = { "currentUser": currentUser };
         this.toolbox.writeToStorage("connexion", this.connexion, rememberMe)
-        if (customCallBackSuccess !== null){
+        if (customCallBackSuccess !== null) {
             customCallBackSuccess(this.connexion);
         }
     };
 
-    private successAfterLogin (customCallBackSuccess: Function, login: string, password: string, rememberMe: boolean, data: any){
-        var currentUser: any = {"login": login, "password": password};
-        this.connexion = {"currentUser": currentUser};
-        this.toolbox.writeToStorage("connexion", this.connexion, rememberMe)
-        if (customCallBackSuccess !== null){
-            customCallBackSuccess(this.connexion);
-        }
-    }
-    
-    private callbackAfterAfterLogin(data: any, error: any, customCallBackSuccess: Function, login: string, password: string, rememberMe: boolean){
-        var currentUser: any = {"login": "editeurs@vidal.fr", "password": "editeurs", "lang": "FR", "country": "FR"};
-        this.connexion = {"currentUser": currentUser};
-        this.toolbox.writeToStorage("connexion", this.connexion, rememberMe)
-        if (customCallBackSuccess !== null){
-            customCallBackSuccess(this.connexion);
-        }
-    }
-
-    private failureAfterAfterLogin(data: any, customCallBackFailure: Function){
+    private failure(customCallBackFailure: Function, data: any) {
         this.disconnect();
-        if (customCallBackFailure !== null){
+        if (customCallBackFailure !== null) {
             customCallBackFailure(data);
         }
     }
 
-    private failureAfterLogin (customCallBackSuccess: Function, customCallBackFailure: Function, login: string, password: string, rememberMe: boolean, data: any){
-        let params: any = [];
-        let callback = (data: any, error: any) => {
-            if (data){
-                this.callbackAfterAfterLogin(data, error, customCallBackSuccess, login, password, rememberMe);
-            }
-            if (error){
-                this.failureAfterAfterLogin(data, customCallBackFailure);
-            }
-        };
-        this.vidal.getVersion(
-            (data: any, error: any) => callback(data, error), params, "app_id=" + login + "&app_key=" + password);        
+    public getUser(){
+        let conn = this.get();
+        if (conn && conn.currentUser){
+            return conn.currentUser;
+        }
+        return null;
+    }    
+
+    public getCurrentUser(){
+        return this.getUser()
     }
-    
-    private failure (customCallBackSuccess: Function, customCallBackFailure: Function, login: string, password: string, rememberMe: boolean, data: any){
-        this.failureAfterLogin(customCallBackSuccess, customCallBackFailure, login, password, rememberMe, data);
-    };
-   
+
+    public isConnected(){
+        let conn = this.get();
+        if (conn && conn.currentUser){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -125,7 +125,7 @@ export class Toolbox {
         return arr1[0];
     } 
 
-    filterArrayOfObjects(array: any[], keySearch: string, keyValue: string){
+    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any){
         return array.filter(function (row) { return row[keySearch] == keyValue });
     }
 
