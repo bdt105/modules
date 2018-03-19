@@ -215,6 +215,27 @@ class Vidal {
         xml += "<frequencyType>" + prescriptionLine.frequencyType + "</frequencyType>";
         xml += (prescriptionLine.routeId ? "<routes><route>vidal://route/" + prescriptionLine.routeId + "</route></routes>" : "");
         xml += (prescriptionLine.indicationId && prescriptionLine.indicationId != "" ? "<indications><indication>vidal://indication/" + prescriptionLine.indicationId + "</indication></indications>" : "");
+        if (prescriptionLine.complexSchema == 1 && prescriptionLine.dosages) {
+            xml += "<dosages>";
+            for (var i = 0; i < prescriptionLine.dosages.length; i++) {
+                xml += "<dosage>";
+                xml += "<dose>" + prescriptionLine.dosages[i].dose + "</dose>";
+                xml += "<unitId>" + prescriptionLine.dosages[i].unitId + "</unitId>";
+                if (prescriptionLine.dosages[i].interval) {
+                    xml += "<interval>";
+                    xml += "<min>" + prescriptionLine.dosages[i].interval.min + "</min>";
+                    xml += "<max>" + prescriptionLine.dosages[i].interval.max + "</max>";
+                    xml += "<unitId>" + prescriptionLine.dosages[i].interval.unitId + "</unitId>";
+                    xml += "</interval>";
+                }
+                xml += "</dosage>";
+            }
+            xml += "</dosages>";
+            xml += "<period><startDate>" + prescriptionLine.startDate + "</startDate><endDate>" + prescriptionLine.endDate + "</endDate></period>";
+        }
+        xml += "<status>" + prescriptionLine.status + "</status>";
+        xml += prescriptionLine.group ? "<group><groupId>" + prescriptionLine.group.groupId + "</groupId>" + "<groupType>" + prescriptionLine.group.groupType + "</groupType></group>" : '';
+        xml += prescriptionLine.aldStatus ? "<aldStatus><ald>" + (prescriptionLine.aldStatus.ald == 1).toString() + "</ald>" + "<aldCode>" + prescriptionLine.aldStatus.aldCode + "</aldCode></aldStatus>" : '';
         return xml + "</prescription-line>";
     }
     getBasicPatientXml(patient) {
