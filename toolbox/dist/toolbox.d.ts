@@ -47,4 +47,5 @@ export declare class Toolbox {
     cloneObject(object: any): any;
     translateFromObject(jsonArray: any, text: string, language: string): string;
     translateFromFile(text: string, language: string, fileName?: string): string;
+    jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean): string;
 }
