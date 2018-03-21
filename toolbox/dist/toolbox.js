@@ -583,7 +583,8 @@ var Toolbox = (function () {
         }
         return ret;
     };
-    Toolbox.prototype.jsonToCsv = function (data, title, showLabel, download) {
+    Toolbox.prototype.jsonToCsv = function (data, title, showLabel, download, separator) {
+        if (separator === void 0) { separator = ";"; }
         //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
         var arrData = typeof data != 'object' ? JSON.parse(data) : data;
         var CSV = '';
@@ -595,7 +596,7 @@ var Toolbox = (function () {
             //This loop will extract the label from 1st index of on array
             for (var index in arrData[0]) {
                 //Now convert each value to string and comma-seprated
-                row += index + ',';
+                row += index + separator;
             }
             row = row.slice(0, -1);
             //append Label row with line break
@@ -606,7 +607,7 @@ var Toolbox = (function () {
             var row = "";
             //2nd loop will extract each column and convert it in string comma-seprated
             for (var index in arrData[i]) {
-                row += '"' + arrData[i][index] + '",';
+                row += '"' + arrData[i][index] + '"' + separator;
             }
             row.slice(0, row.length - 1);
             //add a line break after each row
@@ -621,7 +622,7 @@ var Toolbox = (function () {
         }
         else {
             //Generate a file name
-            var fileName = "MyReport_";
+            var fileName = "report_";
             //this will remove the blank-spaces from the title and replace it with an underscore
             fileName += title.replace(/ /g, "_");
             //Initialize file format you want csv or xls

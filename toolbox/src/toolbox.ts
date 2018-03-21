@@ -598,7 +598,7 @@ export class Toolbox {
         return ret;
     }
 
-    jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean) {
+    jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean, separator: string = ";") {
         //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
         var arrData = typeof data != 'object' ? JSON.parse(data) : data;
         
@@ -615,7 +615,7 @@ export class Toolbox {
             for (var index in arrData[0]) {
                 
                 //Now convert each value to string and comma-seprated
-                row += index + ',';
+                row += index + separator;
             }
     
             row = row.slice(0, -1);
@@ -630,7 +630,7 @@ export class Toolbox {
             
             //2nd loop will extract each column and convert it in string comma-seprated
             for (var index in arrData[i]) {
-                row += '"' + arrData[i][index] + '",';
+                row += '"' + arrData[i][index] + '"' + separator;
             }
     
             row.slice(0, row.length - 1);
@@ -648,7 +648,7 @@ export class Toolbox {
             return CSV;
         }else{
             //Generate a file name
-            var fileName = "MyReport_";
+            var fileName = "report_";
             //this will remove the blank-spaces from the title and replace it with an underscore
             fileName += title.replace(/ /g,"_");   
             
