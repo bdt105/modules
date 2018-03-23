@@ -4,22 +4,31 @@ declare function escape(s:string): string;
 
 export class Toolbox {
 
-    formatDate(date: Date) {
+    formatDate(date: Date, format: string = "MM/DD/YYYY h:mm:ss") {
         if (date){
-            var year = date.getFullYear(),
-                month = date.getMonth() + 1, // months are zero indexed
-                day = date.getDate(),
-                hour = date.getHours(),
-                minute = date.getMinutes(),
-                second = date.getSeconds(),
-                hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-                minuteFormatted = minute < 10 ? "0" + minute : minute,
-                morning = hour < 12 ? "am" : "pm";
-        
-            return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
-        }else{
-            return "";
+            var moment = require('moment');
+            if (this.isValidDate(date)){
+                var d = moment(date);
+                return d.format(format);      
+            }                  
         }
+        return null;
+
+        // if (date){
+        //     var year = date.getFullYear(),
+        //         month = date.getMonth() + 1, // months are zero indexed
+        //         day = date.getDate(),
+        //         hour = date.getHours(),
+        //         minute = date.getMinutes(),
+        //         second = date.getSeconds(),
+        //         hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+        //         minuteFormatted = minute < 10 ? "0" + minute : minute,
+        //         morning = hour < 12 ? "am" : "pm";
+        
+        //     return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        // }else{
+        //     return "";
+        // }
     }   
     
     dateToDbString(date: Date){

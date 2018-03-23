@@ -4,16 +4,30 @@ var index_1 = require("./index");
 var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
-    Toolbox.prototype.formatDate = function (date) {
+    Toolbox.prototype.formatDate = function (date, format) {
+        if (format === void 0) { format = "MM/DD/YYYY h:mm:ss"; }
         if (date) {
-            var year = date.getFullYear(), month = date.getMonth() + 1, // months are zero indexed
-            day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds(), hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-            minuteFormatted = minute < 10 ? "0" + minute : minute, morning = hour < 12 ? "am" : "pm";
-            return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+            var moment = require('moment');
+            if (this.isValidDate(date)) {
+                var d = moment(date);
+                return d.format(format);
+            }
         }
-        else {
-            return "";
-        }
+        return null;
+        // if (date){
+        //     var year = date.getFullYear(),
+        //         month = date.getMonth() + 1, // months are zero indexed
+        //         day = date.getDate(),
+        //         hour = date.getHours(),
+        //         minute = date.getMinutes(),
+        //         second = date.getSeconds(),
+        //         hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+        //         minuteFormatted = minute < 10 ? "0" + minute : minute,
+        //         morning = hour < 12 ? "am" : "pm";
+        //     return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
+        // }else{
+        //     return "";
+        // }
     };
     Toolbox.prototype.dateToDbString = function (date) {
         return date.toISOString().substr(0, 19).replace('T', ' ');
