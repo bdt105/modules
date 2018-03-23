@@ -40,7 +40,7 @@ export class Toolbox {
         var moment = require('moment');
         if (this.isValidDate(date)){
             var d = moment(date);
-            return d.format('L') + " " + showTime ? d.format('LTS'): "";
+            return d.format('L') + (showTime ? " " + d.format('LTS'): "");
         }else{
             return "";
         }

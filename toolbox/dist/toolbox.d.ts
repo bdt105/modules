@@ -2,7 +2,7 @@ export declare class Toolbox {
     formatDate(date: Date): string;
     dateToDbString(date: Date): string;
     isoDateToDbString(date: string): string;
-    formatDateToLocal(date: Date, showTime?: boolean): any;
+    formatDateToLocal(date: Date, showTime?: boolean): string;
     CSVtoArray(text: string): string[];
     arrayToCSV(array: string[], separator?: string): string;
     levenshtein(a: string, b: string): number;

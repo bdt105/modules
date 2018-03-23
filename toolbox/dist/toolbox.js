@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date) {
@@ -32,7 +32,7 @@ var Toolbox = (function () {
         var moment = require('moment');
         if (this.isValidDate(date)) {
             var d = moment(date);
-            return d.format('L') + " " + showTime ? d.format('LTS') : "";
+            return d.format('L') + (showTime ? " " + d.format('LTS') : "");
         }
         else {
             return "";
