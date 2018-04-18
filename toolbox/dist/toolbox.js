@@ -369,6 +369,9 @@ var Toolbox = /** @class */ (function () {
         var crypto = require("crypto");
         return crypto.randomBytes(16).toString("hex");
     };
+    Toolbox.prototype.getUniqueId = function () {
+        return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+    };
     Toolbox.prototype.beautifyXml = function (text) {
         if (text && text != null) {
             var pd = require('pretty-data').pd;

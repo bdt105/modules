@@ -380,6 +380,10 @@ export class Toolbox {
         return crypto.randomBytes(16).toString("hex");
     }
 
+    getUniqueId(){
+        return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+    }
+
     beautifyXml (text: string){
         if (text && text != null){
             var pd = require('pretty-data').pd;
