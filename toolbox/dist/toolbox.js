@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = /** @class */ (function () {
+var Toolbox = (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date, format) {
@@ -71,6 +71,22 @@ var Toolbox = /** @class */ (function () {
             ret += (ret == "" ? "" : separator) + array[i];
         }
         return ret;
+    };
+    Toolbox.prototype.shuffleArray = function (array) {
+        var counter = array.length;
+        var arr = this.cloneObject(array);
+        // While there are elements in the array
+        while (counter > 0) {
+            // Pick a random index
+            var index = Math.floor(Math.random() * counter);
+            // Decrease counter by 1
+            counter--;
+            // And swap the last element with it
+            var temp = arr[counter];
+            arr[counter] = arr[index];
+            arr[index] = temp;
+        }
+        return arr;
     };
     Toolbox.prototype.levenshtein = function (a, b) {
         var an = a ? a.length : 0;

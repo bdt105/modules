@@ -5,6 +5,7 @@ export declare class Toolbox {
     formatDateToLocal(date: Date, showTime?: boolean): string;
     CSVtoArray(text: string): string[];
     arrayToCSV(array: string[], separator?: string): string;
+    shuffleArray(array: any[]): any;
     levenshtein(a: string, b: string): number;
     arrayOfObjectsToString(array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string): string;
     urlParamsToObject(url: string): any;
