@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
-var Toolbox = (function () {
+var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date, format) {
@@ -447,13 +447,14 @@ var Toolbox = (function () {
             return false;
         }
     };
-    Toolbox.prototype.readFromStorage = function (key) {
+    Toolbox.prototype.readFromStorage = function (key, parseJson) {
+        if (parseJson === void 0) { parseJson = true; }
         if (sessionStorage) {
             var res = sessionStorage.getItem(key);
             if (localStorage && res == null) {
                 res = localStorage.getItem(key);
             }
-            return this.parseJson(res);
+            return (parseJson ? this.parseJson(res) : res);
         }
         else {
             return null;

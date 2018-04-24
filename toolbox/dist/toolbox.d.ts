@@ -35,7 +35,7 @@ export declare class Toolbox {
     writeToStorage(key: string, object: any, forever: boolean): void;
     parseJson(str: string): any;
     isJson(str: string): boolean;
-    readFromStorage(key: string): any;
+    readFromStorage(key: string, parseJson?: boolean): any;
     removeFromStorage(key: string): void;
     xml2json(xml: string, callback?: Function): any;
     fillDocWithContent(doc: any, content: string): void;

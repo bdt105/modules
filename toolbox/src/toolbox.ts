@@ -463,13 +463,13 @@ export class Toolbox {
         }        
     }
 
-    readFromStorage (key: string){
+    readFromStorage (key: string, parseJson: boolean = true){
         if (sessionStorage){
             var res = sessionStorage.getItem(key);
             if (localStorage && res == null){
                 res = localStorage.getItem(key);
             }
-            return this.parseJson(res);
+            return (parseJson ? this.parseJson(res) : res);
         }else{
             return null;
         }
