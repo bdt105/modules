@@ -171,6 +171,30 @@ export class Toolbox {
         return -1;
     }
 
+    deleteObjectInList(array: any[], keySearch: string, keyValue: string){
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0){
+            array.splice(index, 1);
+        }
+        return index;
+    }
+
+    replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any){
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0){
+            array.splice(index, 1, object);
+        }
+        return index;        
+    }
+
+    insertObjectInList(array: any[], keySearch: string, keyValue: string, object: any){
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0){
+            array.splice(index, 0, object);
+        }
+        return index;
+    }
+
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string){
         let rows = [];
         for (var i = 0; i < data.length; i++){

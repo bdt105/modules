@@ -159,6 +159,27 @@ var Toolbox = /** @class */ (function () {
         }
         return -1;
     };
+    Toolbox.prototype.deleteObjectInList = function (array, keySearch, keyValue) {
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0) {
+            array.splice(index, 1);
+        }
+        return index;
+    };
+    Toolbox.prototype.replaceObjectInList = function (array, keySearch, keyValue, object) {
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0) {
+            array.splice(index, 1, object);
+        }
+        return index;
+    };
+    Toolbox.prototype.insertObjectInList = function (array, keySearch, keyValue, object) {
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index > 0) {
+            array.splice(index, 0, object);
+        }
+        return index;
+    };
     Toolbox.prototype.factorizeMasterSlave = function (data, masterIdFieldName, slaveIdFieldName, slaveName) {
         var rows = [];
         for (var i = 0; i < data.length; i++) {

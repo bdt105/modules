@@ -12,6 +12,9 @@ export declare class Toolbox {
     urlBase(url: string): string;
     filterArrayOfObjects(array: any[], keySearch: string, keyValue: any): any[];
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string): number;
+    deleteObjectInList(array: any[], keySearch: string, keyValue: string): number;
+    replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
+    insertObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string): any[];
     updateUrlParameter(url: string, parameter: string, value: string): string;
     updateUrlParameters(url: string, parameters: any[]): string;
