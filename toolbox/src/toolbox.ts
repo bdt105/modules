@@ -733,5 +733,20 @@ export class Toolbox {
         }
     }    
 
+    extractFromArray(array: any, key: string, value: any, keepIfNoKey: boolean){
+        let ret = [];
+        for (var i = 0; i< array.length; i++){
+            if (array[i][key] == undefined){
+                if (keepIfNoKey){
+                    ret.push(array[i]);
+                }
+            }else{
+                if (array[i][key] == value){
+                    ret.push(array[i]);
+                }
+            }
+        }
+        return ret;
+    }    
 
 }

@@ -53,4 +53,5 @@ export declare class Toolbox {
     translateFromObject(jsonArray: any, text: string, language: string): string;
     translateFromFile(text: string, language: string, fileName?: string): string;
     jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean, separator?: string): string;
+    extractFromArray(array: any, key: string, value: any, keepIfNoKey: boolean): any[];
 }

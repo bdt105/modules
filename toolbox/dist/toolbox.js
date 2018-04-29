@@ -698,6 +698,22 @@ var Toolbox = /** @class */ (function () {
             document.body.removeChild(link);
         }
     };
+    Toolbox.prototype.extractFromArray = function (array, key, value, keepIfNoKey) {
+        var ret = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] == undefined) {
+                if (keepIfNoKey) {
+                    ret.push(array[i]);
+                }
+            }
+            else {
+                if (array[i][key] == value) {
+                    ret.push(array[i]);
+                }
+            }
+        }
+        return ret;
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;
