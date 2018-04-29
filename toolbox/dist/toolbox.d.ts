@@ -54,4 +54,6 @@ export declare class Toolbox {
     translateFromFile(text: string, language: string, fileName?: string): string;
     jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean, separator?: string): string;
     extractFromArray(array: any, key: string, value: any, keepIfNoKey: boolean): any[];
+    noAccent(text: string): string;
+    compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean;
 }

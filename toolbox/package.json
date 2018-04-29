@@ -1,6 +1,6 @@
 {
   "name": "bdt105toolbox",
-  "version": "1.0.80",
+  "version": "1.0.81",
   "description": "Toolbox: several tools",
   "main": "index.js",
   "repository": {

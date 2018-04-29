@@ -7,6 +7,8 @@ var moment = require('moment');
 var d = moment();
 var f = d.format("L LTS");
 
+var c = t.compareString("Je suis à vendre", "vendre", true, true, false, true);
+
 var s = t.beautifyJson('{"a1": "0", "a2": "2"}');
 console.log(s);
 

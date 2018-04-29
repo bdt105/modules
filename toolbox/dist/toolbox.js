@@ -714,6 +714,46 @@ var Toolbox = /** @class */ (function () {
         }
         return ret;
     };
+    Toolbox.prototype.noAccent = function (text) {
+        var accent = [
+            /[\300-\306]/g, /[\340-\346]/g,
+            /[\310-\313]/g, /[\350-\353]/g,
+            /[\314-\317]/g, /[\354-\357]/g,
+            /[\322-\330]/g, /[\362-\370]/g,
+            /[\331-\334]/g, /[\371-\374]/g,
+            /[\321]/g, /[\361]/g,
+            /[\307]/g, /[\347]/g,
+        ];
+        var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
+        var str = text;
+        for (var i = 0; i < accent.length; i++) {
+            str = str.replace(accent[i], noaccent[i]);
+        }
+        return str;
+    };
+    Toolbox.prototype.compareString = function (text1, text2, caseSensitive, accentSensitive, exactMatching, include) {
+        var t1 = text1;
+        var t2 = text2;
+        if (!accentSensitive) {
+            t1 = this.noAccent(text1);
+            t2 = this.noAccent(text2);
+        }
+        if (!caseSensitive) {
+            t1 = this.noAccent(t1).toUpperCase();
+            t2 = this.noAccent(t2).toUpperCase();
+        }
+        if (exactMatching) {
+            return text1 == text2;
+        }
+        else {
+            if (!include) {
+                return t1 == t2;
+            }
+            else {
+                return t1.indexOf(t2) != -1;
+            }
+        }
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;
