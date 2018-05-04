@@ -754,6 +754,9 @@ var Toolbox = /** @class */ (function () {
             }
         }
     };
+    Toolbox.prototype.randomPassword = function () {
+        return Math.random().toString(36).slice(-8);
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

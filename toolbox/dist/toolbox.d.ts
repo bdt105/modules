@@ -56,4 +56,5 @@ export declare class Toolbox {
     extractFromArray(array: any, key: string, value: any, keepIfNoKey: boolean): any[];
     noAccent(text: string): string;
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean;
+    randomPassword(): string;
 }
