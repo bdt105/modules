@@ -1,6 +1,6 @@
 {
     "name": "bdt105angulartranslateservice",
-    "version": "1.0.16",
+    "version": "2.0.0",
     "description": "Connexion check",
     "main": "./dist/bundles/bdt105angulartranslateservice.umd.js",
     "module": "./dist/index.js",

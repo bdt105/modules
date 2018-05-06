@@ -1,64 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Toolbox } from 'bdt105toolbox/dist';
+
 
 @Injectable()
 export class ConfigurationService {
 
-    private toolbox: Toolbox = new Toolbox(); 
-    public data: any; 
-    private url = './assets/configuration.json';
-    private storageKey = "configuration";
+    private data: any;
+    private toolbox: Toolbox = new Toolbox();
 
-    constructor (private http: Http){
-        let callback = ()=>{
+    constructor(private http: Http) {
 
-        }
-        this.init(callback, callback);
     }
 
-    public load(): Promise<boolean> {
-        return new Promise <boolean> ((resolve) => {
-            let conf = this.get(); 
-            if (!conf){
-                setTimeout(() => {
-                    console.log('hello world');
+    public get(name: string): any {
+        return this.toolbox.readFromStorage(name);
+    }
+
+    load(name: string, fileUrl: string, forever: boolean) {
+        console.log("loading ..." + name)
+        if (!this.data){
+            this.data = [];
+        }
+        return new Promise((resolve, reject) => {
+            this.http
+                .get(fileUrl)
+                .map(res => res.json())
+                .subscribe(response => {
+                    this.data[name] = response;
+                    this.toolbox.writeToStorage(name, response, forever);
+                    console.log(name + " loading complete", this.data)
                     resolve(true);
-                }, 2000);
-            }else{
-                resolve(true);
-            }
-        });
-    }    
-
-    public get(){
-        this.data = this.toolbox.readFromStorage(this.storageKey);
-        if (this.data){
-            return this.data; 
-        }
-        return null;
-    }
-
-    public init (callbackSuccess: Function, callbackFailure: Function){
-        this.http.get(this.url).subscribe(
-            (data: any) => this.manageData(callbackSuccess, data),
-            (error: any) => this.manageError(callbackFailure, error)
-        );
-    }
-
-    private manageData (callbackSuccess: Function, data: any){
-        this.toolbox.log(data);
-        this.data = this.toolbox.parseJson(data._body);
-        this.toolbox.writeToStorage(this.storageKey, this.data, false);
-        if (callbackSuccess){
-            callbackSuccess(this.data);
-        }
-    };
-
-    private manageError (callbackFailure: Function, error: any){
-        console.log(error);
-        if (callbackFailure){
-            callbackFailure(error);
-        }        
-    };
+                })
+        })
+    }  
 }
