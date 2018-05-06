@@ -149,7 +149,12 @@ var Toolbox = /** @class */ (function () {
         return arr1[0];
     };
     Toolbox.prototype.filterArrayOfObjects = function (array, keySearch, keyValue) {
-        return array.filter(function (row) { return row[keySearch] == keyValue; });
+        if (array && Array.isArray(array)) {
+            return array.filter(function (row) { return row[keySearch] == keyValue; });
+        }
+        else {
+            return array;
+        }
     };
     Toolbox.prototype.findIndexArrayOfObjects = function (array, keySearch, keyValue) {
         for (var i = 0; i < array.length; i++) {

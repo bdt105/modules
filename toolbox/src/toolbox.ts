@@ -159,7 +159,11 @@ export class Toolbox {
     } 
 
     filterArrayOfObjects(array: any[], keySearch: string, keyValue: any){
-        return array.filter(function (row) { return row[keySearch] == keyValue });
+        if (array && Array.isArray(array)){
+            return array.filter(function (row) { return row[keySearch] == keyValue });
+        }else{
+            return array;
+        }
     }
 
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string){
