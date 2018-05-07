@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const dist_1 = require("bdt105toolbox/dist");
 class MySqlConfiguration {
-    constructor(host, port, user, password, database, userTableName = null, idFieldName = null, loginFieldName = null, passwordFieldName = null) {
+    constructor(host, port, user, password, database, userTableName = null, idFieldName = null, loginFieldName = null, passwordFieldName = null, emailFieldName = null) {
         this.host = host;
         this.user = user;
         this.password = password;
@@ -11,6 +11,7 @@ class MySqlConfiguration {
         this.userTableName = userTableName;
         this.loginFieldName = loginFieldName;
         this.passwordFieldName = passwordFieldName;
+        this.emailFieldName = passwordFieldName;
         this.idFieldName = idFieldName;
     }
 }
