@@ -290,7 +290,7 @@ export class DatabaseTable extends DatabaseRecordset {
      * @param {string} id - Id of the record
      * @return {void}
      */    
-    save (callback: Function, body: any){
+    save (callback: Function, body: any): void{
         let where = this.attributes.idFieldName + "='" + body[this.attributes.idFieldName] + "'";
         let sql = "SELECT * FROM " + this.attributes.from + " WHERE " + where;
         this.query((err: any, rows: any) => this.callbackUnique(callback, body, body[this.attributes.idFieldName], err, rows), sql);

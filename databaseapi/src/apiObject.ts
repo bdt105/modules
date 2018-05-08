@@ -129,7 +129,7 @@ export class TableApi extends BaseApi {
             let queryAttributes = new QueryAttribute();
             queryAttributes.from = tableName;
             queryAttributes.select = "*";
-            queryAttributes.idFieldName = request.body.idFieldName;
+            queryAttributes.idFieldName = request.body.idFieldName.toString();
             
             let callback = (err: any, data: any) => {
                 if (err){
@@ -140,22 +140,29 @@ export class TableApi extends BaseApi {
                 }
             }
 
-            if (this.requiresToken){
-                let authent = this.connexion.checkJwt(token);
-                if (!authent.decoded){
-                    response.send(this.errorMessage("Token is absent or invalid"))
-                    return;
-                }
-            }
-        
             if (!object){
                 response.send(this.errorMessage('Please define a ' + tableName + '"object":{...}'));
                 return;
             }
         
-            if (!idFieldName){
-                response.send(this.errorMessage('Please define an idFieldName'));
+            if (!queryAttributes.idFieldName){
+                response.send(this.errorMessage('Please define an "idFieldName": "xxx" in you request body'));
                 return;
+            }
+        
+            if (this.requiresToken){
+                let authent: any = this.connexion.checkJwt(token);
+                if (!authent.decoded){
+                    response.send(this.errorMessage("Token is absent or invalid"))
+                    return;
+                }else{
+                    if (object[queryAttributes.idFieldName]){ // That's an update
+                        if (authent.decoded[queryAttributes.idFieldName] != object[queryAttributes.idFieldName]){
+                            response.send(this.errorMessage("You can update only your self (id in obejct identical to id of token)"));
+                            return;
+                        }
+                    }
+                }
             }
         
             let table = new DatabaseTable(this.connexion, queryAttributes);
@@ -163,7 +170,7 @@ export class TableApi extends BaseApi {
             table.save(callback, object);
         });
         
-        // Get an empty record
+        // Gets an empty record
         this.app.post('/' + tableName + '/fresh', upload.array(), (request: any, response: any) => {
             let token = request.body.token;
             let queryAttributes = new QueryAttribute();
@@ -210,10 +217,15 @@ export class TableApi extends BaseApi {
             }
 
             if (this.requiresToken){
-                let authent = this.connexion.checkJwt(token);
+                let authent: any = this.connexion.checkJwt(token);
                 if (!authent.decoded){
                     response.send(this.errorMessage("Token is absent or invalid"))
                     return;
+                }else{
+                    if (authent.decoded.type != 1){
+                        response.send(this.errorMessage("This function is for administrators only"));
+                        return;
+                    }
                 }
             }
                 
