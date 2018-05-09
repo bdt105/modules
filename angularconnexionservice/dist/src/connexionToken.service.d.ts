@@ -1,6 +1,6 @@
 import { Http } from '@angular/http';
 export declare class ConnexionTokenService {
-    private http;
+    http: Http;
     private toolbox;
     private translateData;
     private currentText;
@@ -10,6 +10,7 @@ export declare class ConnexionTokenService {
     authentificationApiBaseUrl: string;
     constructor(http: Http);
     connect(callbackSuccess: Function, callbackFailure: Function, log: string, passwd: string, forever?: boolean): void;
+    connect2(http: Http, callbackSuccess: Function, callbackFailure: Function, log: string, passwd: string, forever?: boolean): void;
     private getFakeUser();
     private connexionSuccess(callback, data, forever);
     private connexionFailure(callback, error);

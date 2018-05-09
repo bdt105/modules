@@ -1,6 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, ReflectiveInjector } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
-import { Http } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
+
 
 @Injectable()
 export class ConnexionTokenService {
@@ -14,14 +15,28 @@ export class ConnexionTokenService {
 
     public authentificationApiBaseUrl = "";
 
-    constructor(@Inject(Http) private http: Http){
+    constructor(@Inject(Http) public http: Http){
     }
 
     public connect (callbackSuccess: Function, callbackFailure: Function, log: string, passwd: string, forever: boolean = false){
         let body: any = {};
         body.login = log;
         body.password = passwd;
+
         this.http.post(this.authentificationApiBaseUrl + "get", body).subscribe(
+            (data: any) => this.connexionSuccess(callbackSuccess, data, forever),
+            (error: any) => this.connexionFailure(callbackFailure, error)
+        );
+        // Fake connexion
+        // let fakeUser = this.getFakeUser();
+    }
+
+    public connect2 (http: Http, callbackSuccess: Function, callbackFailure: Function, log: string, passwd: string, forever: boolean = false){
+        let body: any = {};
+        body.login = log;
+        body.password = passwd;
+
+        http.post(this.authentificationApiBaseUrl + "get", body).subscribe(
             (data: any) => this.connexionSuccess(callbackSuccess, data, forever),
             (error: any) => this.connexionFailure(callbackFailure, error)
         );

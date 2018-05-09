@@ -29,6 +29,16 @@ var ConnexionTokenService = /** @class */ (function () {
         // Fake connexion
         // let fakeUser = this.getFakeUser();
     };
+    ConnexionTokenService.prototype.connect2 = function (http, callbackSuccess, callbackFailure, log, passwd, forever) {
+        var _this = this;
+        if (forever === void 0) { forever = false; }
+        var body = {};
+        body.login = log;
+        body.password = passwd;
+        http.post(this.authentificationApiBaseUrl + "get", body).subscribe(function (data) { return _this.connexionSuccess(callbackSuccess, data, forever); }, function (error) { return _this.connexionFailure(callbackFailure, error); });
+        // Fake connexion
+        // let fakeUser = this.getFakeUser();
+    };
     ConnexionTokenService.prototype.getFakeUser = function () {
         return {
             "iduser": 1,

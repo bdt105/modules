@@ -8,8 +8,9 @@ export declare class MySqlConfiguration {
     loginFieldName: string;
     passwordFieldName: string;
     emailFieldName: string;
+    applicationFieldName: string;
     idFieldName: string;
-    constructor(host: string, port: number, user: string, password: string, database: string, userTableName?: string, idFieldName?: string, loginFieldName?: string, passwordFieldName?: string, emailFieldName?: string);
+    constructor(host: string, port: number, user: string, password: string, database: string, userTableName?: string, idFieldName?: string, loginFieldName?: string, passwordFieldName?: string, emailFieldName?: string, applicationFieldName?: string);
 }
 export declare class JwtConfiguration {
     secret: string;
