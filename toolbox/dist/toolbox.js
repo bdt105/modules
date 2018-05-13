@@ -148,9 +148,16 @@ var Toolbox = /** @class */ (function () {
         var arr1 = url.split("?");
         return arr1[0];
     };
-    Toolbox.prototype.filterArrayOfObjects = function (array, keySearch, keyValue) {
+    Toolbox.prototype.filterArrayOfObjects = function (array, keySearch, keyValue, caseSensitive, accentSensitive, exactMatching, include) {
+        var _this = this;
+        if (caseSensitive === void 0) { caseSensitive = false; }
+        if (accentSensitive === void 0) { accentSensitive = false; }
+        if (exactMatching === void 0) { exactMatching = true; }
+        if (include === void 0) { include = false; }
         if (array && Array.isArray(array)) {
-            return array.filter(function (row) { return row[keySearch] == keyValue; });
+            return array.filter(function (row) {
+                return _this.compareString(row[keySearch], keyValue, caseSensitive, accentSensitive, exactMatching, include);
+            });
         }
         else {
             return array;

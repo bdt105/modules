@@ -1,23 +1,23 @@
 {
-  "name": "bdt105toolbox",
-  "version": "1.0.86",
-  "description": "Toolbox: several tools",
-  "main": "index.js",
-  "repository": {
-    "url": "https://github.com/bdt105/toolbox"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "moment": "^2.20.1",
-    "pretty-data": "^0.40.0",
-    "request": "^2.83.0",
-    "xml2js": "^0.4.19"
-  },
-  "devDependencies": {
-    "@types/node": "^8.0.44"
-  }
+    "name": "bdt105toolbox",
+    "version": "1.0.87",
+    "description": "Toolbox: several tools",
+    "main": "index.js",
+    "repository": {
+        "url": "https://github.com/bdt105/toolbox"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "moment": "^2.20.1",
+        "pretty-data": "^0.40.0",
+        "request": "^2.83.0",
+        "xml2js": "^0.4.19"
+    },
+    "devDependencies": {
+        "@types/node": "^8.0.44"
+    }
 }

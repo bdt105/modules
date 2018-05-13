@@ -10,7 +10,7 @@ export declare class Toolbox {
     arrayOfObjectsToString(array: any, fieldName: string, value: string, separator: string, prefix: string, suffix: string): string;
     urlParamsToObject(url: string): any;
     urlBase(url: string): string;
-    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any): any[];
+    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any, caseSensitive?: boolean, accentSensitive?: boolean, exactMatching?: boolean, include?: boolean): any[];
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string): number;
     deleteObjectInList(array: any[], keySearch: string, keyValue: string): number;
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;

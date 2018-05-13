@@ -158,9 +158,12 @@ export class Toolbox {
         return arr1[0];
     } 
 
-    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any){
+    filterArrayOfObjects(array: any[], keySearch: string, keyValue: any, 
+        caseSensitive: boolean = false, accentSensitive: boolean = false, exactMatching: boolean = true, include: boolean = false){
         if (array && Array.isArray(array)){
-            return array.filter(function (row) { return row[keySearch] == keyValue });
+            return array.filter((row) => {
+                return this.compareString(row[keySearch], keyValue, caseSensitive, accentSensitive, exactMatching, include);
+            });
         }else{
             return array;
         }
