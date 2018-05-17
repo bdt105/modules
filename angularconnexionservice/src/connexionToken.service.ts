@@ -70,8 +70,8 @@ export class ConnexionTokenService {
         this.removeConnexion();
     }
 
-    public isConnected(){
-        let conn = this.get();
+    public isConnected(storageKey = ""){
+        let conn = this.get(storageKey);
         if (conn){
             return conn.decoded != null;
         }else{
@@ -79,12 +79,12 @@ export class ConnexionTokenService {
         }
     }
 
-    public get(){
-        return this.toolbox.readFromStorage(this.storageKey);
+    public get(storageKey = ""){
+        return this.toolbox.readFromStorage(storageKey ? storageKey : this.storageKey);
     }
 
-    public getToken(){
-        let conn = this.get();
+    public getToken(storageKey = ""){
+        let conn = this.get(storageKey);
         if (conn){
             return conn.token;
         }
@@ -99,8 +99,8 @@ export class ConnexionTokenService {
         this.toolbox.removeFromStorage(this.storageKey);
     }
 
-    public getUser(){
-        let conn = this.get();
+    public getUser(storageKey = ""){
+        let conn = this.get(storageKey);
         if (conn && conn.decoded){
             return conn.decoded;
         }

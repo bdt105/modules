@@ -1,0 +1,1 @@
+{"version":3,"file":"connexionToken.service.ngfactory.js","sourceRoot":"","sources":["../../src/connexionToken.service.ngfactory.ts"],"names":[],"mappings":"","sourcesContent":["import * as i0 from '@angular/core';\ni0.ComponentFactory;\n"]}
