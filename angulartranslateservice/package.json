@@ -1,6 +1,6 @@
 {
     "name": "bdt105angulartranslateservice",
-    "version": "2.0.0",
+    "version": "2.0.4",
     "description": "Connexion check",
     "main": "./dist/bundles/bdt105angulartranslateservice.umd.js",
     "module": "./dist/index.js",
@@ -20,8 +20,8 @@
     "license": "ISC",
     "dependencies": {
         "bdt105toolbox": "~1.0.65",
-        "bdt105angulardatabaseservice": "~1.0.3",
-        "bdt105angularconnexionservice": "~1.0.20"
+        "bdt105angulardatabaseservice": "~1.0.5",
+        "bdt105angularconnexionservice": "~2.0.14"
     },
     "devDependencies": {
         "@angular/core": "^5.2.7",

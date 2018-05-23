@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, RequestOptions, RequestMethod, Headers } from '@angular/http';
+import { Injectable, Inject } from '@angular/core';
+import { Http, HttpModule, RequestOptions, RequestMethod, Headers } from '@angular/http';
 import { Toolbox } from 'bdt105toolbox/dist';
 
 class DatabaseOption {
@@ -14,7 +14,7 @@ class DatabaseOption {
 
 @Injectable()
 export class DatabaseService {
-    constructor (private http: Http) {
+    constructor (@Inject(Http) private http: Http) {
 
     }
 

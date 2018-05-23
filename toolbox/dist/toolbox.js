@@ -156,7 +156,12 @@ var Toolbox = /** @class */ (function () {
         if (include === void 0) { include = false; }
         if (array && Array.isArray(array)) {
             return array.filter(function (row) {
-                return _this.compareString(row[keySearch], keyValue, caseSensitive, accentSensitive, exactMatching, include);
+                if (typeof keyValue === 'string') {
+                    return _this.compareString(row[keySearch], keyValue, caseSensitive, accentSensitive, exactMatching, include);
+                }
+                else {
+                    return row[keySearch] == keyValue;
+                }
             });
         }
         else {
@@ -364,6 +369,15 @@ var Toolbox = /** @class */ (function () {
         if (separator === void 0) { separator = "-"; }
         if (date) {
             return date.substr(8, 2) + separator + date.substr(5, 2) + separator + date.substr(0, 4);
+        }
+        else {
+            return null;
+        }
+    };
+    // 2018-02-02 14:50:35
+    Toolbox.prototype.dateStringDbToDate = function (date) {
+        if (date) {
+            return new Date(parseInt(date.substr(0, 4)), parseInt(date.substr(5, 2)), parseInt(date.substr(8, 2)), parseInt(date.substr(11, 2)), parseInt(date.substr(14, 2)), parseInt(date.substr(17, 2)));
         }
         else {
             return null;

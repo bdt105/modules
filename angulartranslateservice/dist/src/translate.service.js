@@ -7,7 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Injectable } from '@angular/core';
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Injectable, Inject } from '@angular/core';
 import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { ConnexionService } from 'bdt105angularconnexionservice';
 import { Toolbox } from 'bdt105toolbox/dist';
@@ -43,7 +46,7 @@ var TranslateService = /** @class */ (function () {
     TranslateService.prototype.loadFromDatabase = function (callBackSuccess, callBackFailure) {
         var _this = this;
         var conn = this.connexionService.get();
-        if (conn) {
+        if (conn && conn.currentUser) {
             this.databaseService.connect(conn.currentUser.login, conn.currentUser.password);
             var sql = "SELECT * FROM label where user = 'everyone' and domain = 'rest' and lang = '" + conn.currentUser.lang + "'";
             this.databaseService.sql(function (data) { return _this.success(callBackSuccess, data); }, function (data) { return _this.failure(callBackFailure, data); }, sql);
@@ -77,6 +80,7 @@ var TranslateService = /** @class */ (function () {
     };
     TranslateService = __decorate([
         Injectable(),
+        __param(0, Inject(DatabaseService)), __param(1, Inject(ConnexionService)),
         __metadata("design:paramtypes", [DatabaseService, ConnexionService])
     ], TranslateService);
     return TranslateService;

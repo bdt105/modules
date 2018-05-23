@@ -6,13 +6,12 @@ export declare class TranslateLocalService {
     private currentText;
     private baseurl;
     private storageKey;
-    private baseUrl;
-    private url;
+    private fileUrl;
     data: any;
     language: string;
     constructor(http: Http);
-    get(): any;
     load(): Promise<boolean>;
+    get(): any;
     translate(text: string): any;
     init(callbackSuccess: Function, callbackFailure: Function, fileUrl: string, storageKey: string): void;
     private manageData(callbackSuccess, data);

@@ -1,10 +1,10 @@
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 export declare class ConfigurationService {
-    private http;
+    http: Http;
     private data;
     private toolbox;
     constructor(http: Http);
-    get(name: string): any;
-    load(name: string, fileUrl: string, forever: boolean): Promise<{}>;
+    get(localStorageKey?: string): any;
+    load(localStorageKey?: string, fileUrl?: string, forever?: boolean): Promise<{}>;
 }

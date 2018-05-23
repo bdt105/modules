@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Injectable, Inject } from '@angular/core';
+import { Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Toolbox } from 'bdt105toolbox/dist';
 
@@ -10,16 +10,16 @@ export class ConfigurationService {
     private data: any;
     private toolbox: Toolbox = new Toolbox();
 
-    constructor(private http: Http) {
+    constructor (@Inject(Http) public http: Http) {
 
     }
 
-    public get(name: string): any {
-        return this.toolbox.readFromStorage(name);
+    public get(localStorageKey: string = "configuration"): any {
+        return this.toolbox.readFromStorage(localStorageKey);
     }
 
-    load(name: string, fileUrl: string, forever: boolean) {
-        console.log("loading ..." + name)
+    load(localStorageKey: string = "configuration", fileUrl: string = "./assets/configuration.json", forever: boolean = false) {
+        console.log("loading ..." + localStorageKey)
         if (!this.data){
             this.data = [];
         }
@@ -28,9 +28,9 @@ export class ConfigurationService {
                 .get(fileUrl)
                 .map(res => res.json())
                 .subscribe(response => {
-                    this.data[name] = response;
-                    this.toolbox.writeToStorage(name, response, forever);
-                    console.log(name + " loading complete", this.data)
+                    this.data[localStorageKey] = response;
+                    this.toolbox.writeToStorage(localStorageKey, response, forever);
+                    console.log(localStorageKey + " loading complete", this.data)
                     resolve(true);
                 })
         })

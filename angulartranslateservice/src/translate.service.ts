@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { DatabaseService } from 'bdt105angulardatabaseservice';
 import { ConnexionService } from 'bdt105angularconnexionservice';
 import { Toolbox } from 'bdt105toolbox/dist';
@@ -10,7 +10,7 @@ export class TranslateService {
     private configuration = { "translateTags" : true};
     private toolbox: Toolbox = new Toolbox();
     
-    constructor(private databaseService: DatabaseService, private connexionService: ConnexionService){
+    constructor(@Inject(DatabaseService) private databaseService: DatabaseService, @Inject(ConnexionService) private connexionService: ConnexionService){
         this.translation = this.toolbox.readFromStorage("translation");
         if (!this.translation){
             let callback = function(){
@@ -41,7 +41,7 @@ export class TranslateService {
 
     private loadFromDatabase(callBackSuccess: Function, callBackFailure: Function) {
         var conn = this.connexionService.get();
-        if (conn){
+        if (conn && conn.currentUser){
             this.databaseService.connect(conn.currentUser.login, conn.currentUser.password);
             var sql = "SELECT * FROM label where user = 'everyone' and domain = 'rest' and lang = '" + conn.currentUser.lang + "'";
             this.databaseService.sql(

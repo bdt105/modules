@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
-import { Http } from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
 
 @Injectable()
 export class TranslateLocalService {
@@ -15,7 +15,7 @@ export class TranslateLocalService {
 
     public language: string;
 
-    constructor(private http: Http){
+    constructor(@Inject(Http) private http: Http){
     }
 
     public load(): Promise<boolean> {

@@ -7,7 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Injectable } from '@angular/core';
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Injectable, Inject } from '@angular/core';
 import { Toolbox } from 'bdt105toolbox/dist';
 import { Http } from '@angular/http';
 var TranslateLocalService = /** @class */ (function () {
@@ -15,15 +18,8 @@ var TranslateLocalService = /** @class */ (function () {
         this.http = http;
         this.toolbox = new Toolbox();
         this.storageKey = "translate";
-        this.baseUrl = "./assets/";
+        this.fileUrl = './assets/transalte.json';
     }
-    TranslateLocalService.prototype.get = function () {
-        this.data = this.toolbox.readFromStorage(this.storageKey);
-        if (this.data) {
-            return this.data;
-        }
-        return null;
-    };
     TranslateLocalService.prototype.load = function () {
         var _this = this;
         return new Promise(function (resolve) {
@@ -39,6 +35,13 @@ var TranslateLocalService = /** @class */ (function () {
             }
         });
     };
+    TranslateLocalService.prototype.get = function () {
+        this.data = this.toolbox.readFromStorage(this.storageKey);
+        if (this.data) {
+            return this.data;
+        }
+        return null;
+    };
     TranslateLocalService.prototype.translate = function (text) {
         this.currentText = text;
         this.translateData = this.toolbox.readFromStorage(this.storageKey);
@@ -52,11 +55,9 @@ var TranslateLocalService = /** @class */ (function () {
     };
     TranslateLocalService.prototype.init = function (callbackSuccess, callbackFailure, fileUrl, storageKey) {
         var _this = this;
-        if (fileUrl && storageKey) {
-            this.url = fileUrl;
-            this.storageKey = storageKey;
-            this.http.get(this.url).subscribe(function (data) { return _this.manageData(callbackSuccess, data); }, function (error) { return _this.manageError(callbackFailure, error); });
-        }
+        this.fileUrl = fileUrl;
+        this.storageKey = storageKey;
+        this.http.get(this.fileUrl).subscribe(function (data) { return _this.manageData(callbackSuccess, data); }, function (error) { return _this.manageError(callbackFailure, error); });
     };
     TranslateLocalService.prototype.manageData = function (callbackSuccess, data) {
         this.toolbox.log(data);
@@ -76,6 +77,7 @@ var TranslateLocalService = /** @class */ (function () {
     ;
     TranslateLocalService = __decorate([
         Injectable(),
+        __param(0, Inject(Http)),
         __metadata("design:paramtypes", [Http])
     ], TranslateLocalService);
     return TranslateLocalService;

@@ -26,6 +26,7 @@ export declare class Toolbox {
     removeKeyFromArray(array: any[], key: string): boolean;
     isValidDate(date: any): boolean;
     dateDbToStringFr(date: string, separator?: string): string;
+    dateStringDbToDate(date: string): Date;
     dateWithoutTime(date: string): string;
     diffDateInDays(date1: Date, date2: Date): number;
     log(text: string, fileName?: string, logToConsole?: boolean): void;
