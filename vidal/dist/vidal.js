@@ -214,7 +214,7 @@ class Vidal {
         xml += "<durationType>" + (prescriptionLine.durationType ? prescriptionLine.durationType : "") + "</durationType>";
         xml += "<frequencyType>" + (prescriptionLine.frequencyType ? prescriptionLine.frequencyType : "") + "</frequencyType>";
         xml += (prescriptionLine.routeId ? "<routes><route>vidal://route/" + prescriptionLine.routeId + "</route></routes>" : "");
-        xml += (prescriptionLine.indicationId && prescriptionLine.indicationId != "" ? "<indications><indication>vidal://indication/" + prescriptionLine.indicationId + "</indication></indications>" : "");
+        xml += (prescriptionLine.indicationIds && prescriptionLine.indicationIds != "" ? "<indications><indication>vidal://indication/" + prescriptionLine.indicationIds + "</indication></indications>" : "");
         if (prescriptionLine.complexSchema == 1 && prescriptionLine.dosages) {
             xml += "<dosages>";
             for (var i = 0; i < prescriptionLine.dosages.length; i++) {
@@ -231,7 +231,8 @@ class Vidal {
                 xml += "</dosage>";
             }
             xml += "</dosages>";
-            xml += "<period><startDate>" + prescriptionLine.startDate + "</startDate><endDate>" + prescriptionLine.endDate + "</endDate></period>";
+            xml += "<period><startDate>" + (prescriptionLine.startDate ? prescriptionLine.startDate.replace(" ", "T") : "") +
+                "</startDate><endDate>" + (prescriptionLine.endDate ? prescriptionLine.endDate.replace(" ", "T") : "") + "</endDate></period>";
         }
         xml += "<status>" + prescriptionLine.status + "</status>";
         xml += prescriptionLine.group ? "<group><groupId>" + prescriptionLine.group.groupId + "</groupId>" + "<groupType>" + prescriptionLine.group.groupType + "</groupType></group>" : '';
@@ -253,6 +254,8 @@ class Vidal {
             xml += "<weight>" + patient.weight + "</weight>";
             xml += "<height>" + patient.height + "</height>";
             xml += patient.breastFeeding && patient.breastFeeding != "" && patient.breastFeeding != "-1" ? "<breastFeeding>" + patient.breastFeeding + "</breastFeeding>" : "";
+            xml += patient.breastFeedingStartDate && patient.breastFeedingStartDate != "" ?
+                "<breastFeedingStartDate>" + patient.breastFeedingStartDate.replace(" ", "T") + "</breastFeedingStartDate>" : "";
             xml += patient.weeksOfAmenorrhea && patient.weeksOfAmenorrhea != "" && patient.weeksOfAmenorrhea != "-1" ? "<weeksOfAmenorrhea>" + patient.weeksOfAmenorrhea + "</weeksOfAmenorrhea>" : "";
             xml += patient.creatin && patient.creatin != "" && patient.creatin != null && patient.creatin != "-1" ? "<creatin>" + patient.creatin + "</creatin>" : "";
             xml += patient.hepaticInsufficiency && patient.hepaticInsufficiency != "" ? "<hepaticInsufficiency>" + patient.hepaticInsufficiency + "</hepaticInsufficiency>" : "";
