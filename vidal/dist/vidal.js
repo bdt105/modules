@@ -24,6 +24,7 @@ class Vidal {
             "alertsHtml": "/alerts/html",
             "reco": "/reco",
             "version": "/version",
+            "product": "/product",
             "postComplement": "/postComplement",
             "postControl": "/postControl",
             "indicationGroup": "/indication-group",
@@ -751,7 +752,7 @@ class Vidal {
         return ret;
     }
     checkCredentials(callback, app_id, app_key) {
-        let url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.version + this.getUrlCredentials("?", app_id, app_key);
+        let url = this.getApiBaseUrl() + this.getApiDomain() + this.configuration.product + '/99999' + this.getUrlCredentials("?", app_id, app_key);
         this.rest.call((data, error) => callback(data, error), "GET", url);
     }
 }

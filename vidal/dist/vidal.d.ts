@@ -21,6 +21,7 @@ export declare class Vidal {
         "alertsHtml": string;
         "reco": string;
         "version": string;
+        "product": string;
         "postComplement": string;
         "postControl": string;
         "indicationGroup": string;
