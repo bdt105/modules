@@ -752,19 +752,21 @@ var Toolbox = /** @class */ (function () {
         ];
         var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
         var str = text;
-        for (var i = 0; i < accent.length; i++) {
-            str = str.replace(accent[i], noaccent[i]);
+        if (str && typeof str == "string") {
+            for (var i = 0; i < accent.length; i++) {
+                str = str.replace(accent[i], noaccent[i]);
+            }
         }
         return str;
     };
     Toolbox.prototype.compareString = function (text1, text2, caseSensitive, accentSensitive, exactMatching, include) {
         var t1 = text1;
         var t2 = text2;
-        if (!accentSensitive) {
-            t1 = this.noAccent(text1);
-            t2 = this.noAccent(text2);
+        if (!accentSensitive && typeof t1 == "string" && typeof t2 == "string") {
+            t1 = this.noAccent(t1);
+            t2 = this.noAccent(t2);
         }
-        if (!caseSensitive) {
+        if (!caseSensitive && typeof t1 == "string" && typeof t2 == "string") {
             t1 = this.noAccent(t1).toUpperCase();
             t2 = this.noAccent(t2).toUpperCase();
         }
@@ -772,11 +774,11 @@ var Toolbox = /** @class */ (function () {
             return text1 == text2;
         }
         else {
-            if (!include) {
-                return t1 == t2;
+            if (include && typeof t1 == "string" && typeof t2 == "string") {
+                return t1.indexOf(t2) != -1;
             }
             else {
-                return t1.indexOf(t2) != -1;
+                return t1 == t2;
             }
         }
     };

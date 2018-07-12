@@ -782,8 +782,10 @@ export class Toolbox {
         var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
 
         var str: string = text;
-        for (var i = 0; i < accent.length; i++) {
-            str = str.replace(accent[i], noaccent[i]);
+        if (str && typeof str == "string") {
+            for (var i = 0; i < accent.length; i++) {
+                str = str.replace(accent[i], noaccent[i]);
+            }
         }
 
         return str;
@@ -792,21 +794,21 @@ export class Toolbox {
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean {
         let t1: string = text1;
         let t2: string = text2;
-        if (!accentSensitive) {
-            t1 = this.noAccent(text1);
-            t2 = this.noAccent(text2);
+        if (!accentSensitive && typeof t1 == "string" && typeof t2 == "string") {
+            t1 = this.noAccent(t1);
+            t2 = this.noAccent(t2);
         }
-        if (!caseSensitive) {
+        if (!caseSensitive && typeof t1 == "string" && typeof t2 == "string") {
             t1 = this.noAccent(t1).toUpperCase();
             t2 = this.noAccent(t2).toUpperCase();
         }
         if (exactMatching) {
             return text1 == text2;
         } else {
-            if (!include) {
-                return t1 == t2;
-            } else {
+            if (include && typeof t1 == "string" && typeof t2 == "string") {
                 return t1.indexOf(t2) != -1;
+            } else {
+                return t1 == t2;
             }
         }
     }
