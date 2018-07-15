@@ -2,7 +2,7 @@
   "name": "bdt105connexion",
   "main": "index.js",
   "description": "JWT Authentification and MySql connexion",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "repository": {
     "type": "git",
     "url": "https://github.com/bdt105/modules/tree/master/connexion"

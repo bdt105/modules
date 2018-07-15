@@ -22,8 +22,8 @@ export declare class JwtConfiguration {
 export declare class Token {
     token: string;
     status: string;
-    decoded: string;
-    constructor(token: string, status: string, decoded: string);
+    decoded: any;
+    constructor(token: string, status: string, decoded: any);
 }
 export declare class Connexion {
     private mySql;

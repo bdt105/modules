@@ -47,8 +47,8 @@ export class JwtConfiguration {
 export class Token {
     public token: string;
     public status: string;
-    public decoded: string;
-    constructor(token: string, status: string, decoded: string){
+    public decoded: any;
+    constructor(token: string, status: string, decoded: any){
         this.token = token;
         this.status = status;
         this.decoded = decoded;
