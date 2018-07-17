@@ -11,6 +11,7 @@ export declare class Toolbox {
     urlParamsToObject(url: string): any;
     urlBase(url: string): string;
     filterArrayOfObjects(array: any[], keySearch: string, keyValue: any, caseSensitive?: boolean, accentSensitive?: boolean, exactMatching?: boolean, include?: boolean): any[];
+    filterArrayOfObjectsAllFields(array: any[], searchTerm: string, caseSensitive?: boolean, accentSensitive?: boolean, exactMatching?: boolean, include?: boolean): any[];
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string): number;
     deleteObjectInList(array: any[], keySearch: string, keyValue: string): number;
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
@@ -56,6 +57,7 @@ export declare class Toolbox {
     jsonToCsv(data: any, title: string, showLabel: boolean, download: boolean, separator?: string): string;
     extractFromArray(array: any, key: string, value: any, keepIfNoKey: boolean): any[];
     noAccent(text: string): string;
+    prepareStrinForSearch(text: string, caseSensitive: boolean, accentSensitive: boolean): string;
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean;
     randomPassword(): string;
 }

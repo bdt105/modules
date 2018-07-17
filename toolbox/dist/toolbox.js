@@ -168,6 +168,35 @@ var Toolbox = /** @class */ (function () {
             return array;
         }
     };
+    Toolbox.prototype.filterArrayOfObjectsAllFields = function (array, searchTerm, caseSensitive, accentSensitive, exactMatching, include) {
+        var _this = this;
+        if (caseSensitive === void 0) { caseSensitive = false; }
+        if (accentSensitive === void 0) { accentSensitive = false; }
+        if (exactMatching === void 0) { exactMatching = true; }
+        if (include === void 0) { include = true; }
+        if (array && Array.isArray(array)) {
+            return array.filter(function (row) {
+                searchTerm = searchTerm + "";
+                var temp = JSON.stringify(row);
+                if (exactMatching) {
+                    return temp.indexOf(':"' + searchTerm + '"') >= 0;
+                }
+                else {
+                    temp = _this.prepareStrinForSearch(temp, caseSensitive, accentSensitive);
+                    searchTerm = _this.prepareStrinForSearch(searchTerm, caseSensitive, accentSensitive);
+                    if (include) {
+                        return temp.indexOf(searchTerm) >= 0;
+                    }
+                    else {
+                        return temp.indexOf(':"' + searchTerm + '"') >= 0;
+                    }
+                }
+            });
+        }
+        else {
+            return array;
+        }
+    };
     Toolbox.prototype.findIndexArrayOfObjects = function (array, keySearch, keyValue) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][keySearch] == keyValue) {
@@ -759,17 +788,19 @@ var Toolbox = /** @class */ (function () {
         }
         return str;
     };
+    Toolbox.prototype.prepareStrinForSearch = function (text, caseSensitive, accentSensitive) {
+        var t = text;
+        if (!accentSensitive && typeof t == "string") {
+            t = this.noAccent(t);
+        }
+        if (!caseSensitive && typeof t == "string") {
+            t = t.toUpperCase();
+        }
+        return t;
+    };
     Toolbox.prototype.compareString = function (text1, text2, caseSensitive, accentSensitive, exactMatching, include) {
-        var t1 = text1;
-        var t2 = text2;
-        if (!accentSensitive && typeof t1 == "string" && typeof t2 == "string") {
-            t1 = this.noAccent(t1);
-            t2 = this.noAccent(t2);
-        }
-        if (!caseSensitive && typeof t1 == "string" && typeof t2 == "string") {
-            t1 = this.noAccent(t1).toUpperCase();
-            t2 = this.noAccent(t2).toUpperCase();
-        }
+        var t1 = this.prepareStrinForSearch(text1, caseSensitive, accentSensitive);
+        var t2 = this.prepareStrinForSearch(text2, caseSensitive, accentSensitive);
         if (exactMatching) {
             return text1 == text2;
         }

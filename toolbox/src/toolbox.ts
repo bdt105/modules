@@ -173,6 +173,29 @@ export class Toolbox {
         }
     }
 
+    public filterArrayOfObjectsAllFields(array: any[], searchTerm: string,
+        caseSensitive: boolean = false, accentSensitive: boolean = false, exactMatching: boolean = true, include: boolean = true) {
+        if (array && Array.isArray(array)) {
+            return array.filter((row) => {
+                searchTerm = searchTerm + "";
+                let temp = JSON.stringify(row);
+                if (exactMatching) {
+                    return temp.indexOf(':"' + searchTerm + '"') >= 0;
+                } else {
+                    temp = this.prepareStrinForSearch(temp, caseSensitive, accentSensitive);
+                    searchTerm = this.prepareStrinForSearch(searchTerm, caseSensitive, accentSensitive);
+                    if (include) {
+                        return temp.indexOf(searchTerm) >= 0;
+                    } else {
+                        return temp.indexOf(':"' + searchTerm + '"') >= 0;
+                    }
+                }
+            });
+        } else {
+            return array;
+        }
+    }
+
     findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][keySearch] == keyValue) {
@@ -791,17 +814,20 @@ export class Toolbox {
         return str;
     }
 
+    prepareStrinForSearch(text: string, caseSensitive: boolean, accentSensitive: boolean){
+        let t: string = text;
+        if (!accentSensitive && typeof t == "string") {
+            t = this.noAccent(t);
+        }
+        if (!caseSensitive && typeof t == "string") {
+            t = t.toUpperCase();
+        }
+        return t;
+    }
+
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean {
-        let t1: string = text1;
-        let t2: string = text2;
-        if (!accentSensitive && typeof t1 == "string" && typeof t2 == "string") {
-            t1 = this.noAccent(t1);
-            t2 = this.noAccent(t2);
-        }
-        if (!caseSensitive && typeof t1 == "string" && typeof t2 == "string") {
-            t1 = this.noAccent(t1).toUpperCase();
-            t2 = this.noAccent(t2).toUpperCase();
-        }
+        let t1: string = this.prepareStrinForSearch(text1, caseSensitive, accentSensitive);
+        let t2: string = this.prepareStrinForSearch(text2, caseSensitive, accentSensitive);
         if (exactMatching) {
             return text1 == text2;
         } else {
