@@ -460,9 +460,12 @@ export class Toolbox {
 
     loadFromJsonFile(fileName: string, encoding: string = null) {
         var fs = require('fs');
-
-        var conf = fs.readFileSync(fileName, encoding);
-        return JSON.parse(conf);
+        if (fs.existsSync(fileName)) {
+            var conf = fs.readFileSync(fileName, encoding);
+            return JSON.parse(conf);
+        }else{
+            return null;
+        }
     }
 
     uniqueId() {
@@ -814,7 +817,7 @@ export class Toolbox {
         return str;
     }
 
-    prepareStrinForSearch(text: string, caseSensitive: boolean, accentSensitive: boolean){
+    prepareStrinForSearch(text: string, caseSensitive: boolean, accentSensitive: boolean) {
         let t: string = text;
         if (!accentSensitive && typeof t == "string") {
             t = this.noAccent(t);

@@ -454,8 +454,13 @@ var Toolbox = /** @class */ (function () {
     Toolbox.prototype.loadFromJsonFile = function (fileName, encoding) {
         if (encoding === void 0) { encoding = null; }
         var fs = require('fs');
-        var conf = fs.readFileSync(fileName, encoding);
-        return JSON.parse(conf);
+        if (fs.existsSync(fileName)) {
+            var conf = fs.readFileSync(fileName, encoding);
+            return JSON.parse(conf);
+        }
+        else {
+            return null;
+        }
     };
     Toolbox.prototype.uniqueId = function () {
         var crypto = require("crypto");
