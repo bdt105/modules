@@ -60,4 +60,5 @@ export declare class Toolbox {
     prepareStrinForSearch(text: string, caseSensitive: boolean, accentSensitive: boolean): string;
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean;
     randomPassword(): string;
+    getFileNameWithoutExtension(fileName: string): string;
 }

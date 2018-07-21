@@ -463,7 +463,7 @@ export class Toolbox {
         if (fs.existsSync(fileName)) {
             var conf = fs.readFileSync(fileName, encoding);
             return JSON.parse(conf);
-        }else{
+        } else {
             return null;
         }
     }
@@ -844,6 +844,14 @@ export class Toolbox {
 
     randomPassword() {
         return Math.random().toString(36).slice(-8);
+    }
+
+    getFileNameWithoutExtension(fileName: string) {
+        if (fileName) {
+            return fileName.substring(0, fileName.lastIndexOf('.'));
+        }
+        return fileName;
+
     }
 
 }

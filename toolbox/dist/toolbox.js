@@ -821,6 +821,12 @@ var Toolbox = /** @class */ (function () {
     Toolbox.prototype.randomPassword = function () {
         return Math.random().toString(36).slice(-8);
     };
+    Toolbox.prototype.getFileNameWithoutExtension = function (fileName) {
+        if (fileName) {
+            return fileName.substring(0, fileName.lastIndexOf('.'));
+        }
+        return fileName;
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;
