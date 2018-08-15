@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const dist_1 = require("bdt105toolbox/dist");
 class MySqlConfiguration {
     constructor(host, port, user, password, database, userTableName = null, idFieldName = null, loginFieldName = null, passwordFieldName = null, emailFieldName = null, applicationFieldName = null) {
         this.host = host;
@@ -36,7 +35,6 @@ class Token {
 exports.Token = Token;
 class Connexion {
     constructor(mySqlConfiguration = null, jwtConfiguration = null) {
-        this.toolbox = new dist_1.Toolbox();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
         this.mySql = require('mysql');
@@ -56,6 +54,37 @@ class Connexion {
         if (this.sqlConnexion) {
             let err = this.sqlConnexion.connect((err) => this.callbackConnect(err));
         }
+        return this.sqlConnexion;
+    }
+    createSqlPool() {
+        this.mySqlPool = this.mySql.createPool({
+            "host": this.mySqlConfiguration.host,
+            "user": this.mySqlConfiguration.user,
+            "port": this.mySqlConfiguration.port,
+            "password": this.mySqlConfiguration.password,
+            "database": this.mySqlConfiguration.database
+        });
+        console.log("Database pool created");
+    }
+    queryPool(callback, sql) {
+        if (!this.mySqlPool) {
+            this.createSqlPool();
+        }
+        this.mySqlPool.getConnection((error, connection) => {
+            if (error) {
+                callback(error, null);
+            }
+            else {
+                connection.query(sql, (err, rows) => {
+                    callback(err, rows);
+                    connection.release();
+                    console.log("Connexion released");
+                });
+            }
+        });
+    }
+    getSqlConnexion() {
+        return this.sqlConnexion;
     }
     releaseSql() {
         if (this.sqlConnexion) {

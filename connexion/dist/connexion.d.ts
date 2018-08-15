@@ -31,7 +31,6 @@ export declare class Connexion {
     private jsonwebtoken;
     static readonly jwtStatusOk: string;
     static readonly jwtStatusERR: string;
-    private toolbox;
     mySqlConfiguration: MySqlConfiguration;
     jwtConfiguration: JwtConfiguration;
     rows: any;
@@ -39,9 +38,13 @@ export declare class Connexion {
     iss: string;
     permissions: string;
     epirationDate: number;
+    mySqlPool: any;
     constructor(mySqlConfiguration?: MySqlConfiguration, jwtConfiguration?: JwtConfiguration);
     private log(text);
-    connectSql(): void;
+    connectSql(): any;
+    createSqlPool(): void;
+    queryPool(callback: Function, sql: string): void;
+    getSqlConnexion(): any;
     releaseSql(): void;
     private callbackConnect(err);
     private callbackGetJwt(callback, err, rows, plainPassword);

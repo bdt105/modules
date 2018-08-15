@@ -61,7 +61,6 @@ export class Connexion {
     private jsonwebtoken: any;
     public static readonly jwtStatusOk = "OK";
     public static readonly jwtStatusERR = "ERR";
-    private toolbox: Toolbox;
 
     public mySqlConfiguration: MySqlConfiguration;
     public jwtConfiguration: JwtConfiguration;
@@ -71,9 +70,9 @@ export class Connexion {
     public iss: string;
     public permissions: string;
     public epirationDate: number;
+    public mySqlPool: any;
 
     constructor(mySqlConfiguration: MySqlConfiguration = null, jwtConfiguration: JwtConfiguration = null) {
-        this.toolbox = new Toolbox();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
         this.mySql = require('mysql');
@@ -97,11 +96,46 @@ export class Connexion {
                 (err: any) => this.callbackConnect(err)
             );
         }
+        return this.sqlConnexion;
+    }
+
+    public createSqlPool() {
+        this.mySqlPool = this.mySql.createPool({
+            "host": this.mySqlConfiguration.host,
+            "user": this.mySqlConfiguration.user,
+            "port": this.mySqlConfiguration.port,
+            "password": this.mySqlConfiguration.password,
+            "database": this.mySqlConfiguration.database
+        });
+        console.log("Database pool created");
+    }
+
+    public queryPool(callback: Function, sql: string) {
+        if (!this.mySqlPool) {
+            this.createSqlPool();
+        }
+        this.mySqlPool.getConnection(
+            (error: any, connection: any) => {
+                if (error) {
+                    callback(error, null);
+                } else {
+                    connection.query(sql, (err: any, rows: any) => {
+                        callback(err, rows);
+                        connection.release();
+                        console.log("Connexion released");
+                    });
+                }
+            }
+        );
+    }
+
+    public getSqlConnexion() {
+        return this.sqlConnexion;
     }
 
     public releaseSql() {
         if (this.sqlConnexion) {
-            this.sqlConnexion.end(()=>{
+            this.sqlConnexion.end(() => {
                 this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
             });
             this.sqlConnexion = null;
