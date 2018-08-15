@@ -41,12 +41,13 @@ export declare class Connexion {
     epirationDate: number;
     constructor(mySqlConfiguration?: MySqlConfiguration, jwtConfiguration?: JwtConfiguration);
     private log(text);
-    private connectSql();
-    private releaseSql();
+    connectSql(): void;
+    releaseSql(): void;
     private callbackConnect(err);
     private callbackGetJwt(callback, err, rows, plainPassword);
     private callbackQuerySql(callback, err, rows);
     querySql(callback: Function, sql: string): void;
+    querySqlWithoutConnexion(callback: Function, sql: string): void;
     getJwt(callback: Function, login: string, plainPassword: string, where?: string): void;
     checkJwt(token: string): Token;
     isTokenValid(token: string): boolean;

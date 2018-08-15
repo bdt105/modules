@@ -59,8 +59,9 @@ class Connexion {
     }
     releaseSql() {
         if (this.sqlConnexion) {
-            this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
-            this.sqlConnexion.end();
+            this.sqlConnexion.end(() => {
+                this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
+            });
             this.sqlConnexion = null;
         }
     }
@@ -71,7 +72,9 @@ class Connexion {
             this.releaseSql();
             return;
         }
-        this.log('Connected to the database as id ' + this.sqlConnexion.threadId);
+        if (this.sqlConnexion) {
+            this.log('Connected to the database as id ' + this.sqlConnexion.threadId);
+        }
     }
     callbackGetJwt(callback, err, rows, plainPassword) {
         this.rows = rows;
@@ -105,6 +108,9 @@ class Connexion {
     querySql(callback, sql) {
         this.connectSql();
         this.sqlConnexion.query(sql, (err, rows) => this.callbackQuerySql(callback, err, rows));
+    }
+    querySqlWithoutConnexion(callback, sql) {
+        this.sqlConnexion.query(sql, (err, rows) => callback(err, rows));
     }
     getJwt(callback, login, plainPassword, where = null) {
         this.connectSql();
