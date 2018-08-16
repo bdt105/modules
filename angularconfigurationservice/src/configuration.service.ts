@@ -35,4 +35,23 @@ export class ConfigurationService {
                 })
         })
     }  
+
+    loadAutonomous(fileUrl: string = "./assets/configuration.json", forever: boolean = false) {
+        console.log("loading ...");
+        if (!this.data){
+            this.data = [];
+        }
+        return new Promise((resolve, reject) => {
+            this.http
+                .get(fileUrl)
+                .map(res => res.json())
+                .subscribe(response => {
+                    let localStorageKey = response.common.configurationStorageKey;
+                    this.data[localStorageKey] = response;
+                    this.toolbox.writeToStorage(localStorageKey, response, forever);
+                    console.log(localStorageKey + " loading complete", this.data)
+                    resolve(true);
+                })
+        })
+    } 
 }

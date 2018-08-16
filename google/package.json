@@ -2,7 +2,7 @@
   "name": "bdt105google",
   "main": "index.js",
   "description": "Various google apis",
-  "version": "1.0.3",
+  "version": "1.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/bdt105/modules/tree/master/google"

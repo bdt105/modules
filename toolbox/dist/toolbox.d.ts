@@ -61,4 +61,7 @@ export declare class Toolbox {
     compareString(text1: string, text2: string, caseSensitive: boolean, accentSensitive: boolean, exactMatching: boolean, include: boolean): boolean;
     randomPassword(): string;
     getFileNameWithoutExtension(fileName: string): string;
+    addSlashes(text: string): string;
+    escapeString(text: string, removeCariageReturn: boolean): string;
+    groupBy(array: any, group: string): any[];
 }

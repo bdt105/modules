@@ -32,6 +32,21 @@ class Google {
                 });
             });
         }
+        else {
+            if (callback) {
+                callback(null);
+            }
+        }
+    }
+    signOut(callback) {
+        if (this.gapi && this.gapi.auth2) {
+            let googleAuth = this.gapi.auth2.getAuthInstance();
+            googleAuth.signOut().then(() => {
+            });
+        }
+        if (callback) {
+            callback();
+        }
     }
     listFiles(callback) {
         this.gapi.client.drive.files.list({ 'pageSize': 10, 'fields': "nextPageToken, files(id, name)" }).then((response) => {

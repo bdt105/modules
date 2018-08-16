@@ -827,6 +827,39 @@ var Toolbox = /** @class */ (function () {
         }
         return fileName;
     };
+    Toolbox.prototype.addSlashes = function (text) {
+        return (text + '')
+            .replace(/[\\"']/g, '\\$&')
+            .replace(/\u0000/g, '\\0');
+    };
+    Toolbox.prototype.escapeString = function (text, removeCariageReturn) {
+        if (text) {
+            try {
+                var ret = text.replace(/[\\$'"]/g, "\\$&");
+                if (removeCariageReturn) {
+                    ret = ret.replace(/[\n\r]+/g, ' ');
+                }
+                ret = ret.replace(/[\n]+/g, ' ');
+                return ret;
+            }
+            catch (error) {
+                return text;
+            }
+        }
+        return text;
+    };
+    Toolbox.prototype.groupBy = function (array, group) {
+        var hash = Object.create(null);
+        var result = [];
+        array.forEach(function (a) {
+            if (!hash[a[group]]) {
+                hash[a[group]] = [];
+                result.push(hash[a[group]]);
+            }
+            hash[a[group]].push(a);
+        });
+        return result;
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

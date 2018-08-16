@@ -41,6 +41,27 @@ var ConfigurationService = /** @class */ (function () {
             });
         });
     };
+    ConfigurationService.prototype.loadAutonomous = function (fileUrl, forever) {
+        var _this = this;
+        if (fileUrl === void 0) { fileUrl = "./assets/configuration.json"; }
+        if (forever === void 0) { forever = false; }
+        console.log("loading ...");
+        if (!this.data) {
+            this.data = [];
+        }
+        return new Promise(function (resolve, reject) {
+            _this.http
+                .get(fileUrl)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (response) {
+                var localStorageKey = response.common.configurationStorageKey;
+                _this.data[localStorageKey] = response;
+                _this.toolbox.writeToStorage(localStorageKey, response, forever);
+                console.log(localStorageKey + " loading complete", _this.data);
+                resolve(true);
+            });
+        });
+    };
     ConfigurationService = __decorate([
         Injectable(),
         __param(0, Inject(Http))

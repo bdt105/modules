@@ -7,5 +7,6 @@ export declare class Google {
     constructor(gapi: any, API_KEY?: string, CLIENT_ID?: string, SCOPES?: string, DISCOVERY_DOCS?: string);
     initClient(callback: Function): void;
     signIn(callback: Function): void;
+    signOut(callback: Function): void;
     listFiles(callback: Function): void;
 }

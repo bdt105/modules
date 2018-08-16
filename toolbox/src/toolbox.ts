@@ -851,7 +851,43 @@ export class Toolbox {
             return fileName.substring(0, fileName.lastIndexOf('.'));
         }
         return fileName;
-
     }
 
+    addSlashes(text: string) {
+        return (text + '')
+            .replace(/[\\"']/g, '\\$&')
+            .replace(/\u0000/g, '\\0')
+    }
+
+
+    escapeString(text: string, removeCariageReturn: boolean) {
+        if (text) {
+            try {
+                let ret = text.replace(/[\\$'"]/g, "\\$&");
+                if (removeCariageReturn){
+                    ret = ret.replace(/[\n\r]+/g, ' ');
+                }
+                ret = ret.replace(/[\n]+/g, ' ');
+                return ret;
+            } catch (error) {
+                return text;
+            }
+        }
+        return text;
+    }
+
+
+    groupBy(array: any, group: string) {
+        var hash = Object.create(null);
+        var result = [];
+
+        array.forEach((a) => {
+            if (!hash[a[group]]) {
+                hash[a[group]] = [];
+                result.push(hash[a[group]]);
+            }
+            hash[a[group]].push(a);
+        });
+        return result;
+    }
 }

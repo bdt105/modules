@@ -1,6 +1,6 @@
 {
     "name": "bdt105angularconfigurationservice",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "description": "Configuration",
     "main": "./dist/bundles/bdt105angularconfigurationservice.umd.js",
     "module": "./dist/index.js",

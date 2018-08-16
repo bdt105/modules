@@ -7,4 +7,5 @@ export declare class ConfigurationService {
     constructor(http: Http);
     get(localStorageKey?: string): any;
     load(localStorageKey?: string, fileUrl?: string, forever?: boolean): Promise<{}>;
+    loadAutonomous(fileUrl?: string, forever?: boolean): Promise<{}>;
 }
