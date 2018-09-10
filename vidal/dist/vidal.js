@@ -255,7 +255,7 @@ class Vidal {
             xml += "<weight>" + patient.weight + "</weight>";
             xml += "<height>" + patient.height + "</height>";
             xml += patient.breastFeeding && patient.breastFeeding != "" && patient.breastFeeding != "-1" ? "<breastFeeding>" + patient.breastFeeding + "</breastFeeding>" : "";
-            xml += patient.breastFeedingStartDate && patient.breastFeedingStartDate != "" ?
+            xml += this.toolbox.isValidDate(patient.breastFeedingStartDate) ?
                 "<breastFeedingStartDate>" + patient.breastFeedingStartDate.replace(" ", "T") + "</breastFeedingStartDate>" : "";
             xml += patient.weeksOfAmenorrhea && patient.weeksOfAmenorrhea != "" && patient.weeksOfAmenorrhea != "-1" ? "<weeksOfAmenorrhea>" + patient.weeksOfAmenorrhea + "</weeksOfAmenorrhea>" : "";
             xml += patient.creatin && patient.creatin != "" && patient.creatin != null && patient.creatin != "-1" ? "<creatin>" + patient.creatin + "</creatin>" : "";
