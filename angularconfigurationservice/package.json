@@ -1,6 +1,6 @@
 {
     "name": "bdt105angularconfigurationservice",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "Configuration",
     "main": "./dist/bundles/bdt105angularconfigurationservice.umd.js",
     "module": "./dist/index.js",
@@ -18,7 +18,7 @@
     "author": "bdt105 <bdt105@gmail.com>",
     "license": "ISC",
     "dependencies": {
-        "bdt105toolbox": "~1.0.65"
+        "bdt105toolbox": "2.0.0"
     },
     "devDependencies": {
         "@angular/core": "^5.2.7",
