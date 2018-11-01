@@ -2,7 +2,7 @@
   "name": "bdt105connexion",
   "main": "index.js",
   "description": "JWT Authentification and MySql connexion",
-  "version": "1.0.26",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/bdt105/modules/tree/master/connexion"
@@ -10,7 +10,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bdt105toolbox": "^1.0.63",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^8.3.0",
     "mysql": "^2.13.0",
     "typescript": "^2.3.4"
   },
