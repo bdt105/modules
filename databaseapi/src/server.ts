@@ -9,7 +9,7 @@ let app = express();
 
 // For POST-Support
 let toolbox = new Toolbox();
-let configuration = toolbox.loadFromJsonFile("./conf/configuration.json");
+let configuration = toolbox.loadFromJsonFile("configuration.json");
 
 let bodyParser = require('body-parser');
 let multer = require('multer');

@@ -5,13 +5,13 @@ class MyToolbox extends dist_1.Toolbox {
     constructor() {
         super();
         this.configuration = {};
-        this.configuration = this.loadFromJsonFile("./conf/configuration.json");
+        this.configuration = this.loadFromJsonFile("configuration.json");
     }
     logg(text) {
         if (this.configuration) {
-            this.log(this.configuration.common.logFile, text, this.configuration.common.logToConsole);
+            this.log(text, this.configuration.common.logFile, this.configuration.common.logToConsole);
         }
     }
 }
 exports.MyToolbox = MyToolbox;
-//# sourceMappingURL=MyToolbox.js.map
+//# sourceMappingURL=myToolbox.js.map

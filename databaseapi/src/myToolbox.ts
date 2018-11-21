@@ -7,7 +7,7 @@ export class MyToolbox extends Toolbox{
     constructor(){
         super();
         this.configuration = {};
-        this.configuration = this.loadFromJsonFile("./conf/configuration.json");
+        this.configuration = this.loadFromJsonFile("configuration.json");
     }
 
     logg(text: string){

@@ -64,4 +64,17 @@ export declare class Toolbox {
     addSlashes(text: string): string;
     escapeString(text: string, removeCariageReturn: boolean): string;
     groupBy(array: any, group: string): any[];
+    private createHeaders(data, fieldSeparator, fieldEnclosed);
+    jsonToCsvFile(data: any, fieldSeparator: string, fieldEnclosed: string, lineSeparator: string, directory?: string, fileName?: string): string | {
+        "fields": string[];
+        "csv": string;
+        "file": string;
+    };
+    ftpPut(callback: Function, config: any, sourceFileName: string, destinationDirectory: string): void;
+    writeFileZip(callback: Function, filesAndDatas: any, destinationFileName: string): void;
+    writeFileUnZip(callback: Function, sourceFileName: string, removeZip?: boolean): void;
+    writeFiles(filesAndDatas: any): {
+        "message": string;
+    };
+    writeFilesAndPutFtp(callback: Function, filesAndDatas: any, zipDestinationFileName: string, ftpConfig: any, ftpDestinationDirectory: string, zipFileFirst?: boolean, removeSourceFiles?: boolean): void;
 }

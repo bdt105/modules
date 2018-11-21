@@ -860,6 +860,161 @@ var Toolbox = /** @class */ (function () {
         });
         return result;
     };
+    Toolbox.prototype.createHeaders = function (data, fieldSeparator, fieldEnclosed) {
+        var header = "";
+        var firstLine = data[0];
+        var keys = Object.keys(firstLine);
+        for (var i = 0; i < keys.length; i++) {
+            header += (header ? fieldSeparator : "") + fieldEnclosed + keys[i] + fieldEnclosed;
+        }
+        return header;
+    };
+    Toolbox.prototype.jsonToCsvFile = function (data, fieldSeparator, fieldEnclosed, lineSeparator, directory, fileName) {
+        if (directory === void 0) { directory = null; }
+        if (fileName === void 0) { fileName = null; }
+        var ret = "";
+        if (data && data.length > 0) {
+            if (fileName) {
+                var fs = require('fs');
+                fs.appendFileSync(directory, this.createHeaders(data, fieldSeparator, fieldEnclosed));
+            }
+            else {
+                ret += this.createHeaders(data, fieldSeparator, fieldEnclosed);
+            }
+            for (var i = 0; i < data.length; i++) {
+                var fields_1 = Object.keys(data[i]);
+                var line = lineSeparator;
+                for (var j = 0; j < fields_1.length; j++) {
+                    var value = data[i][fields_1[j]];
+                    if (value) {
+                        value = value.toString().trim();
+                    }
+                    else {
+                        value = "";
+                    }
+                    line += (line == lineSeparator ? "" : fieldSeparator) + fieldEnclosed + value + fieldEnclosed;
+                }
+                if (fileName) {
+                    fs.appendFileSync(directory + fileName, line);
+                }
+                else {
+                    ret += line;
+                }
+            }
+            var fields = Object.keys(data[0]);
+            return { "fields": fields, "csv": ret, "file": directory + fileName };
+        }
+        return ret;
+    };
+    // Struture of config: { "host": "localhost", "user": "ftpuser", "password": "ftpuser" }
+    Toolbox.prototype.ftpPut = function (callback, config, sourceFileName, destinationDirectory) {
+        var Client = require('ftp');
+        var c = new Client();
+        c.connect(config);
+        c.on('ready', function () {
+            c.put(sourceFileName, destinationDirectory + sourceFileName, function (error, data) {
+                c.end();
+                callback(data, error);
+            });
+        });
+    };
+    // Struture of filesAndDatas: [{"fileName": "", "data": ""}]
+    Toolbox.prototype.writeFileZip = function (callback, filesAndDatas, destinationFileName) {
+        if (filesAndDatas && filesAndDatas.length > 0) {
+            var jszip = require("jszip");
+            var zip = new jszip();
+            for (var i = 0; i < filesAndDatas.length; i++) {
+                zip.file(filesAndDatas[i].fileName, filesAndDatas[i].data);
+            }
+            zip.generateAsync({ type: "string", compression: "DEFLATE" }).then(function (content) {
+                var fs = require('fs');
+                fs.writeFile(destinationFileName, content, 'binary', function (error1, data1) {
+                    if (!error1) {
+                        data1 = { "destinationFileName": destinationFileName };
+                    }
+                    callback(data1, error1);
+                });
+            });
+        }
+        else {
+            callback(null, { "message": "No filesAndDatas as array of file names" });
+        }
+    };
+    Toolbox.prototype.writeFileUnZip = function (callback, sourceFileName, removeZip) {
+        if (removeZip === void 0) { removeZip = true; }
+        var fs = require('fs');
+        var data = fs.readFileSync(sourceFileName);
+        var jszip = require("jszip");
+        var zip = new jszip();
+        zip.loadAsync(data).then(function (contents) {
+            var files = [];
+            Object.keys(contents.files).forEach(function (filename) {
+                zip.file(filename).async('nodebuffer').then(function (content) {
+                    fs.writeFileSync(filename, content);
+                    files.push(filename);
+                    if (files.length == Object.keys(contents.files).length) {
+                        if (removeZip) {
+                            var fs_1 = require('fs');
+                            fs_1.unlinkSync(sourceFileName);
+                        }
+                        callback(files, null);
+                    }
+                });
+            });
+        });
+    };
+    // Struture of filesAndDatas: [{"fileName": "", "data": ""}]
+    Toolbox.prototype.writeFiles = function (filesAndDatas) {
+        if (filesAndDatas && filesAndDatas.length > 0) {
+            for (var i = 0; i < filesAndDatas.length; i++) {
+                var fs = require('fs');
+                fs.writeFileSync(filesAndDatas[i].fileName, filesAndDatas[i].data);
+            }
+            return null;
+        }
+        else {
+            return { "message": "No filesAndDatas as array of file names" };
+        }
+    };
+    // Struture of filesAndDatas: [{"fileName": "", "data": ""}]
+    Toolbox.prototype.writeFilesAndPutFtp = function (callback, filesAndDatas, zipDestinationFileName, ftpConfig, ftpDestinationDirectory, zipFileFirst, removeSourceFiles) {
+        var _this = this;
+        if (zipFileFirst === void 0) { zipFileFirst = true; }
+        if (removeSourceFiles === void 0) { removeSourceFiles = true; }
+        if (zipFileFirst) {
+            this.writeFileZip(function (data, error) {
+                if (!error) {
+                    _this.ftpPut(function (data1, error1) {
+                        if (!error1) {
+                            if (removeSourceFiles) {
+                                var fs = require('fs');
+                                fs.unlinkSync(zipDestinationFileName);
+                            }
+                        }
+                        callback(data1, error1);
+                    }, ftpConfig, zipDestinationFileName, ftpDestinationDirectory);
+                }
+            }, filesAndDatas, zipDestinationFileName);
+        }
+        else {
+            this.writeFiles(filesAndDatas);
+            var sent_1 = 0;
+            for (var i = 0; i < filesAndDatas.length; i++) {
+                this.ftpPut(function (data1, error1) {
+                    sent_1++;
+                    if (sent_1 == filesAndDatas.length) {
+                        if (removeSourceFiles) {
+                            var fs = require('fs');
+                            for (var i = 0; i < filesAndDatas.length; i++) {
+                                fs.unlinkSync(filesAndDatas[i].fileName);
+                            }
+                        }
+                        callback(null, null);
+                    }
+                }, ftpConfig, filesAndDatas[i].fileName, ftpDestinationDirectory);
+            }
+        }
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

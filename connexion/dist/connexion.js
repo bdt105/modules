@@ -89,7 +89,9 @@ class Connexion {
     releaseSql() {
         if (this.sqlConnexion) {
             this.sqlConnexion.end(() => {
-                this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
+                if (this.sqlConnexion) {
+                    this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
+                }
             });
             this.sqlConnexion = null;
         }
