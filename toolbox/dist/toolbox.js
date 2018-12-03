@@ -419,23 +419,33 @@ var Toolbox = /** @class */ (function () {
         var diffMilliSeconds = date2.getTime() - date1.getTime();
         return diffMilliSeconds / 1000 / 60 / 60 / 24;
     };
-    Toolbox.prototype.log = function (text, fileName, logToConsole) {
+    Toolbox.prototype.log = function (text, fileName, logToConsole, isError) {
         if (fileName === void 0) { fileName = null; }
         if (logToConsole === void 0) { logToConsole = true; }
+        if (isError === void 0) { isError = false; }
         var dateTime = this.dateToDbString(new Date());
-        var txt = dateTime + " " + text + "\r\n";
+        var txt = dateTime + " " + JSON.stringify(text) + "\r\n";
         if (fileName) {
             var fs = require('fs');
             fs.appendFile(fileName, txt, function (err) {
                 if (err) {
-                    // Do nothing if can't log
-                    // throw err;
+                    console.error(err);
                 }
             });
         }
         if (logToConsole) {
-            console.log(txt);
+            if (!isError) {
+                console.log(txt);
+            }
+            else {
+                console.error(txt);
+            }
         }
+    };
+    Toolbox.prototype.logError = function (text, fileName, logToConsole) {
+        if (fileName === void 0) { fileName = null; }
+        if (logToConsole === void 0) { logToConsole = true; }
+        this.log(text, fileName, logToConsole, true);
     };
     Toolbox.prototype.postElastic = function (elasticUrl, index, type, data, id, extra, headers) {
         if (id === void 0) { id = null; }
@@ -860,18 +870,22 @@ var Toolbox = /** @class */ (function () {
         });
         return result;
     };
-    Toolbox.prototype.createHeaders = function (data, fieldSeparator, fieldEnclosed) {
+    Toolbox.prototype.createHeaders = function (data, fieldSeparator, fieldEnclosed, maxFieldSize) {
+        if (maxFieldSize === void 0) { maxFieldSize = null; }
         var header = "";
         var firstLine = data[0];
         var keys = Object.keys(firstLine);
         for (var i = 0; i < keys.length; i++) {
-            header += (header ? fieldSeparator : "") + fieldEnclosed + keys[i] + fieldEnclosed;
+            var val = keys[i];
+            val = maxFieldSize ? val.substr(0, maxFieldSize) : val;
+            header += (header ? fieldSeparator : "") + fieldEnclosed + val + fieldEnclosed;
         }
         return header;
     };
-    Toolbox.prototype.jsonToCsvFile = function (data, fieldSeparator, fieldEnclosed, lineSeparator, directory, fileName) {
+    Toolbox.prototype.jsonToCsvFile = function (data, fieldSeparator, fieldEnclosed, lineSeparator, directory, fileName, maxFieldSize) {
         if (directory === void 0) { directory = null; }
         if (fileName === void 0) { fileName = null; }
+        if (maxFieldSize === void 0) { maxFieldSize = null; }
         var ret = "";
         if (data && data.length > 0) {
             if (fileName) {
@@ -879,7 +893,7 @@ var Toolbox = /** @class */ (function () {
                 fs.appendFileSync(directory, this.createHeaders(data, fieldSeparator, fieldEnclosed));
             }
             else {
-                ret += this.createHeaders(data, fieldSeparator, fieldEnclosed);
+                ret += this.createHeaders(data, fieldSeparator, fieldEnclosed, maxFieldSize);
             }
             for (var i = 0; i < data.length; i++) {
                 var fields_1 = Object.keys(data[i]);
@@ -892,6 +906,7 @@ var Toolbox = /** @class */ (function () {
                     else {
                         value = "";
                     }
+                    value = maxFieldSize ? value.substr(0, maxFieldSize) : value;
                     line += (line == lineSeparator ? "" : fieldSeparator) + fieldEnclosed + value + fieldEnclosed;
                 }
                 if (fileName) {

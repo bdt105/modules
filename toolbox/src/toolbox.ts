@@ -424,21 +424,28 @@ export class Toolbox {
         return diffMilliSeconds / 1000 / 60 / 60 / 24;
     }
 
-    log(text: string, fileName: string = null, logToConsole: boolean = true) {
+    log(text: any, fileName: string = null, logToConsole: boolean = true, isError: boolean = false) {
         var dateTime = this.dateToDbString(new Date());
-        let txt = dateTime + " " + text + "\r\n";
+        let txt = dateTime + " " + JSON.stringify(text) + "\r\n";
         if (fileName) {
             var fs = require('fs');
             fs.appendFile(fileName, txt, (err: any) => {
                 if (err) {
-                    // Do nothing if can't log
-                    // throw err;
+                    console.error(err);
                 }
             });
         }
         if (logToConsole) {
-            console.log(txt);
+            if (!isError) {
+                console.log(txt);
+            } else {
+                console.error(txt);
+            }
         }
+    }
+
+    logError(text: string, fileName: string = null, logToConsole: boolean = true) {
+        this.log(text, fileName, logToConsole, true);
     }
 
     postElastic(elasticUrl: string, index: string, type: string, data: any, id: string = null, extra: string = null, headers: any = null) {
@@ -891,24 +898,26 @@ export class Toolbox {
         return result;
     }
 
-    private createHeaders(data: any, fieldSeparator: string, fieldEnclosed: string) {
+    private createHeaders(data: any, fieldSeparator: string, fieldEnclosed: string, maxFieldSize: number = null) {
         let header = "";
         let firstLine = data[0];
         let keys = Object.keys(firstLine);
         for (var i = 0; i < keys.length; i++) {
-            header += (header ? fieldSeparator : "") + fieldEnclosed + keys[i] + fieldEnclosed;
+            let val = keys[i];
+            val = maxFieldSize ? val.substr(0, maxFieldSize) : val;
+            header += (header ? fieldSeparator : "") + fieldEnclosed + val + fieldEnclosed;
         }
         return header;
     }
 
-    jsonToCsvFile(data: any, fieldSeparator: string, fieldEnclosed: string, lineSeparator: string, directory: string = null, fileName: string = null) {
+    jsonToCsvFile(data: any, fieldSeparator: string, fieldEnclosed: string, lineSeparator: string, directory: string = null, fileName: string = null, maxFieldSize: number = null) {
         let ret = "";
         if (data && data.length > 0) {
             if (fileName) {
                 var fs = require('fs');
                 fs.appendFileSync(directory, this.createHeaders(data, fieldSeparator, fieldEnclosed));
             } else {
-                ret += this.createHeaders(data, fieldSeparator, fieldEnclosed);
+                ret += this.createHeaders(data, fieldSeparator, fieldEnclosed, maxFieldSize);
             }
             for (var i = 0; i < data.length; i++) {
                 let fields = Object.keys(data[i]);
@@ -920,6 +929,8 @@ export class Toolbox {
                     } else {
                         value = "";
                     }
+                    value = maxFieldSize ? value.substr(0, maxFieldSize) : value;
+
                     line += (line == lineSeparator ? "" : fieldSeparator) + fieldEnclosed + value + fieldEnclosed;
                 }
                 if (fileName) {

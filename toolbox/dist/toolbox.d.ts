@@ -30,7 +30,8 @@ export declare class Toolbox {
     dateStringDbToDate(date: string): Date;
     dateWithoutTime(date: string): string;
     diffDateInDays(date1: Date, date2: Date): number;
-    log(text: string, fileName?: string, logToConsole?: boolean): void;
+    log(text: any, fileName?: string, logToConsole?: boolean, isError?: boolean): void;
+    logError(text: string, fileName?: string, logToConsole?: boolean): void;
     postElastic(elasticUrl: string, index: string, type: string, data: any, id?: string, extra?: string, headers?: any): void;
     loadFromJsonFile(fileName: string, encoding?: string): any;
     uniqueId(): any;
@@ -64,8 +65,8 @@ export declare class Toolbox {
     addSlashes(text: string): string;
     escapeString(text: string, removeCariageReturn: boolean): string;
     groupBy(array: any, group: string): any[];
-    private createHeaders(data, fieldSeparator, fieldEnclosed);
-    jsonToCsvFile(data: any, fieldSeparator: string, fieldEnclosed: string, lineSeparator: string, directory?: string, fileName?: string): string | {
+    private createHeaders(data, fieldSeparator, fieldEnclosed, maxFieldSize?);
+    jsonToCsvFile(data: any, fieldSeparator: string, fieldEnclosed: string, lineSeparator: string, directory?: string, fileName?: string, maxFieldSize?: number): string | {
         "fields": string[];
         "csv": string;
         "file": string;
