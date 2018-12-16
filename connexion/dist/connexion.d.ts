@@ -4,6 +4,7 @@ export declare class MySqlConfiguration {
     password: string;
     port: number;
     database: string;
+    multipleStatements: boolean;
     userTableName: string;
     loginFieldName: string;
     passwordFieldName: string;

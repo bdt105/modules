@@ -48,6 +48,7 @@ class Connexion {
             "host": this.mySqlConfiguration.host,
             "user": this.mySqlConfiguration.user,
             "port": this.mySqlConfiguration.port,
+            "multipleStatements": this.mySqlConfiguration.multipleStatements,
             "password": this.mySqlConfiguration.password,
             "database": this.mySqlConfiguration.database
         });
@@ -62,7 +63,8 @@ class Connexion {
             "user": this.mySqlConfiguration.user,
             "port": this.mySqlConfiguration.port,
             "password": this.mySqlConfiguration.password,
-            "database": this.mySqlConfiguration.database
+            "database": this.mySqlConfiguration.database,
+            "multipleStatements": this.mySqlConfiguration.multipleStatements
         });
         console.log("Database pool created");
     }

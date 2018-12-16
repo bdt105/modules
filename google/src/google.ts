@@ -1,5 +1,3 @@
-import { Toolbox } from "bdt105toolbox/dist";
-
 export class Google {
     private gapi: any;
     private API_KEY: string;
