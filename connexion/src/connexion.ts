@@ -125,7 +125,7 @@ export class Connexion {
                     connection.query(sql, (err: any, rows: any) => {
                         callback(err, rows);
                         connection.release();
-                        console.log("Connexion released");
+                        // console.log("Connexion released");
                     });
                 }
             }

@@ -80,7 +80,7 @@ class Connexion {
                 connection.query(sql, (err, rows) => {
                     callback(err, rows);
                     connection.release();
-                    console.log("Connexion released");
+                    // console.log("Connexion released");
                 });
             }
         });

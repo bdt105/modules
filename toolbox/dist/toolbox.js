@@ -5,7 +5,7 @@ var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
     Toolbox.prototype.formatDate = function (date, format) {
-        if (format === void 0) { format = "MM/DD/YYYY h:mm:ss"; }
+        if (format === void 0) { format = "MM/DD/YYYY hh:mm:ss"; }
         if (date) {
             var moment = require('moment');
             if (this.isValidDate(date)) {
