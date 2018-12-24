@@ -4,7 +4,7 @@ declare function escape(s: string): string;
 
 export class Toolbox {
 
-    formatDate(date: Date, format: string = "MM/DD/YYYY hh:mm:ss") {
+    formatDate(date: Date, format: string = "MM/DD/YYYY HH:mm:ss") {
         if (date) {
             var moment = require('moment');
             if (this.isValidDate(date)) {
