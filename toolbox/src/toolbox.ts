@@ -212,7 +212,7 @@ export class Toolbox {
 
     deleteObjectInList(array: any[], keySearch: string, keyValue: string) {
         let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
-        if (index > 0) {
+        if (index >= 0) {
             array.splice(index, 1);
         }
         return index;
@@ -220,7 +220,7 @@ export class Toolbox {
 
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any) {
         let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
-        if (index > 0) {
+        if (index >= 0) {
             array.splice(index, 1, object);
         }
         return index;
@@ -228,7 +228,7 @@ export class Toolbox {
 
     insertObjectInList(array: any[], keySearch: string, keyValue: string, object: any) {
         let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
-        if (index > 0) {
+        if (index >= 0) {
             array.splice(index, 0, object);
         }
         return index;
