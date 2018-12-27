@@ -14,20 +14,26 @@ var Toolbox = /** @class */ (function () {
             }
         }
         return null;
-        // if (date){
-        //     var year = date.getFullYear(),
-        //         month = date.getMonth() + 1, // months are zero indexed
-        //         day = date.getDate(),
-        //         hour = date.getHours(),
-        //         minute = date.getMinutes(),
-        //         second = date.getSeconds(),
-        //         hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-        //         minuteFormatted = minute < 10 ? "0" + minute : minute,
-        //         morning = hour < 12 ? "am" : "pm";
-        //     return month + "/" + day + "/" + year + " " + hourFormatted + ":" + minute + ":" + second;
-        // }else{
-        //     return "";
-        // }
+    };
+    Toolbox.prototype.prettyDate = function (date) {
+        if (date) {
+            var now = new Date();
+            var newFormat = "DD/MM/YYYY HH:mm";
+            var y1 = now.getFullYear();
+            var y2 = date.getFullYear();
+            if (y1 == y2) {
+                newFormat = newFormat.replace("/YYYY", "");
+                var d1 = now.getDate();
+                var d2 = date.getDate();
+                var m1 = now.getMonth();
+                var m2 = now.getMonth();
+                if (d1 == d2 && m1 == m2) {
+                    newFormat = newFormat.replace("DD/MM", "");
+                }
+            }
+            return this.formatDate(date, newFormat);
+        }
+        return null;
     };
     Toolbox.prototype.dateToDbString = function (date) {
         return date.toISOString().substr(0, 19).replace('T', ' ');
