@@ -15,7 +15,7 @@ var Toolbox = /** @class */ (function () {
         }
         return null;
     };
-    Toolbox.prototype.prettyDate = function (date) {
+    Toolbox.prototype.smartDate = function (date) {
         if (date) {
             var now = new Date();
             var newFormat = "DD/MM/YYYY HH:mm";
@@ -29,6 +29,9 @@ var Toolbox = /** @class */ (function () {
                 var m2 = now.getMonth();
                 if (d1 == d2 && m1 == m2) {
                     newFormat = newFormat.replace("DD/MM", "");
+                }
+                else {
+                    newFormat = newFormat.replace(" HH:mm", "");
                 }
             }
             return this.formatDate(date, newFormat);

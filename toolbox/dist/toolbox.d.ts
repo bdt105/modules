@@ -1,6 +1,6 @@
 export declare class Toolbox {
     formatDate(date: Date, format?: string): any;
-    prettyDate(date: Date): any;
+    smartDate(date: Date): any;
     dateToDbString(date: Date): string;
     isoDateToDbString(date: string): string;
     formatDateToLocal(date: Date, showTime?: boolean): string;

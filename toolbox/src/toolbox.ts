@@ -15,7 +15,7 @@ export class Toolbox {
         return null;
     }
 
-	prettyDate(date: Date) {
+	smartDate(date: Date) {
 		if (date) {
 			let now = new Date();
 			let newFormat = "DD/MM/YYYY HH:mm";
@@ -29,7 +29,9 @@ export class Toolbox {
 				let m2 = now.getMonth();
 				if (d1 == d2 && m1 == m2) {
 					newFormat = newFormat.replace("DD/MM", "");
-				}
+				}else{
+					newFormat = newFormat.replace(" HH:mm", "");
+                }
 			}
 			return this.formatDate(date, newFormat);
 		}
