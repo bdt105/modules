@@ -206,20 +206,40 @@ var Toolbox = /** @class */ (function () {
             return array;
         }
     };
-    Toolbox.prototype.findIndexArrayOfObjects = function (array, keySearch, keyValue) {
+    Toolbox.prototype.findIndexArrayOfObjects = function (array, keySearch, keyValue, equal) {
+        if (equal === void 0) { equal = true; }
         for (var i = 0; i < array.length; i++) {
-            if (array[i][keySearch] == keyValue) {
-                return i;
+            if (equal) {
+                if (array[i][keySearch] == keyValue) {
+                    return i;
+                }
+            }
+            else {
+                if (array[i][keySearch] != keyValue) {
+                    return i;
+                }
             }
         }
         return -1;
     };
-    Toolbox.prototype.deleteObjectInList = function (array, keySearch, keyValue) {
-        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+    Toolbox.prototype.deleteObjectInList = function (array, keySearch, keyValue, equal) {
+        if (equal === void 0) { equal = true; }
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
         if (index >= 0) {
             array.splice(index, 1);
         }
         return index;
+    };
+    Toolbox.prototype.deleteObjectsInList = function (array, keySearch, keyValue, equal) {
+        if (equal === void 0) { equal = true; }
+        var deleted = 0;
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
+        while (index >= 0) {
+            array.splice(index, 1);
+            index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
+            deleted++;
+        }
+        return deleted;
     };
     Toolbox.prototype.replaceObjectInList = function (array, keySearch, keyValue, object) {
         var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);

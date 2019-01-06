@@ -13,8 +13,9 @@ export declare class Toolbox {
     urlBase(url: string): string;
     filterArrayOfObjects(array: any[], keySearch: string, keyValue: any, caseSensitive?: boolean, accentSensitive?: boolean, exactMatching?: boolean, include?: boolean): any[];
     filterArrayOfObjectsAllFields(array: any[], searchTerm: string, caseSensitive?: boolean, accentSensitive?: boolean, exactMatching?: boolean, include?: boolean): any[];
-    findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string): number;
-    deleteObjectInList(array: any[], keySearch: string, keyValue: string): number;
+    findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string, equal?: boolean): number;
+    deleteObjectInList(array: any[], keySearch: string, keyValue: string, equal?: boolean): number;
+    deleteObjectsInList(array: any[], keySearch: string, keyValue: string, equal?: boolean): number;
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
     insertObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string): any[];

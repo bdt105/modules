@@ -15,29 +15,29 @@ export class Toolbox {
         return null;
     }
 
-	smartDate(date: Date) {
-		if (date) {
-			let now = new Date();
-			let newFormat = "DD/MM/YYYY HH:mm";
-			let y1 = now.getFullYear();
-			let y2 = date.getFullYear();
-			if (y1 == y2) {
-				newFormat = newFormat.replace("/YYYY", "");
-				let d1 = now.getDate();
-				let d2 = date.getDate();
-				let m1 = now.getMonth();
-				let m2 = now.getMonth();
-				if (d1 == d2 && m1 == m2) {
-					newFormat = newFormat.replace("DD/MM ", "");
-				}else{
-					newFormat = newFormat.replace(" HH:mm", "");
+    smartDate(date: Date) {
+        if (date) {
+            let now = new Date();
+            let newFormat = "DD/MM/YYYY HH:mm";
+            let y1 = now.getFullYear();
+            let y2 = date.getFullYear();
+            if (y1 == y2) {
+                newFormat = newFormat.replace("/YYYY", "");
+                let d1 = now.getDate();
+                let d2 = date.getDate();
+                let m1 = now.getMonth();
+                let m2 = now.getMonth();
+                if (d1 == d2 && m1 == m2) {
+                    newFormat = newFormat.replace("DD/MM ", "");
+                } else {
+                    newFormat = newFormat.replace(" HH:mm", "");
                 }
-			}
-			return this.formatDate(date, newFormat);
-		}
-		return null;
+            }
+            return this.formatDate(date, newFormat);
+        }
+        return null;
     }
-        
+
     dateToDbString(date: Date) {
         return date.toISOString().substr(0, 19).replace('T', ' ')
         // return date.getFullYear() + "-" + 
@@ -203,21 +203,38 @@ export class Toolbox {
         }
     }
 
-    findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string) {
+    findIndexArrayOfObjects(array: any[], keySearch: string, keyValue: string, equal: boolean = true) {
         for (var i = 0; i < array.length; i++) {
-            if (array[i][keySearch] == keyValue) {
-                return i;
+            if (equal) {
+                if (array[i][keySearch] == keyValue) {
+                    return i;
+                }
+            } else {
+                if (array[i][keySearch] != keyValue) {
+                    return i;
+                }
             }
         }
         return -1;
     }
 
-    deleteObjectInList(array: any[], keySearch: string, keyValue: string) {
-        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+    deleteObjectInList(array: any[], keySearch: string, keyValue: string, equal: boolean = true) {
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
         if (index >= 0) {
             array.splice(index, 1);
         }
         return index;
+    }
+
+    deleteObjectsInList(array: any[], keySearch: string, keyValue: string, equal: boolean = true) {
+        let deleted = 0;
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
+        while (index >= 0) {
+            array.splice(index, 1);
+            index = this.findIndexArrayOfObjects(array, keySearch, keyValue, equal);
+            deleted++;
+        }
+        return deleted;
     }
 
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any) {
