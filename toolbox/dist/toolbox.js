@@ -28,7 +28,7 @@ var Toolbox = /** @class */ (function () {
                 var m1 = now.getMonth();
                 var m2 = now.getMonth();
                 if (d1 == d2 && m1 == m2) {
-                    newFormat = newFormat.replace("DD/MM", "");
+                    newFormat = newFormat.replace("DD/MM ", "");
                 }
                 else {
                     newFormat = newFormat.replace(" HH:mm", "");
