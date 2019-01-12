@@ -838,7 +838,7 @@ export class Toolbox {
         ];
         var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
 
-        var str: string = text;
+        var str: string = text.toString();
         if (str && typeof str == "string") {
             for (var i = 0; i < accent.length; i++) {
                 str = str.replace(accent[i], noaccent[i]);

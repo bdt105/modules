@@ -204,6 +204,34 @@ class Vidal {
         }
     }
     ;
+    getPrescriptionLineDosageXml(prescriptionLine) {
+        let xml = "";
+        if (prescriptionLine.schemas) {
+            let active = prescriptionLine.schemas.activeSchema;
+            if (active && prescriptionLine.schemas["schema" + active] && prescriptionLine.schemas["schema" + active].converted) {
+                let converted = prescriptionLine.schemas["schema" + active].converted;
+                xml += "<dosages>";
+                for (var i = 0; i < converted.length; i++) {
+                    let conv = converted[i];
+                    xml += "<dosage>";
+                    xml += "<dose>" + (conv.dose ? conv.dose : "") + "</dose>";
+                    xml += "<unitId>" + (conv.unitId ? conv.unitId : "") + "</unitId>";
+                    if (conv.interval) {
+                        xml += "<interval>";
+                        xml += "<min>" + (conv.interval.min ? conv.interval.min : "") + "</min>";
+                        xml += "<max>" + (conv.interval.max ? conv.interval.max : "") + "</max>";
+                        xml += "<unitId>" + (conv.interval.unitId ? conv.interval.unitId : "") + "</unitId>";
+                        xml += "</interval>";
+                    }
+                    xml += "</dosage>";
+                }
+                xml += "</dosages>";
+                xml += "<period><startDate>" + (prescriptionLine.schemas.startDateString ? prescriptionLine.schemas.startDateString.replace(" ", "T") : "") +
+                    "</startDate><endDate>" + (prescriptionLine.schemas.endDateString ? prescriptionLine.schemas.endDateString.replace(" ", "T") : "") + "</endDate></period>";
+            }
+        }
+        return xml;
+    }
     getPrescriptionLineXml(prescriptionLine) {
         var xml = "<prescription-line>";
         xml += "<drug>vidal://" + prescriptionLine.productType + "/" + prescriptionLine.productId + "</drug>";
@@ -216,25 +244,29 @@ class Vidal {
         xml += "<frequencyType>" + (prescriptionLine.frequencyType ? prescriptionLine.frequencyType : "") + "</frequencyType>";
         xml += (prescriptionLine.routeId ? "<routes><route>vidal://route/" + prescriptionLine.routeId + "</route></routes>" : "");
         xml += (prescriptionLine.indicationIds && prescriptionLine.indicationIds != "" ? "<indications><indication>vidal://indication/" + prescriptionLine.indicationIds + "</indication></indications>" : "");
-        if (prescriptionLine.complexSchema == 1 && prescriptionLine.dosages) {
-            xml += "<dosages>";
-            for (var i = 0; i < prescriptionLine.dosages.length; i++) {
-                xml += "<dosage>";
-                xml += "<dose>" + (prescriptionLine.dosages[i].dose ? prescriptionLine.dosages[i].dose : "") + "</dose>";
-                xml += "<unitId>" + (prescriptionLine.dosages[i].unitId ? prescriptionLine.dosages[i].unitId : "") + "</unitId>";
-                if (prescriptionLine.dosages[i].interval) {
-                    xml += "<interval>";
-                    xml += "<min>" + (prescriptionLine.dosages[i].interval.min ? prescriptionLine.dosages[i].interval.min : "") + "</min>";
-                    xml += "<max>" + (prescriptionLine.dosages[i].interval.max ? prescriptionLine.dosages[i].interval.max : "") + "</max>";
-                    xml += "<unitId>" + (prescriptionLine.dosages[i].interval.unitId ? prescriptionLine.dosages[i].interval.unitId : "") + "</unitId>";
-                    xml += "</interval>";
+        xml += this.getPrescriptionLineDosageXml(prescriptionLine);
+        /*
+                if (prescriptionLine.complexSchema == 1 && prescriptionLine.dosages) {
+                    xml += "<dosages>";
+                    for (var i = 0; i < prescriptionLine.dosages.length; i++) {
+                        xml += "<dosage>";
+                        xml += "<dose>" + (prescriptionLine.dosages[i].dose ? prescriptionLine.dosages[i].dose : "") + "</dose>";
+                        xml += "<unitId>" + (prescriptionLine.dosages[i].unitId ? prescriptionLine.dosages[i].unitId : "") + "</unitId>";
+                        if (prescriptionLine.dosages[i].interval) {
+                            xml += "<interval>";
+                            xml += "<min>" + (prescriptionLine.dosages[i].interval.min ? prescriptionLine.dosages[i].interval.min : "") + "</min>";
+                            xml += "<max>" + (prescriptionLine.dosages[i].interval.max ? prescriptionLine.dosages[i].interval.max : "") + "</max>";
+                            xml += "<unitId>" + (prescriptionLine.dosages[i].interval.unitId ? prescriptionLine.dosages[i].interval.unitId : "") + "</unitId>";
+                            xml += "</interval>";
+                        }
+                        xml += "</dosage>";
+                    }
+                    xml += "</dosages>";
+                    xml += "<period><startDate>" + (prescriptionLine.startDate ? prescriptionLine.startDate.replace(" ", "T") : "") +
+                        "</startDate><endDate>" + (prescriptionLine.endDate ? prescriptionLine.endDate.replace(" ", "T") : "") + "</endDate></period>";
+        
                 }
-                xml += "</dosage>";
-            }
-            xml += "</dosages>";
-            xml += "<period><startDate>" + (prescriptionLine.startDate ? prescriptionLine.startDate.replace(" ", "T") : "") +
-                "</startDate><endDate>" + (prescriptionLine.endDate ? prescriptionLine.endDate.replace(" ", "T") : "") + "</endDate></period>";
-        }
+        */
         xml += "<status>" + prescriptionLine.status + "</status>";
         xml += prescriptionLine.group ? "<group><groupId>" + prescriptionLine.group.groupId + "</groupId>" + "<groupType>" + prescriptionLine.group.groupType + "</groupType></group>" : '';
         xml += prescriptionLine.aldStatus ? "<aldStatus><ald>" + (prescriptionLine.aldStatus.ald == 1).toString() + "</ald>" + "<aldCode>" + prescriptionLine.aldStatus.aldCode + "</aldCode></aldStatus>" : '';

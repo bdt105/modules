@@ -57,6 +57,7 @@ export declare class Vidal {
     getPrescriptionUnits(callback: Function, type: string, id: string): void;
     getPrescriptionRoutes(callback: Function, type: string, id: string): void;
     getIndications(callback: Function, type: string, id: string): void;
+    private getPrescriptionLineDosageXml(prescriptionLine);
     private getPrescriptionLineXml(prescriptionLine);
     private getBasicPatientXml(patient);
     private getPatientXml(patient);

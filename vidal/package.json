@@ -1,6 +1,6 @@
 {
   "name": "bdt105vidal",
-  "version": "1.0.64",
+  "version": "1.0.65",
   "description": "Vidal helper",
   "main": "index.js",
   "repository": "https://github.com/bdt105/modules/vidal",

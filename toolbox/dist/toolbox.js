@@ -824,7 +824,7 @@ var Toolbox = /** @class */ (function () {
             /[\307]/g, /[\347]/g,
         ];
         var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
-        var str = text;
+        var str = text.toString();
         if (str && typeof str == "string") {
             for (var i = 0; i < accent.length; i++) {
                 str = str.replace(accent[i], noaccent[i]);
