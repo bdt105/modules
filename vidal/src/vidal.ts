@@ -216,6 +216,13 @@ export class Vidal {
         }
     };
 
+    getIndicators(callback: Function, type: string, id: string) {
+        if (type && id) {
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/indicators" + this.getUrlCredentials("?");
+            this.rest.call((data: any, error: any) => callback(data, error), "GET", url, null, this.contentType, true);
+        }
+    };
+
     private getPrescriptionLineDosageXml(prescriptionLine: any) {
         let xml = "";
         if (prescriptionLine.schemas) {

@@ -204,6 +204,13 @@ class Vidal {
         }
     }
     ;
+    getIndicators(callback, type, id) {
+        if (type && id) {
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + type + "/" + id + "/indicators" + this.getUrlCredentials("?");
+            this.rest.call((data, error) => callback(data, error), "GET", url, null, this.contentType, true);
+        }
+    }
+    ;
     getPrescriptionLineDosageXml(prescriptionLine) {
         let xml = "";
         if (prescriptionLine.schemas) {
