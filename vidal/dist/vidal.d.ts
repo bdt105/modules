@@ -64,7 +64,8 @@ export declare class Vidal {
     private getPatientXml(patient);
     private getPrescriptionXml(prescription);
     getAlerts(callback: Function, prescription: any, params: any, type: string): void;
-    getPrescriptionIndicators(callback: Function, prescription: any): void;
+    private getRelevantIndicators(indicators);
+    assignIndicatorsToLines(prescription: any): void;
     private getAlertColor(severity);
     private getRelevantAlerts(alert);
     assignAlertsToLines(prescription: any, xmlAlerts: any): void;

@@ -388,16 +388,7 @@ export class Vidal {
             if (prescription.lines.length > 0) {
                 this.rest.call(
                     (dataAlerts: any, errorAlerts: any) => {
-                        if (dataAlerts) {
-                            this.getPrescriptionIndicators(
-                                (data: any, error: any) => {
-                                    dataAlerts.indicators = data;
-                                    callback(dataAlerts, error)
-                                }, prescription
-                            )
-                        } else {
-                            callback(dataAlerts, errorAlerts);
-                        }
+                        callback(dataAlerts, errorAlerts)
                     }, "POST", params.url, params.body, this.contentType, true);
             } else {
                 callback(null, "No line in the prescription or no prescription");
@@ -407,17 +398,29 @@ export class Vidal {
         }
     }
 
-    getPrescriptionIndicators(callback: Function, prescription: any) {
+    private getRelevantIndicators(indicators: any) {
+        let ret = [];
+        if (indicators && indicators.json && indicators.json.feed && indicators.json.feed.entry) {
+            for (var j = 0; j < indicators.json.feed.entry.length; j++) {
+                var indic = indicators.json.feed.entry[j];
+                for (var l = 0; l < indic["vidal:indicator"].length; l++) {
+                    var indicator = indic["vidal:indicator"][l];
+                    let color = { "background": "blue", "font": "white" }
+                    ret.push({ "0": { "_": indicator["_"] }, "tag": indicator["_"], "color": color, "id": indicator["vidalId"][0] });
+                }
+            }
+        }
+        return ret;
+    }
+
+    assignIndicatorsToLines(prescription: any) {
         if (prescription && prescription.lines) {
             for (var i = 0; i < prescription.lines.length; i++) {
                 let line = prescription.lines[i];
                 let ret = [];
                 this.getIndicators(
                     (data: any, error: any) => {
-                        ret.push(data);
-                        if (i == prescription.lines.length) {
-                            callback(ret, error);
-                        }
+                        line.indicators = this.getRelevantIndicators(data);
                     }, line.productType, line.productId
                 )
             }
@@ -512,21 +515,6 @@ export class Vidal {
                         if (alert.id[0].startsWith("vidal://prescription_line")) {
                             if (alert["vidal:drugId"][0] == line.productId) {
                                 line.alertSummary = this.getRelevantAlerts(alert);
-                            }
-                        }
-                    }
-                }
-                if (xmlAlerts.indicators) {
-                    for (var k = 0; k < xmlAlerts.indicators.length; k++) {
-                        let xmlIndicators = xmlAlerts.indicators[k];
-                        if (xmlIndicators && xmlIndicators.json && xmlIndicators.json.feed && xmlIndicators.json.feed.entry) {
-                            for (var j = 0; j < xmlIndicators.json.feed.entry.length; j++) {
-                                var indic = xmlIndicators.json.feed.entry[j];
-                                for (var l = 0; l < indic["vidal:indicator"].length; l++) {
-                                    var indicator = indic["vidal:indicator"][l];
-                                    let color = { "background": "blue", "font": "white" }
-                                    line.alertSummary.push({ "0": { "_": indicator["_"] }, "tag": indicator["_"], "color": color, "id": indicator["vidalId"][0] })
-                                }
                             }
                         }
                     }
