@@ -363,7 +363,17 @@ class Vidal {
         if (prescription && prescription.lines) {
             this.toolbox.log(params.body);
             if (prescription.lines.length > 0) {
-                this.rest.call((data, error) => callback(data, error), "POST", params.url, params.body, this.contentType, true);
+                this.rest.call((dataAlerts, errorAlerts) => {
+                    if (dataAlerts) {
+                        this.getPrescriptionIndicators((data, error) => {
+                            dataAlerts.indicators = data;
+                            callback(dataAlerts, error);
+                        }, prescription);
+                    }
+                    else {
+                        callback(dataAlerts, errorAlerts);
+                    }
+                }, "POST", params.url, params.body, this.contentType, true);
             }
             else {
                 callback(null, "No line in the prescription or no prescription");
@@ -371,6 +381,20 @@ class Vidal {
         }
         else {
             callback(null, "No line in the prescription or no prescription");
+        }
+    }
+    getPrescriptionIndicators(callback, prescription) {
+        if (prescription && prescription.lines) {
+            for (var i = 0; i < prescription.lines.length; i++) {
+                let line = prescription.lines[i];
+                let ret = [];
+                this.getIndicators((data, error) => {
+                    ret.push(data);
+                    if (i == prescription.lines.length) {
+                        callback(ret, error);
+                    }
+                }, line.productType, line.productId);
+            }
         }
     }
     getAlertColor(severity) {
@@ -452,12 +476,27 @@ class Vidal {
             for (var i = 0; i < prescription.lines.length; i++) {
                 var line = prescription.lines[i];
                 line.alertSummary = [];
-                if (xmlAlerts && xmlAlerts.feed && xmlAlerts.feed.entry) {
-                    for (var j = 0; j < xmlAlerts.feed.entry.length; j++) {
-                        var alert = xmlAlerts.feed.entry[j];
+                if (xmlAlerts && xmlAlerts.json && xmlAlerts.json.feed && xmlAlerts.json.feed.entry) {
+                    for (var j = 0; j < xmlAlerts.json.feed.entry.length; j++) {
+                        var alert = xmlAlerts.json.feed.entry[j];
                         if (alert.id[0].startsWith("vidal://prescription_line")) {
                             if (alert["vidal:drugId"][0] == line.productId) {
                                 line.alertSummary = this.getRelevantAlerts(alert);
+                            }
+                        }
+                    }
+                }
+                if (xmlAlerts.indicators) {
+                    for (var k = 0; k < xmlAlerts.indicators.length; k++) {
+                        let xmlIndicators = xmlAlerts.indicators[k];
+                        if (xmlIndicators && xmlIndicators.json && xmlIndicators.json.feed && xmlIndicators.json.feed.entry) {
+                            for (var j = 0; j < xmlIndicators.json.feed.entry.length; j++) {
+                                var indic = xmlIndicators.json.feed.entry[j];
+                                for (var l = 0; l < indic["vidal:indicator"].length; l++) {
+                                    var indicator = indic["vidal:indicator"][l];
+                                    let color = { "background": "blue", "font": "white" };
+                                    line.alertSummary.push({ "0": { "_": indicator["_"] }, "tag": indicator["_"], "color": color, "id": indicator["vidalId"][0] });
+                                }
                             }
                         }
                     }
