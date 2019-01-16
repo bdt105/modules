@@ -288,7 +288,12 @@ export class Vidal {
                 }
         */
         xml += "<status>" + (prescriptionLine.status ? prescriptionLine.status : "") + "</status>";
-        xml += prescriptionLine.group ? "<group><groupId>" + prescriptionLine.group.groupId + "</groupId>" + "<groupType>" + prescriptionLine.group.groupType + "</groupType></group>" : '';
+        if (prescriptionLine.group && prescriptionLine.group.groupType) {
+            xml += "<group>";
+            xml += prescriptionLine.group.groupId ? "<groupId>" + prescriptionLine.group.groupId + "</groupId>" : "";
+            xml += prescriptionLine.group.groupType ? "<groupType>" + prescriptionLine.group.groupType + "</groupType>" : '';
+            xml += "</group>"
+        }
         xml += prescriptionLine.aldStatus ? "<aldStatus><ald>" + (prescriptionLine.aldStatus.ald == 1).toString() + "</ald>" + "<aldCode>" + prescriptionLine.aldStatus.aldCode + "</aldCode></aldStatus>" : '';
         return xml + "</prescription-line>";
     }
