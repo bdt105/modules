@@ -58,6 +58,7 @@ export declare class Vidal {
     getPrescriptionRoutes(callback: Function, type: string, id: string): void;
     getIndications(callback: Function, type: string, id: string): void;
     getIndicators(callback: Function, type: string, id: string): void;
+    setIndicators(callback: Function, prescriptionLine: any): void;
     private getPrescriptionLineDosageXml(prescriptionLine);
     private getPrescriptionLineXml(prescriptionLine);
     private getBasicPatientXml(patient);
@@ -65,7 +66,6 @@ export declare class Vidal {
     private getPrescriptionXml(prescription);
     getAlerts(callback: Function, prescription: any, params: any, type: string): void;
     private getRelevantIndicators(indicators);
-    assignIndicatorsToLines(prescription: any): void;
     private getAlertColor(severity);
     private getRelevantAlerts(alert);
     assignAlertsToLines(prescription: any, xmlAlerts: any): void;

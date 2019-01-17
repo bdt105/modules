@@ -211,6 +211,16 @@ class Vidal {
         }
     }
     ;
+    setIndicators(callback, prescriptionLine) {
+        if (prescriptionLine) {
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + prescriptionLine.productType + "/" + prescriptionLine.productId + "/indicators" + this.getUrlCredentials("?");
+            this.rest.call((data, error) => {
+                prescriptionLine.indicators = this.getRelevantIndicators(data);
+                callback(data, error);
+            }, "GET", url, null, this.contentType, true);
+        }
+    }
+    ;
     getPrescriptionLineDosageXml(prescriptionLine) {
         let xml = "";
         if (prescriptionLine.schemas) {
@@ -394,17 +404,24 @@ class Vidal {
         }
         return ret;
     }
-    assignIndicatorsToLines(prescription) {
-        if (prescription && prescription.lines) {
-            for (var i = 0; i < prescription.lines.length; i++) {
-                let line = prescription.lines[i];
-                let ret = [];
-                this.getIndicators((data, error) => {
-                    line.indicators = this.getRelevantIndicators(data);
-                }, line.productType, line.productId);
+    /*
+        assignIndicatorsToLines(callback: Function, prescription: any) {
+            if (prescription && prescription.lines) {
+                for (var i = 0; i < prescription.lines.length; i++) {
+                    let line = prescription.lines[i];
+                    this.setIndicators(prescription.lines[i]);
+                    // this.getIndicators(
+                    //     (data: any, error: any) => {
+                    //         line.indicators = this.getRelevantIndicators(data);
+                    //         if (i == prescription.lines.length) {
+                    //             callback(prescription.lines, null);
+                    //         }
+                    //     }, line.productType, line.productId
+                    // )
+                }
             }
         }
-    }
+    */
     getAlertColor(severity) {
         var color = { "background": "red", "font": "" };
         switch (severity) {

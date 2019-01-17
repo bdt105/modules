@@ -223,6 +223,17 @@ export class Vidal {
         }
     };
 
+    setIndicators(callback: Function, prescriptionLine: any) {
+        if (prescriptionLine) {
+            let url = this.getApiBaseUrl() + this.getApiDomain() + "/" + prescriptionLine.productType + "/" + prescriptionLine.productId + "/indicators" + this.getUrlCredentials("?");
+            this.rest.call(
+                (data: any, error: any) => {
+                    prescriptionLine.indicators = this.getRelevantIndicators(data);
+                    callback(data, error)
+                }, "GET", url, null, this.contentType, true);
+        }
+    };
+
     private getPrescriptionLineDosageXml(prescriptionLine: any) {
         let xml = "";
         if (prescriptionLine.schemas) {
@@ -417,21 +428,24 @@ export class Vidal {
         }
         return ret;
     }
-
-    assignIndicatorsToLines(prescription: any) {
+/*
+    assignIndicatorsToLines(callback: Function, prescription: any) {
         if (prescription && prescription.lines) {
             for (var i = 0; i < prescription.lines.length; i++) {
                 let line = prescription.lines[i];
-                let ret = [];
-                this.getIndicators(
-                    (data: any, error: any) => {
-                        line.indicators = this.getRelevantIndicators(data);
-                    }, line.productType, line.productId
-                )
+                this.setIndicators(prescription.lines[i]);
+                // this.getIndicators(
+                //     (data: any, error: any) => {
+                //         line.indicators = this.getRelevantIndicators(data);
+                //         if (i == prescription.lines.length) {
+                //             callback(prescription.lines, null);
+                //         }
+                //     }, line.productType, line.productId
+                // )
             }
         }
     }
-
+*/
     private getAlertColor(severity: string) {
         var color = { "background": "red", "font": "" };
         switch (severity) {
