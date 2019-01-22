@@ -319,13 +319,19 @@ export class Vidal {
                 dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19) : "";
             }
 
+            let breastFeedingStartDate = patient.breastFeedingStartDate;
+            if (typeof breastFeedingStartDate == "string") {
+                breastFeedingStartDate = patient.breastFeedingStartDate ? patient.breastFeedingStartDate.replace(" ", "T") : "";
+            } else {
+                breastFeedingStartDate = patient.breastFeedingStartDate ? patient.breastFeedingStartDate.toISOString().replace(" ", "T").substring(0, 19) : "";
+            }
+
             xml += patient.dateOfBirth ? ("<dateOfBirth>" + dateOfBirth + "</dateOfBirth>") : "";
             xml += "<gender>" + patient.gender + "</gender>";
             xml += "<weight>" + patient.weight + "</weight>";
             xml += "<height>" + patient.height + "</height>";
             xml += patient.breastFeeding && patient.breastFeeding != "" && patient.breastFeeding != "-1" ? "<breastFeeding>" + patient.breastFeeding + "</breastFeeding>" : "";
-            xml += this.toolbox.isValidDate(patient.breastFeedingStartDate) ?
-                "<breastFeedingStartDate>" + patient.breastFeedingStartDate.replace(" ", "T") + "</breastFeedingStartDate>" : "";
+            xml += patient.breastFeedingStartDate ? ("<breastFeedingStartDate>" + breastFeedingStartDate + "</breastFeedingStartDate>") : "";
             xml += patient.weeksOfAmenorrhea && patient.weeksOfAmenorrhea != "" && patient.weeksOfAmenorrhea != "-1" ? "<weeksOfAmenorrhea>" + patient.weeksOfAmenorrhea + "</weeksOfAmenorrhea>" : "";
             xml += patient.creatin && patient.creatin != "" && patient.creatin != null && patient.creatin != "-1" ? "<creatin>" + patient.creatin + "</creatin>" : "";
             xml += patient.hepaticInsufficiency && patient.hepaticInsufficiency != "" ? "<hepaticInsufficiency>" + patient.hepaticInsufficiency + "</hepaticInsufficiency>" : "";
@@ -428,24 +434,24 @@ export class Vidal {
         }
         return ret;
     }
-/*
-    assignIndicatorsToLines(callback: Function, prescription: any) {
-        if (prescription && prescription.lines) {
-            for (var i = 0; i < prescription.lines.length; i++) {
-                let line = prescription.lines[i];
-                this.setIndicators(prescription.lines[i]);
-                // this.getIndicators(
-                //     (data: any, error: any) => {
-                //         line.indicators = this.getRelevantIndicators(data);
-                //         if (i == prescription.lines.length) {
-                //             callback(prescription.lines, null);
-                //         }
-                //     }, line.productType, line.productId
-                // )
+    /*
+        assignIndicatorsToLines(callback: Function, prescription: any) {
+            if (prescription && prescription.lines) {
+                for (var i = 0; i < prescription.lines.length; i++) {
+                    let line = prescription.lines[i];
+                    this.setIndicators(prescription.lines[i]);
+                    // this.getIndicators(
+                    //     (data: any, error: any) => {
+                    //         line.indicators = this.getRelevantIndicators(data);
+                    //         if (i == prescription.lines.length) {
+                    //             callback(prescription.lines, null);
+                    //         }
+                    //     }, line.productType, line.productId
+                    // )
+                }
             }
         }
-    }
-*/
+    */
     private getAlertColor(severity: string) {
         var color = { "background": "red", "font": "" };
         switch (severity) {
