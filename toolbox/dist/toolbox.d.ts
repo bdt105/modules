@@ -28,6 +28,7 @@ export declare class Toolbox {
     pushArray(source: any[], destination: any[]): void;
     removeKeyFromArray(array: any[], key: string): boolean;
     isValidDate(date: any): boolean;
+    isDateHigherThanNow(date: any): boolean;
     dateDbToStringFr(date: string, separator?: string): string;
     dateStringDbToDate(date: string): Date;
     dateWithoutTime(date: string): string;

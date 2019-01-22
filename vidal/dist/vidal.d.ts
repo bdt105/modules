@@ -31,6 +31,7 @@ export declare class Vidal {
         "app_id": string;
         "app_key": string;
         "alertsStyle": boolean;
+        "activeLinesOnly": boolean;
         "alertsHtmlStyle": string;
         "alertsHtmlStyleHideSidebar": string;
         "alertsHtmlStyleHideHeader": string;
@@ -64,6 +65,7 @@ export declare class Vidal {
     private getBasicPatientXml(patient);
     private getPatientXml(patient);
     private getPrescriptionXml(prescription);
+    private isLineValid(line);
     getAlerts(callback: Function, prescription: any, params: any, type: string): void;
     private getRelevantIndicators(indicators);
     private getAlertColor(severity);

@@ -423,6 +423,22 @@ var Toolbox = /** @class */ (function () {
             }
         }
     };
+    Toolbox.prototype.isDateHigherThanNow = function (date) {
+        var ret = true;
+        try {
+            var now = new Date();
+            if (typeof date == "string") {
+                var d = new Date(date);
+                ret = isNaN(d.getTime()) ? true : d.getTime() >= now.getTime();
+            }
+            else {
+                ret = isNaN(date.getTime()) ? true : date.getTime() >= now.getTime();
+            }
+        }
+        catch (error) {
+        }
+        return ret;
+    };
     Toolbox.prototype.dateDbToStringFr = function (date, separator) {
         if (separator === void 0) { separator = "-"; }
         if (date) {

@@ -420,6 +420,23 @@ export class Toolbox {
         }
     }
 
+    isDateHigherThanNow(date: any) {
+        let ret = true;
+        try {
+            let now = new Date();
+            if (typeof date == "string") {
+                let d = new Date(date);
+                ret = isNaN(d.getTime()) ? true : d.getTime() >= now.getTime();
+            } else {
+                ret = isNaN(date.getTime()) ? true : date.getTime() >= now.getTime();
+            }
+        } catch (error) {
+
+        }
+        return ret;
+    }
+
+
     dateDbToStringFr(date: string, separator = "-") {
         if (date) {
             return date.substr(8, 2) + separator + date.substr(5, 2) + separator + date.substr(0, 4);

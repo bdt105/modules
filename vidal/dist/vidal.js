@@ -34,6 +34,7 @@ class Vidal {
             "app_id": "",
             "app_key": "",
             "alertsStyle": false,
+            "activeLinesOnly": true,
             "alertsHtmlStyle": "#main{max-width: 100%} .jquery_tabs ul.tabs-list{width: 20%} .jquery_tabs .content {width: 79%; border: 0px} #main, #sommaire_summary, .grid, .jquery_tabs .content, td {background: transparent}",
             "alertsHtmlStyleHideSidebar": "",
             "alertsHtmlStyleHideHeader": "body {margin-top: 10px}",
@@ -376,7 +377,9 @@ class Vidal {
             var xmlLines = "<prescription-lines>";
             if (prescription.lines) {
                 for (var i = 0; i < prescription.lines.length; i++) {
-                    xmlLines += this.getPrescriptionLineXml(prescription.lines[i]);
+                    if (this.isLineValid(prescription.lines[i])) {
+                        xmlLines += this.getPrescriptionLineXml(prescription.lines[i]);
+                    }
                 }
             }
             xmlLines += "</prescription-lines>";
@@ -384,6 +387,13 @@ class Vidal {
             return ret + xmlPatient + xmlLines + "</prescription>";
         }
         return "";
+    }
+    isLineValid(line) {
+        let ret = true;
+        if (this.configuration.activeLinesOnly) {
+            ret = this.toolbox.isDateHigherThanNow(line.endDate);
+        }
+        return ret;
     }
     getAlerts(callback, prescription, params, type) {
         params.url = this.getApiBaseUrl() + this.getApiDomain() +
