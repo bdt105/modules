@@ -297,19 +297,27 @@ class Vidal {
     getBasicPatientXml(patient) {
         var xml = "";
         if (patient) {
-            var dateOfBirth = patient.dateOfBirth;
+            var dateOfBirth = null;
             if (typeof dateOfBirth == "string") {
                 dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.replace(" ", "T") : "";
             }
             else {
-                dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19) : "";
+                try {
+                    dateOfBirth = patient.dateOfBirth ? patient.dateOfBirth.toISOString().replace(" ", "T").substring(0, 19) : "";
+                }
+                catch (error) {
+                }
             }
-            let breastFeedingStartDate = patient.breastFeedingStartDate;
+            let breastFeedingStartDate = null;
             if (typeof breastFeedingStartDate == "string") {
                 breastFeedingStartDate = patient.breastFeedingStartDate ? patient.breastFeedingStartDate.replace(" ", "T") : "";
             }
             else {
-                breastFeedingStartDate = patient.breastFeedingStartDate ? patient.breastFeedingStartDate.toISOString().replace(" ", "T").substring(0, 19) : "";
+                try {
+                    breastFeedingStartDate = patient.breastFeedingStartDate ? patient.breastFeedingStartDate.toISOString().replace(" ", "T").substring(0, 19) : "";
+                }
+                catch (error) {
+                }
             }
             xml += patient.dateOfBirth ? ("<dateOfBirth>" + dateOfBirth + "</dateOfBirth>") : "";
             xml += "<gender>" + patient.gender + "</gender>";
