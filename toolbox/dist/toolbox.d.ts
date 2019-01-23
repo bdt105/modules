@@ -48,7 +48,7 @@ export declare class Toolbox {
     removeFromStorage(key: string): void;
     xml2json(xml: string, callback?: Function): any;
     fillDocWithContent(doc: any, content: string): void;
-    sortArrayOfObjects(arr: any[], sortProperty: string): any[];
+    sortArrayOfObjects(arr: any[], sortProperty: string, asc?: boolean): any[];
     searchElementSpecial(list: any[], key: string, value: string): any;
     sES(list: any[], key: string, value: string): any;
     getValueSpecial(object: any, fieldName: string, subFieldName?: string): any;

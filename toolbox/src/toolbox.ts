@@ -638,15 +638,14 @@ export class Toolbox {
         }
     }
 
-    sortArrayOfObjects(arr: any[], sortProperty: string) {
-        function compare(a, b) {
+    sortArrayOfObjects(arr: any[], sortProperty: string, asc: boolean = true) {
+        function compare(a: any, b: any) {
             if (a[sortProperty] < b[sortProperty])
-                return -1;
+                return asc ? -1 : 1;
             if (a[sortProperty] > b[sortProperty])
-                return 1;
+                return asc ? 1 : -1;
             return 0;
         }
-
         return arr.sort(compare);
     }
 

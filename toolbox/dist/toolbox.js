@@ -644,12 +644,13 @@ var Toolbox = /** @class */ (function () {
             doc.close();
         }
     };
-    Toolbox.prototype.sortArrayOfObjects = function (arr, sortProperty) {
+    Toolbox.prototype.sortArrayOfObjects = function (arr, sortProperty, asc) {
+        if (asc === void 0) { asc = true; }
         function compare(a, b) {
             if (a[sortProperty] < b[sortProperty])
-                return -1;
+                return asc ? -1 : 1;
             if (a[sortProperty] > b[sortProperty])
-                return 1;
+                return asc ? 1 : -1;
             return 0;
         }
         return arr.sort(compare);
