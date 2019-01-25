@@ -105,6 +105,13 @@ export class Rest {
 
             if (bbody && typeof bbody === "string"){
                 data.json = this.toolbox.xml2json(bbody);
+                if (!data.json){
+                    try {
+                        data.json = JSON.parse(bbody);
+                    } catch (e) {
+                        data.json = undefined;
+                    }
+                }
             }
 
             this.toolbox.log(url + JSON.stringify(data), this.logFileName , this.logToConsole);

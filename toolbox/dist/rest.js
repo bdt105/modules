@@ -97,6 +97,14 @@ var Rest = /** @class */ (function () {
             }
             if (bbody && typeof bbody === "string") {
                 data.json = _this.toolbox.xml2json(bbody);
+                if (!data.json) {
+                    try {
+                        data.json = JSON.parse(bbody);
+                    }
+                    catch (e) {
+                        data.json = undefined;
+                    }
+                }
             }
             _this.toolbox.log(url + JSON.stringify(data), _this.logFileName, _this.logToConsole);
             if (callback) {
