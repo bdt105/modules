@@ -524,6 +524,10 @@ var Toolbox = /** @class */ (function () {
     Toolbox.prototype.getUniqueId = function () {
         return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
     };
+    Toolbox.prototype.getUniqueShortId = function () {
+        var shortid = require('shortid');
+        return shortid.generate();
+    };
     Toolbox.prototype.beautifyXml = function (text) {
         if (text && text != null) {
             var pd = require('pretty-data').pd;

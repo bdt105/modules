@@ -525,6 +525,11 @@ export class Toolbox {
         return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
     }
 
+    getUniqueShortId() {
+        const shortid = require('shortid');
+        return shortid.generate();
+    }
+
     beautifyXml(text: string) {
         if (text && text != null) {
             var pd = require('pretty-data').pd;

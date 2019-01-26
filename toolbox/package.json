@@ -1,6 +1,6 @@
 {
     "name": "bdt105toolbox",
-    "version": "2.0.20",
+    "version": "2.0.22",
     "description": "Toolbox: several tools",
     "main": "index.js",
     "repository": {
@@ -12,12 +12,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "ftp": "^0.3.10",
+        "jszip": "^3.1.5",
         "moment": "^2.20.1",
         "pretty-data": "^0.40.0",
         "request": "^2.83.0",
-        "xml2js": "^0.4.19",
-        "ftp": "^0.3.10",
-        "jszip": "^3.1.5"
+        "shortid": "^2.2.14",
+        "xml2js": "^0.4.19"
     },
     "devDependencies": {
         "@types/node": "^8.0.44"

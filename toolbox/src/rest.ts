@@ -61,13 +61,13 @@ export class Rest {
         
         let bod = body;
 
-        if (typeof bod == "string"){
+        if (bod && typeof bod == "string"){
             if (this.toolbox.isJson(bod)){
                 bod = JSON.stringify(bod);
             }
         }
         
-        if (typeof bod == "object"){
+        if (bod && typeof bod == "object"){
             bod = JSON.stringify(bod);
         }        
         

@@ -39,6 +39,7 @@ export declare class Toolbox {
     loadFromJsonFile(fileName: string, encoding?: string): any;
     uniqueId(): any;
     getUniqueId(): string;
+    getUniqueShortId(): any;
     beautifyXml(text: string): any;
     beautifyJson(text: string): any;
     writeToStorage(key: string, object: any, forever: boolean): void;

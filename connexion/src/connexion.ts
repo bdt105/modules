@@ -222,6 +222,19 @@ export class Connexion {
         }
     }
 
+    checkJwtWithField(token: string, field: string, value: string): Token {
+        var jwt = require('jsonwebtoken');
+        try {
+            var decoded = jwt.verify(token, this.jwtConfiguration.secret);
+            if (decoded && decoded[field] == value) {
+                this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+            }
+            return new Token(token, Connexion.jwtStatusOk, decoded);
+        } catch (err) {
+            return new Token(token, Connexion.jwtStatusERR, null);
+        }
+    }
+
     isTokenValid(token: string): boolean {
         let jwt = this.checkJwt(token);
         if (jwt) {

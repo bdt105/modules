@@ -59,12 +59,12 @@ var Rest = /** @class */ (function () {
         if (headers === void 0) { headers = null; }
         var request = require('request');
         var bod = body;
-        if (typeof bod == "string") {
+        if (bod && typeof bod == "string") {
             if (this.toolbox.isJson(bod)) {
                 bod = JSON.stringify(bod);
             }
         }
-        if (typeof bod == "object") {
+        if (bod && typeof bod == "object") {
             bod = JSON.stringify(bod);
         }
         var options = {
