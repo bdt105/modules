@@ -702,8 +702,12 @@ export class Toolbox {
         return this.getValueSpecial(object, fieldName, subFieldName);
     }
 
+    escapeRegExp(str: string) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    }
+
     replaceAll(text: string, search: string, replacement: string) {
-        return text.replace(new RegExp(search, 'g'), replacement);
+        return text.replace(new RegExp(this.escapeRegExp(search), 'g'), replacement);
     };
 
     addMomentToDate(date: Date, unit: string, value: number) {

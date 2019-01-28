@@ -709,8 +709,11 @@ var Toolbox = /** @class */ (function () {
         if (subFieldName === void 0) { subFieldName = null; }
         return this.getValueSpecial(object, fieldName, subFieldName);
     };
+    Toolbox.prototype.escapeRegExp = function (str) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    };
     Toolbox.prototype.replaceAll = function (text, search, replacement) {
-        return text.replace(new RegExp(search, 'g'), replacement);
+        return text.replace(new RegExp(this.escapeRegExp(search), 'g'), replacement);
     };
     ;
     Toolbox.prototype.addMomentToDate = function (date, unit, value) {

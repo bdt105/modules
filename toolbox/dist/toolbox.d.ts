@@ -54,6 +54,7 @@ export declare class Toolbox {
     sES(list: any[], key: string, value: string): any;
     getValueSpecial(object: any, fieldName: string, subFieldName?: string): any;
     gVS(object: any, fieldName: string, subFieldName?: string): any;
+    escapeRegExp(str: string): string;
     replaceAll(text: string, search: string, replacement: string): string;
     addMomentToDate(date: Date, unit: string, value: number): any;
     cloneObject(object: any): any;
