@@ -53,7 +53,9 @@ export declare class Connexion {
     querySql(callback: Function, sql: string): void;
     querySqlWithoutConnexion(callback: Function, sql: string): void;
     getJwt(callback: Function, login: string, plainPassword: string, where?: string): void;
+    createJwt(data: any): any;
     checkJwt(token: string): Token;
+    checkJwtWithField(token: string, field: string, value: string): Token;
     isTokenValid(token: string): boolean;
     encrypt(plain: string): string;
     compareEncrypt(encrypted: string, plain: string): boolean;

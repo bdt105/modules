@@ -169,7 +169,7 @@ export class Connexion {
             let encryptedPassword = this.encrypt(plainPassword);
             user = rows[0];
             if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]) {
-                jwt = this.jsonwebtoken.sign(user, this.jwtConfiguration.secret);
+                jwt = this.createJwt(user);
                 callback(err, jwt);
             } else {
                 callback("Wrong password or login", jwt);
@@ -209,10 +209,14 @@ export class Connexion {
         }
     }
 
+
+    createJwt(data: any){
+        return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret);
+    }
+    
     checkJwt(token: string): Token {
-        var jwt = require('jsonwebtoken');
         try {
-            var decoded = jwt.verify(token, this.jwtConfiguration.secret);
+            var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
             if (decoded.iduser) {
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }
@@ -223,9 +227,8 @@ export class Connexion {
     }
 
     checkJwtWithField(token: string, field: string, value: string): Token {
-        var jwt = require('jsonwebtoken');
         try {
-            var decoded = jwt.verify(token, this.jwtConfiguration.secret);
+            var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
             if (decoded && decoded[field] == value) {
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }

@@ -119,7 +119,7 @@ class Connexion {
             let encryptedPassword = this.encrypt(plainPassword);
             user = rows[0];
             if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]) {
-                jwt = this.jsonwebtoken.sign(user, this.jwtConfiguration.secret);
+                jwt = this.createJwt(user);
                 callback(err, jwt);
             }
             else {
@@ -152,11 +152,25 @@ class Connexion {
             this.sqlConnexion.query(sql, (err, rows) => this.callbackGetJwt(callback, err, rows, plainPassword));
         }
     }
+    createJwt(data) {
+        return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret);
+    }
     checkJwt(token) {
-        var jwt = require('jsonwebtoken');
         try {
-            var decoded = jwt.verify(token, this.jwtConfiguration.secret);
+            var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
             if (decoded.iduser) {
+                this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+            }
+            return new Token(token, Connexion.jwtStatusOk, decoded);
+        }
+        catch (err) {
+            return new Token(token, Connexion.jwtStatusERR, null);
+        }
+    }
+    checkJwtWithField(token, field, value) {
+        try {
+            var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
+            if (decoded && decoded[field] == value) {
                 this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
             }
             return new Token(token, Connexion.jwtStatusOk, decoded);
