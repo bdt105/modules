@@ -152,8 +152,8 @@ class Connexion {
             this.sqlConnexion.query(sql, (err, rows) => this.callbackGetJwt(callback, err, rows, plainPassword));
         }
     }
-    createJwt(data) {
-        return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret);
+    createJwt(data, options = null) {
+        return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret, options);
     }
     checkJwt(token) {
         try {
