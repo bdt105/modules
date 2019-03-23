@@ -255,6 +255,21 @@ var Toolbox = /** @class */ (function () {
         }
         return index;
     };
+    Toolbox.prototype.pushObjectInList = function (array, keySearch, keyValue, object, allowDuplicates) {
+        var index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index >= 0) {
+            if (allowDuplicates) {
+                array.push(object);
+            }
+            else {
+                array[index] = object;
+            }
+        }
+        else {
+            array.push(object);
+        }
+        return index;
+    };
     Toolbox.prototype.factorizeMasterSlave = function (data, masterIdFieldName, slaveIdFieldName, slaveName) {
         var rows = [];
         for (var i = 0; i < data.length; i++) {
@@ -1082,6 +1097,39 @@ var Toolbox = /** @class */ (function () {
                 }, ftpConfig, filesAndDatas[i].fileName, ftpDestinationDirectory);
             }
         }
+    };
+    Toolbox.prototype.checksum = function (data, algorithm, encoding) {
+        if (algorithm === void 0) { algorithm = null; }
+        if (encoding === void 0) { encoding = null; }
+        var crypto = require('crypto');
+        return crypto
+            .createHash(algorithm || 'md5')
+            .update(data, 'utf8')
+            .digest(encoding || 'hex');
+    };
+    Toolbox.prototype.checksumFile = function (callback, filePath, algorithm, encoding) {
+        var _this = this;
+        if (algorithm === void 0) { algorithm = null; }
+        if (encoding === void 0) { encoding = null; }
+        var fs = require('fs');
+        fs.readFile(filePath, function (err, data) {
+            var sum = null;
+            if (!err) {
+                sum = _this.checksum(data, algorithm, encoding);
+            }
+            callback(sum, err);
+        });
+    };
+    Toolbox.prototype.checksumFileSync = function (filePath, algorithm, encoding) {
+        if (algorithm === void 0) { algorithm = null; }
+        if (encoding === void 0) { encoding = null; }
+        var ret = null;
+        var fs = require('fs');
+        var data = fs.readFileSync(filePath);
+        if (data) {
+            ret = this.checksum(data, algorithm, encoding);
+        }
+        return ret;
     };
     return Toolbox;
 }());

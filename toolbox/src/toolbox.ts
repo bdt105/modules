@@ -253,6 +253,20 @@ export class Toolbox {
         return index;
     }
 
+    pushObjectInList(array: any[], keySearch: string, keyValue: string, object: any, allowDuplicates: boolean) {
+        let index = this.findIndexArrayOfObjects(array, keySearch, keyValue);
+        if (index >= 0) {
+            if (allowDuplicates) {
+                array.push(object)
+            } else {
+                array[index] = object;
+            }
+        } else {
+            array.push(object)
+        }
+        return index;
+    }
+
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string) {
         let rows = [];
         for (var i = 0; i < data.length; i++) {
@@ -1109,5 +1123,34 @@ export class Toolbox {
         }
     }
 
+
+    checksum(data: any, algorithm: string = null, encoding: string = null) {
+        var crypto = require('crypto')
+        return crypto
+            .createHash(algorithm || 'md5')
+            .update(data, 'utf8')
+            .digest(encoding || 'hex')
+    }
+
+    checksumFile(callback: Function, filePath: string, algorithm: string = null, encoding: string = null) {
+        let fs = require('fs');
+        fs.readFile(filePath, (err: any, data: any) => {
+            let sum = null;
+            if (!err) {
+                sum = this.checksum(data, algorithm, encoding);
+            }
+            callback(sum, err);
+        })
+    }
+
+    checksumFileSync(filePath: string, algorithm: string = null, encoding: string = null) {
+        let ret = null;
+        let fs = require('fs');
+        let data = fs.readFileSync(filePath);
+        if (data) {
+            ret = this.checksum(data, algorithm, encoding);
+        }
+        return ret;
+    }
 
 }

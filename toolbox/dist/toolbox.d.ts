@@ -18,6 +18,7 @@ export declare class Toolbox {
     deleteObjectsInList(array: any[], keySearch: string, keyValue: string, equal?: boolean): number;
     replaceObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
     insertObjectInList(array: any[], keySearch: string, keyValue: string, object: any): number;
+    pushObjectInList(array: any[], keySearch: string, keyValue: string, object: any, allowDuplicates: boolean): number;
     factorizeMasterSlave(data: any, masterIdFieldName: string, slaveIdFieldName: string, slaveName: string): any[];
     updateUrlParameter(url: string, parameter: string, value: string): string;
     updateUrlParameters(url: string, parameters: any[]): string;
@@ -83,4 +84,7 @@ export declare class Toolbox {
         "message": string;
     };
     writeFilesAndPutFtp(callback: Function, filesAndDatas: any, zipDestinationFileName: string, ftpConfig: any, ftpDestinationDirectory: string, zipFileFirst?: boolean, removeSourceFiles?: boolean): void;
+    checksum(data: any, algorithm?: string, encoding?: string): any;
+    checksumFile(callback: Function, filePath: string, algorithm?: string, encoding?: string): void;
+    checksumFileSync(filePath: string, algorithm?: string, encoding?: string): any;
 }
