@@ -1,6 +1,3 @@
-import { decode } from 'punycode';
-import { Toolbox } from "bdt105toolbox/dist";
-
 export class MySqlConfiguration {
     public host: string;
     public user: string;
@@ -208,7 +205,6 @@ export class Connexion {
                 (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, plainPassword));
         }
     }
-
 
     createJwt(data: any, options: any = null){
         return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret, options);
