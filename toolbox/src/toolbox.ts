@@ -917,7 +917,7 @@ export class Toolbox {
     }
 
     getFileNameWithoutExtension(fileName: string) {
-        if (fileName) {
+        if (fileName && fileName.lastIndexOf('.') > -1) {
             return fileName.substring(0, fileName.lastIndexOf('.'));
         }
         return fileName;

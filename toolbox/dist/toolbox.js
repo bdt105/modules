@@ -900,7 +900,7 @@ var Toolbox = /** @class */ (function () {
         return Math.random().toString(36).slice(-8);
     };
     Toolbox.prototype.getFileNameWithoutExtension = function (fileName) {
-        if (fileName) {
+        if (fileName && fileName.lastIndexOf('.') > -1) {
             return fileName.substring(0, fileName.lastIndexOf('.'));
         }
         return fileName;
