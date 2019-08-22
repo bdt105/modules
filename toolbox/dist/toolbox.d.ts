@@ -87,4 +87,5 @@ export declare class Toolbox {
     checksum(data: any, algorithm?: string, encoding?: string): any;
     checksumFile(callback: Function, filePath: string, algorithm?: string, encoding?: string): void;
     checksumFileSync(filePath: string, algorithm?: string, encoding?: string): any;
+    getWeekDay(date: Date): string;
 }

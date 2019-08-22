@@ -1131,6 +1131,23 @@ var Toolbox = /** @class */ (function () {
         }
         return ret;
     };
+    Toolbox.prototype.getWeekDay = function (date) {
+        var days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+        if (date) {
+            return days[date.getDay()];
+        }
+        else {
+            return null;
+        }
+    };
     return Toolbox;
 }());
 exports.Toolbox = Toolbox;

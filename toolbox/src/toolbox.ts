@@ -1153,4 +1153,20 @@ export class Toolbox {
         return ret;
     }
 
+    getWeekDay(date: Date) {
+        var days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+        if (date) {
+            return days[date.getDay()];
+        } else {
+            return null;
+        }
+    }
 }
