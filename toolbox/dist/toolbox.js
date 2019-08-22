@@ -4,10 +4,14 @@ var index_1 = require("./index");
 var Toolbox = /** @class */ (function () {
     function Toolbox() {
     }
-    Toolbox.prototype.formatDate = function (date, format) {
+    Toolbox.prototype.formatDate = function (date, format, lang) {
         if (format === void 0) { format = "DD/MM/YYYY HH:mm:ss"; }
+        if (lang === void 0) { lang = ""; }
         if (date) {
             var moment = require('moment');
+            if (lang) {
+                moment.locale(lang.toLowerCase());
+            }
             if (this.isValidDate(date)) {
                 var d = moment(date);
                 return d.format(format);

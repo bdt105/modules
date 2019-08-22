@@ -1,5 +1,5 @@
 export declare class Toolbox {
-    formatDate(date: Date, format?: string): any;
+    formatDate(date: Date, format?: string, lang?: string): any;
     smartDate(date: Date): any;
     dateToDbString(date: Date): string;
     isoDateToDbString(date: string): string;

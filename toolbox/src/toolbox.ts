@@ -4,16 +4,19 @@ declare function escape(s: string): string;
 
 export class Toolbox {
 
-    formatDate(date: Date, format: string = "DD/MM/YYYY HH:mm:ss") {
+    formatDate(date: Date, format: string = "DD/MM/YYYY HH:mm:ss", lang: string = "") {
         if (date) {
             var moment = require('moment');
+            if (lang) {
+                moment.locale(lang.toLowerCase());
+            }
             if (this.isValidDate(date)) {
                 var d = moment(date);
                 return d.format(format);
             }
         }
         return null;
-    }
+	}    
 
     smartDate(date: Date) {
         if (date) {
