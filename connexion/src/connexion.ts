@@ -207,7 +207,8 @@ export class Connexion {
     }
 
     createJwt(data: any, options: any = null){
-        return this.jsonwebtoken.sign(data, this.jwtConfiguration.secret, options);
+        let payload = JSON.parse(JSON.stringify(data))
+        return this.jsonwebtoken.sign(payload, this.jwtConfiguration.secret, options);
     }
     
     checkJwt(token: string): Token {
