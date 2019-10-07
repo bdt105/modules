@@ -16,7 +16,16 @@ export class Toolbox {
             }
         }
         return null;
-	}    
+    }
+
+    stringToDate(date: string, format: string) {
+        let ret = date;
+        var moment = require('moment');
+        if (date && format) {
+            ret = moment(date, format).toDate();
+        }
+        return ret;
+    }
 
     smartDate(date: Date) {
         if (date) {

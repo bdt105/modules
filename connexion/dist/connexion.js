@@ -109,7 +109,7 @@ class Connexion {
             this.log('Connected to the database as id ' + this.sqlConnexion.threadId);
         }
     }
-    callbackGetJwt(callback, err, rows, plainPassword) {
+    callbackGetJwt(callback, err, rows, plainPassword, jwtOptions) {
         this.rows = rows;
         this.err = err;
         let user = {};
@@ -119,7 +119,7 @@ class Connexion {
             let encryptedPassword = this.encrypt(plainPassword);
             user = rows[0];
             if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]) {
-                jwt = this.createJwt(user);
+                jwt = this.createJwt(user, jwtOptions);
                 callback(err, jwt);
             }
             else {
@@ -145,11 +145,11 @@ class Connexion {
     querySqlWithoutConnexion(callback, sql) {
         this.sqlConnexion.query(sql, (err, rows) => callback(err, rows));
     }
-    getJwt(callback, login, plainPassword, where = null) {
+    getJwt(callback, login, plainPassword, where = null, jwtOptions = null) {
         this.connectSql();
         if (this.sqlConnexion) {
             let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
-            this.sqlConnexion.query(sql, (err, rows) => this.callbackGetJwt(callback, err, rows, plainPassword));
+            this.sqlConnexion.query(sql, (err, rows) => this.callbackGetJwt(callback, err, rows, plainPassword, jwtOptions));
         }
     }
     createJwt(data, options = null) {

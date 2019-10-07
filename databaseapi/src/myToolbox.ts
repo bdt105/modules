@@ -2,7 +2,6 @@ import { Toolbox } from "bdt105toolbox/dist";
 
 export class MyToolbox extends Toolbox{
     private configuration: any;
-    private toolbox: Toolbox;
 
     constructor(){
         super();

@@ -1,9 +1,8 @@
 import express = require('express');
 
-import { Connexion, MySqlConfiguration } from "bdt105connexion/dist";
+import { Connexion } from "bdt105connexion/dist";
 import { Toolbox } from "bdt105toolbox/dist";
-import { MyToolbox } from "./myToolbox";
-import { RecordsetApi, TableApi } from './index';
+import { TableApi } from './index';
 
 let app = express();
 
@@ -32,6 +31,6 @@ let conn = new Connexion(configuration.mySql, configuration.authentification);
 conn.tryConnectSql();
 
 // Contact Header
-new TableApi(app, conn, false).assign("contactheader", "idcontactheader");
+new TableApi(app, conn, false).assign("authentification", "idauthentification");
 
 app.listen(port);
