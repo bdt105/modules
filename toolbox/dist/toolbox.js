@@ -20,7 +20,7 @@ var Toolbox = /** @class */ (function () {
         return null;
     };
     Toolbox.prototype.stringToDate = function (date, format) {
-        var ret = date;
+        var ret = null;
         var moment = require('moment');
         if (date && format) {
             ret = moment(date, format).toDate();

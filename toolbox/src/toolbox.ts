@@ -19,7 +19,7 @@ export class Toolbox {
     }
 
     stringToDate(date: string, format: string) {
-        let ret = date;
+        let ret = null;
         var moment = require('moment');
         if (date && format) {
             ret = moment(date, format).toDate();
