@@ -491,9 +491,13 @@ export class Toolbox {
         return diffMilliSeconds / 1000 / 60 / 60 / 24;
     }
 
-    log(text: any, fileName: string = null, logToConsole: boolean = true, isError: boolean = false) {
+    log(text: any, fileName: string = null, logToConsole: boolean = true, isError: boolean = false, maxLength = null) {
         var dateTime = this.dateToDbString(new Date());
-        let txt = dateTime + " " + JSON.stringify(text) + "\r\n";
+        let txtt = dateTime + " " + JSON.stringify(text);
+        if (maxLength) {
+            txtt = txtt.substr(0, maxLength);
+        }
+        let txt = txtt + "\r\n";
         if (fileName) {
             var fs = require('fs');
             fs.appendFile(fileName, txt, (err: any) => {
@@ -511,8 +515,8 @@ export class Toolbox {
         }
     }
 
-    logError(text: string, fileName: string = null, logToConsole: boolean = true) {
-        this.log(text, fileName, logToConsole, true);
+    logError(text: string, fileName: string = null, logToConsole: boolean = true, maxLength = null) {
+        this.log(text, fileName, logToConsole, true, maxLength);
     }
 
     postElastic(elasticUrl: string, index: string, type: string, data: any, id: string = null, extra: string = null, headers: any = null) {

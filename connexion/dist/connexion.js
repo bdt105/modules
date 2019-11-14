@@ -10,9 +10,6 @@ class MySqlConfiguration {
         this.userTableName = userTableName;
         this.loginFieldName = loginFieldName;
         this.passwordFieldName = passwordFieldName;
-        this.emailFieldName = passwordFieldName;
-        this.applicationFieldName = applicationFieldName;
-        this.idFieldName = idFieldName;
     }
 }
 exports.MySqlConfiguration = MySqlConfiguration;

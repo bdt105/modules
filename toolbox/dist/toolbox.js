@@ -491,12 +491,17 @@ var Toolbox = /** @class */ (function () {
         var diffMilliSeconds = date2.getTime() - date1.getTime();
         return diffMilliSeconds / 1000 / 60 / 60 / 24;
     };
-    Toolbox.prototype.log = function (text, fileName, logToConsole, isError) {
+    Toolbox.prototype.log = function (text, fileName, logToConsole, isError, maxLength) {
         if (fileName === void 0) { fileName = null; }
         if (logToConsole === void 0) { logToConsole = true; }
         if (isError === void 0) { isError = false; }
+        if (maxLength === void 0) { maxLength = null; }
         var dateTime = this.dateToDbString(new Date());
-        var txt = dateTime + " " + JSON.stringify(text) + "\r\n";
+        var txtt = dateTime + " " + JSON.stringify(text);
+        if (maxLength) {
+            txtt = txtt.substr(0, maxLength);
+        }
+        var txt = txtt + "\r\n";
         if (fileName) {
             var fs = require('fs');
             fs.appendFile(fileName, txt, function (err) {
@@ -514,10 +519,11 @@ var Toolbox = /** @class */ (function () {
             }
         }
     };
-    Toolbox.prototype.logError = function (text, fileName, logToConsole) {
+    Toolbox.prototype.logError = function (text, fileName, logToConsole, maxLength) {
         if (fileName === void 0) { fileName = null; }
         if (logToConsole === void 0) { logToConsole = true; }
-        this.log(text, fileName, logToConsole, true);
+        if (maxLength === void 0) { maxLength = null; }
+        this.log(text, fileName, logToConsole, true, maxLength);
     };
     Toolbox.prototype.postElastic = function (elasticUrl, index, type, data, id, extra, headers) {
         if (id === void 0) { id = null; }

@@ -35,8 +35,8 @@ export declare class Toolbox {
     dateStringDbToDate(date: string): Date;
     dateWithoutTime(date: string): string;
     diffDateInDays(date1: Date, date2: Date): number;
-    log(text: any, fileName?: string, logToConsole?: boolean, isError?: boolean): void;
-    logError(text: string, fileName?: string, logToConsole?: boolean): void;
+    log(text: any, fileName?: string, logToConsole?: boolean, isError?: boolean, maxLength?: any): void;
+    logError(text: string, fileName?: string, logToConsole?: boolean, maxLength?: any): void;
     postElastic(elasticUrl: string, index: string, type: string, data: any, id?: string, extra?: string, headers?: any): void;
     loadFromJsonFile(fileName: string, encoding?: string): any;
     uniqueId(): any;

@@ -9,9 +9,6 @@ export class MySqlConfiguration {
     public userTableName: string;
     public loginFieldName: string;
     public passwordFieldName: string;
-    public emailFieldName: string;
-    public applicationFieldName: string;
-    public idFieldName: string;
 
     constructor(host: string, port: number, user: string, password: string, database: string, userTableName: string = null, idFieldName: string = null, loginFieldName: string = null, passwordFieldName: string = null, emailFieldName: string = null, applicationFieldName: string = null) {
         this.host = host;
@@ -22,9 +19,6 @@ export class MySqlConfiguration {
         this.userTableName = userTableName;
         this.loginFieldName = loginFieldName;
         this.passwordFieldName = passwordFieldName;
-        this.emailFieldName = passwordFieldName;
-        this.applicationFieldName = applicationFieldName;
-        this.idFieldName = idFieldName;
     }
 }
 
