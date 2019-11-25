@@ -191,7 +191,7 @@ export class Connexion {
             (err: any, rows: any) => callback(err, rows));
     }
 
-    getJwt(callback: Function, login: string, password: string, where: string = null, jwtOptions: any = null, isPasswordCrypted = true) {
+    getJwt(callback: Function, login: string, password: string, where: string = null, jwtOptions: any = null, isPasswordCrypted = false) {
         this.connectSql();
         if (this.sqlConnexion) {
             let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");

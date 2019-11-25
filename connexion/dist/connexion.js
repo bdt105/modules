@@ -142,7 +142,7 @@ class Connexion {
     querySqlWithoutConnexion(callback, sql) {
         this.sqlConnexion.query(sql, (err, rows) => callback(err, rows));
     }
-    getJwt(callback, login, password, where = null, jwtOptions = null, isPasswordCrypted = true) {
+    getJwt(callback, login, password, where = null, jwtOptions = null, isPasswordCrypted = false) {
         this.connectSql();
         if (this.sqlConnexion) {
             let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
