@@ -150,16 +150,16 @@ export class Connexion {
         }
     }
 
-    private callbackGetJwt(callback: Function, err: any, rows: any, plainPassword: string, jwtOptions: any) {
+    private callbackGetJwt(callback: Function, err: any, rows: any, password: string, jwtOptions: any, isPasswordCrypted: boolean) {
         this.rows = rows;
         this.err = err;
         let user: any = {};
         let jwt = null;
         this.releaseSql();
         if (rows && rows.length > 0) {
-            let encryptedPassword = this.encrypt(plainPassword);
+            let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
             user = rows[0];
-            if (encryptedPassword === user[this.mySqlConfiguration.passwordFieldName]) {
+            if (comparePassword === user[this.mySqlConfiguration.passwordFieldName]) {
                 jwt = this.createJwt(user, jwtOptions);
                 callback(err, jwt);
             } else {
@@ -191,20 +191,20 @@ export class Connexion {
             (err: any, rows: any) => callback(err, rows));
     }
 
-    getJwt(callback: Function, login: string, plainPassword: string, where: string = null, jwtOptions: any = null) {
+    getJwt(callback: Function, login: string, password: string, where: string = null, jwtOptions: any = null, isPasswordCrypted = true) {
         this.connectSql();
         if (this.sqlConnexion) {
             let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
             this.sqlConnexion.query(sql,
-                (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, plainPassword, jwtOptions));
+                (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, password, jwtOptions, isPasswordCrypted));
         }
     }
 
-    createJwt(data: any, options: any = null){
+    createJwt(data: any, options: any = null) {
         let payload = JSON.parse(JSON.stringify(data))
         return this.jsonwebtoken.sign(payload, this.jwtConfiguration.secret, options);
     }
-    
+
     checkJwt(token: string): Token {
         try {
             var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);

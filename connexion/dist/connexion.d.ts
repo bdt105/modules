@@ -45,11 +45,11 @@ export declare class Connexion {
     getSqlConnexion(): any;
     releaseSql(): void;
     private callbackConnect(err);
-    private callbackGetJwt(callback, err, rows, plainPassword, jwtOptions);
+    private callbackGetJwt(callback, err, rows, password, jwtOptions, isPasswordCrypted);
     private callbackQuerySql(callback, err, rows);
     querySql(callback: Function, sql: string): void;
     querySqlWithoutConnexion(callback: Function, sql: string): void;
-    getJwt(callback: Function, login: string, plainPassword: string, where?: string, jwtOptions?: any): void;
+    getJwt(callback: Function, login: string, password: string, where?: string, jwtOptions?: any, isPasswordCrypted?: boolean): void;
     createJwt(data: any, options?: any): any;
     checkJwt(token: string): Token;
     checkJwtWithField(token: string, field: string, value: string): Token;
