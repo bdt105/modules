@@ -1,3 +1,5 @@
+import { Toolbox, Rest } from 'bdt105toolbox/dist'
+
 export class MySqlConfiguration {
     public host: string;
     public user: string;
@@ -63,6 +65,8 @@ export class Connexion {
     public permissions: string;
     public epirationDate: number;
     public mySqlPool: any;
+
+    private rest = new Rest();
 
     constructor(mySqlConfiguration: MySqlConfiguration = null, jwtConfiguration: JwtConfiguration = null) {
         this.mySqlConfiguration = mySqlConfiguration;
@@ -208,12 +212,62 @@ export class Connexion {
     checkJwt(token: string): Token {
         try {
             var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
-            if (decoded.iduser) {
-                this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+            if (decoded) {
+                if (decoded.iduser) {
+                    this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+                }
+                return new Token(token, Connexion.jwtStatusOk, decoded);
             }
-            return new Token(token, Connexion.jwtStatusOk, decoded);
         } catch (err) {
             return new Token(token, Connexion.jwtStatusERR, null);
+        }
+    }
+
+    checkGoogleApi(callback: Function, token: string) {
+        this.rest.call(
+            (data: any, error: any) => {
+                callback(data, error);
+            }, "POST", "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token
+        )
+    }
+
+    checkGoogleProm(token: string) {
+        return new Promise((resolve: any, reject: any) => {
+            this.checkGoogleApi(
+                (data: any, error: any) => {
+                    if (!error && data) {
+                        resolve(data);
+                    } else {
+                        reject(error);
+                    }
+                }, token
+            )
+        })
+    }
+
+    async checkGoogle(token: string) {
+        let google: any = await this.checkGoogleProm(token);
+        if (google && google.statusCode == 200 && google.json) {
+            return new Token(token, Connexion.jwtStatusOk, google.json);
+        } else {
+            return new Token(token, Connexion.jwtStatusERR, null);
+        }
+    }
+
+    async checkToken(token: string) {
+        console.log('calling');
+        let ret: any = this.checkJwt(token);
+        if (ret && ret.decoded) {
+            return ret;
+        } else {
+            ret = await this.checkGoogle(token);
+            console.log(ret);
+            if (ret && ret.decoded) {
+                ret.decoded.type = "google";
+                return ret;
+            } else {
+                return null;
+            }
         }
     }
 

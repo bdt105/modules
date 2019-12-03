@@ -37,6 +37,7 @@ export declare class Connexion {
     permissions: string;
     epirationDate: number;
     mySqlPool: any;
+    private rest;
     constructor(mySqlConfiguration?: MySqlConfiguration, jwtConfiguration?: JwtConfiguration);
     private log(text);
     connectSql(): any;
@@ -52,6 +53,10 @@ export declare class Connexion {
     getJwt(callback: Function, login: string, password: string, where?: string, jwtOptions?: any, isPasswordCrypted?: boolean): void;
     createJwt(data: any, options?: any): any;
     checkJwt(token: string): Token;
+    checkGoogleApi(callback: Function, token: string): void;
+    checkGoogleProm(token: string): Promise<{}>;
+    checkGoogle(token: string): Promise<Token>;
+    checkToken(token: string): Promise<any>;
     checkJwtWithField(token: string, field: string, value: string): Token;
     isTokenValid(token: string): boolean;
     encrypt(plain: string): string;

@@ -1,5 +1,14 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const dist_1 = require("bdt105toolbox/dist");
 class MySqlConfiguration {
     constructor(host, port, user, password, database, userTableName = null, idFieldName = null, loginFieldName = null, passwordFieldName = null, emailFieldName = null, applicationFieldName = null) {
         this.host = host;
@@ -32,6 +41,7 @@ class Token {
 exports.Token = Token;
 class Connexion {
     constructor(mySqlConfiguration = null, jwtConfiguration = null) {
+        this.rest = new dist_1.Rest();
         this.mySqlConfiguration = mySqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
         this.mySql = require('mysql');
@@ -156,14 +166,64 @@ class Connexion {
     checkJwt(token) {
         try {
             var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
-            if (decoded.iduser) {
-                this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+            if (decoded) {
+                if (decoded.iduser) {
+                    this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
+                }
+                return new Token(token, Connexion.jwtStatusOk, decoded);
             }
-            return new Token(token, Connexion.jwtStatusOk, decoded);
         }
         catch (err) {
             return new Token(token, Connexion.jwtStatusERR, null);
         }
+    }
+    checkGoogleApi(callback, token) {
+        this.rest.call((data, error) => {
+            callback(data, error);
+        }, "POST", "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
+    }
+    checkGoogleProm(token) {
+        return new Promise((resolve, reject) => {
+            this.checkGoogleApi((data, error) => {
+                if (!error && data) {
+                    resolve(data);
+                }
+                else {
+                    reject(error);
+                }
+            }, token);
+        });
+    }
+    checkGoogle(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let google = yield this.checkGoogleProm(token);
+            if (google && google.statusCode == 200 && google.json) {
+                return new Token(token, Connexion.jwtStatusOk, google.json);
+            }
+            else {
+                return new Token(token, Connexion.jwtStatusERR, null);
+            }
+        });
+    }
+    checkToken(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('calling');
+            let ret = this.checkJwt(token);
+            if (ret && ret.decoded) {
+                return ret;
+            }
+            else {
+                ret = yield this.checkGoogle(token);
+                console.log(ret);
+                if (ret && ret.decoded) {
+                    ret.decoded.type = "google";
+                    return ret;
+                }
+                else {
+                    return null;
+                }
+            }
+        });
     }
     checkJwtWithField(token, field, value) {
         try {
