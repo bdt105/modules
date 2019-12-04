@@ -5,5 +5,5 @@ let mySqlConfiguration = new connexion_1.MySqlConfiguration("localhost", 3306, "
 let jwtConfiguration = new connexion_1.JwtConfiguration("secretbdt105", "$2a$10$abcdefabcdefabcdefabcd", "userRequestEmail@mail.com", "adminToken"); // Optional - defines JWT parameters
 var c = new connexion_1.Connexion(mySqlConfiguration, jwtConfiguration);
 let token = "ya29.ImCzB2AH7o6-BXixR6x9RA7AhuslJ4E6ClRYIeL_jbdP9ms2t3OrhGcjTbNd5BFEfK62CKWiyHlGCpsvUZXqI8-IL7f2DNwcgkVjgzzQvEl348rkxJ-31mIjchjIILaZ4EU";
-c.checkToken(token);
+// c.checkToken(token);
 //# sourceMappingURL=test.js.map

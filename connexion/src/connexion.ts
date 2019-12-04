@@ -213,9 +213,6 @@ export class Connexion {
         try {
             var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
             if (decoded) {
-                if (decoded.iduser) {
-                    this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
-                }
                 return new Token(token, Connexion.jwtStatusOk, decoded);
             }
         } catch (err) {
@@ -231,52 +228,29 @@ export class Connexion {
         )
     }
 
-    checkGoogleProm(token: string) {
-        return new Promise((resolve: any, reject: any) => {
+    checkToken(callback: Function, token: string) {
+        let ret: any = this.checkJwt(token);
+        if (ret && ret.decoded) {
+            ret.decoded.type = "standard";
+            callback(ret, null);
+        } else {
             this.checkGoogleApi(
                 (data: any, error: any) => {
-                    if (!error && data) {
-                        resolve(data);
+                    if (data && data.json) {
+                        data.json.type = "google";
+                        let ret = new Token(token, Connexion.jwtStatusOk, data.json);
+                        callback(ret, null)
                     } else {
-                        reject(error);
+                        callback(null, error)
                     }
                 }, token
             )
-        })
-    }
-
-    async checkGoogle(token: string) {
-        let google: any = await this.checkGoogleProm(token);
-        if (google && google.statusCode == 200 && google.json) {
-            return new Token(token, Connexion.jwtStatusOk, google.json);
-        } else {
-            return new Token(token, Connexion.jwtStatusERR, null);
-        }
-    }
-
-    async checkToken(token: string) {
-        console.log('calling');
-        let ret: any = this.checkJwt(token);
-        if (ret && ret.decoded) {
-            return ret;
-        } else {
-            ret = await this.checkGoogle(token);
-            console.log(ret);
-            if (ret && ret.decoded) {
-                ret.decoded.type = "google";
-                return ret;
-            } else {
-                return null;
-            }
         }
     }
 
     checkJwtWithField(token: string, field: string, value: string): Token {
         try {
             var decoded = this.jsonwebtoken.verify(token, this.jwtConfiguration.secret);
-            if (decoded && decoded[field] == value) {
-                this.log("User Id: " + decoded.iduser + ", login: " + decoded.login);
-            }
             return new Token(token, Connexion.jwtStatusOk, decoded);
         } catch (err) {
             return new Token(token, Connexion.jwtStatusERR, null);
