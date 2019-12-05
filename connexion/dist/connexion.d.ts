@@ -54,7 +54,7 @@ export declare class Connexion {
     createJwt(data: any, options?: any): any;
     checkJwt(token: string): Token;
     checkGoogleApi(callback: Function, token: string): void;
-    checkToken(callback: Function, token: string): void;
+    decryptToken(callback: Function, token: string): void;
     checkJwtWithField(token: string, field: string, value: string): Token;
     isTokenValid(token: string): boolean;
     encrypt(plain: string): string;

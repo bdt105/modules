@@ -161,9 +161,13 @@ export class Connexion {
         let jwt = null;
         this.releaseSql();
         if (rows && rows.length > 0) {
-            let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
+            let passwordOk = true;
             user = rows[0];
-            if (comparePassword === user[this.mySqlConfiguration.passwordFieldName]) {
+            if (password != null) {
+                let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
+                passwordOk = comparePassword === user[this.mySqlConfiguration.passwordFieldName];
+            }
+            if (passwordOk) {
                 jwt = this.createJwt(user, jwtOptions);
                 callback(err, jwt);
             } else {
@@ -228,7 +232,7 @@ export class Connexion {
         )
     }
 
-    checkToken(callback: Function, token: string) {
+    decryptToken(callback: Function, token: string) {
         let ret: any = this.checkJwt(token);
         if (ret && ret.decoded) {
             ret.decoded.type = "standard";

@@ -115,9 +115,13 @@ class Connexion {
         let jwt = null;
         this.releaseSql();
         if (rows && rows.length > 0) {
-            let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
+            let passwordOk = true;
             user = rows[0];
-            if (comparePassword === user[this.mySqlConfiguration.passwordFieldName]) {
+            if (password != null) {
+                let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
+                passwordOk = comparePassword === user[this.mySqlConfiguration.passwordFieldName];
+            }
+            if (passwordOk) {
                 jwt = this.createJwt(user, jwtOptions);
                 callback(err, jwt);
             }
@@ -171,7 +175,7 @@ class Connexion {
             callback(data, error);
         }, "POST", "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
     }
-    checkToken(callback, token) {
+    decryptToken(callback, token) {
         let ret = this.checkJwt(token);
         if (ret && ret.decoded) {
             ret.decoded.type = "standard";
