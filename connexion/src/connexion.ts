@@ -1,4 +1,5 @@
 import { Toolbox, Rest } from 'bdt105toolbox/dist'
+import { stringify } from 'querystring';
 
 export class MySqlConfiguration {
     public host: string;
@@ -108,7 +109,23 @@ export class Connexion {
         console.log("Database pool created");
     }
 
-    public queryPool(callback: Function, sql: string) {
+    public endSqlPool(callback: Function) {
+        if (this.mySqlPool) {
+            this.mySqlPool.end((err: any) => {
+                if (err) {
+                    this.log("Error ending mysqlpool" + stringify(err));
+                } else {
+                    this.log("Mysql pool ended");
+                }
+                callback(err);
+            });
+        }else{
+            this.log("Mysql pool NOT ended because undefined");
+        }
+
+    }
+
+    public queryPool(callback: Function, sql: string, closePool: boolean = false) {
         if (!this.mySqlPool) {
             this.createSqlPool();
         }
@@ -120,6 +137,15 @@ export class Connexion {
                     connection.query(sql, (err: any, rows: any) => {
                         callback(err, rows);
                         connection.release();
+                        if (closePool) {
+                            this.endSqlPool((err: any) => {
+                                if (err) {
+                                    this.log("queryPool - Error ending mysqlpool" + stringify(err));
+                                } else {
+                                    this.log("queryPool - Mysql pool ended");
+                                }
+                            });
+                        }
                         // console.log("Connexion released");
                     });
                 }
