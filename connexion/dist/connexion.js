@@ -179,16 +179,20 @@ var Connexion = /** @class */ (function () {
             }
         }
     };
-    Connexion.prototype.callbackQuerySql = function (callback, err, rows) {
-        this.releaseSql();
+    Connexion.prototype.callbackQuerySql = function (callback, err, rows, releaseConnexion) {
+        if (releaseConnexion === void 0) { releaseConnexion = true; }
+        if (releaseConnexion) {
+            this.releaseSql();
+        }
         if (callback) {
             callback(err, rows);
         }
     };
-    Connexion.prototype.querySql = function (callback, sql) {
+    Connexion.prototype.querySql = function (callback, sql, releaseConnexion) {
         var _this = this;
+        if (releaseConnexion === void 0) { releaseConnexion = false; }
         this.connectSql();
-        this.sqlConnexion.query(sql, function (err, rows) { return _this.callbackQuerySql(callback, err, rows); });
+        this.sqlConnexion.query(sql, function (err, rows) { return _this.callbackQuerySql(callback, err, rows, releaseConnexion); });
     };
     Connexion.prototype.querySqlWithoutConnexion = function (callback, sql) {
         this.sqlConnexion.query(sql, function (err, rows) { return callback(err, rows); });

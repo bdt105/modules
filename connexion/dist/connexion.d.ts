@@ -49,7 +49,7 @@ export declare class Connexion {
     private callbackConnect;
     private callbackGetJwt;
     private callbackQuerySql;
-    querySql(callback: Function, sql: string): void;
+    querySql(callback: Function, sql: string, releaseConnexion?: boolean): void;
     querySqlWithoutConnexion(callback: Function, sql: string): void;
     getJwt(callback: Function, login: string, password: string, where?: string, jwtOptions?: any, isPasswordCrypted?: boolean): void;
     createJwt(data: any, options?: any): any;

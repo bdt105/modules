@@ -1,4 +1,4 @@
-import { Toolbox, Rest } from 'bdt105toolbox/dist'
+import { Rest } from 'bdt105toolbox/dist'
 import { stringify } from 'querystring';
 
 export class MySqlConfiguration {
@@ -119,7 +119,7 @@ export class Connexion {
                 }
                 callback(err);
             });
-        }else{
+        } else {
             this.log("Mysql pool NOT ended because undefined");
         }
 
@@ -206,18 +206,20 @@ export class Connexion {
         }
     }
 
-    private callbackQuerySql(callback: Function, err: any, rows: any) {
-        this.releaseSql();
+    private callbackQuerySql(callback: Function, err: any, rows: any, releaseConnexion: boolean = true) {
+        if (releaseConnexion) {
+            this.releaseSql();
+        }
 
         if (callback) {
             callback(err, rows);
         }
     }
 
-    querySql(callback: Function, sql: string) {
+    querySql(callback: Function, sql: string, releaseConnexion: boolean = false) {
         this.connectSql();
         this.sqlConnexion.query(sql,
-            (err: any, rows: any) => this.callbackQuerySql(callback, err, rows));
+            (err: any, rows: any) => this.callbackQuerySql(callback, err, rows, releaseConnexion));
     }
 
     querySqlWithoutConnexion(callback: Function, sql: string) {
