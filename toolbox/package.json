@@ -1,6 +1,6 @@
 {
     "name": "bdt105toolbox",
-    "version": "2.0.35",
+    "version": "3.0.5",
     "description": "Toolbox: several tools",
     "main": "index.js",
     "repository": {
@@ -15,8 +15,8 @@
         "ftp": "^0.3.10",
         "jszip": "^3.1.5",
         "moment": "^2.20.1",
+        "needle": "^3.0.0",
         "pretty-data": "^0.40.0",
-        "request": "^2.83.0",
         "shortid": "^2.2.14",
         "xml2js": "^0.4.19"
     },

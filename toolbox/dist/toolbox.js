@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Toolbox = void 0;
 var index_1 = require("./index");
 var Toolbox = /** @class */ (function () {
     function Toolbox() {
@@ -878,7 +879,7 @@ var Toolbox = /** @class */ (function () {
             /[\322-\330]/g, /[\362-\370]/g,
             /[\331-\334]/g, /[\371-\374]/g,
             /[\321]/g, /[\361]/g,
-            /[\307]/g, /[\347]/g,
+            /[\307]/g, /[\347]/g, // C, c
         ];
         var noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
         var str = text.toString();

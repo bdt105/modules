@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Rest = void 0;
 var toolbox_1 = require("./toolbox");
 var Rest = /** @class */ (function () {
     function Rest(logFileName, logToConsole) {
@@ -57,54 +58,60 @@ var Rest = /** @class */ (function () {
         if (contentType === void 0) { contentType = "application/json"; }
         if (getRaw === void 0) { getRaw = true; }
         if (headers === void 0) { headers = null; }
-        var request = require('request');
-        var bod = body;
-        if (bod && typeof bod == "string") {
-            if (this.toolbox.isJson(bod)) {
-                bod = JSON.stringify(bod);
-            }
-        }
-        if (bod && typeof bod == "object") {
-            bod = JSON.stringify(bod);
-        }
+        var needle = require('needle');
+        /*
+                let bod = body;
+        
+                if (bod && typeof bod == "string"){
+                    if (this.toolbox.isJson(bod)){
+                        bod = JSON.stringify(bod);
+                    }
+                }
+                
+                if (bod && typeof bod == "object"){
+                    bod = JSON.stringify(bod);
+                }
+         */
         var options = {
-            "method": method,
             "headers": {
                 "Content-type": contentType,
                 "Accept": "*/*"
-            },
-            "uri": url,
-            "body": bod
+            }
         };
         if (headers) {
             options.headers = headers;
         }
-        request(options, function (error, response, bbody) {
+        needle(method, url, body /*, options*/, function (error, response) {
             var data = {};
-            if (getRaw) {
-                data.raw = bbody;
-            }
             if (error) {
                 data.error = error;
             }
             if (response) {
-                data.url = response.request.href;
-                data.statusCode = response.statusCode;
-                data.statusText = _this.statusText[data.statusCode];
+                if (getRaw) {
+                    data.raw = response.raw;
+                }
+                data.url = url;
+                if (response.body) {
+                    data.statusCode = response.statusCode;
+                    data.statusText = _this.statusText[data.statusCode];
+                    if (response.body.data && typeof response.body.data === "string") {
+                        data.json = _this.toolbox.xml2json(response.body.data);
+                        if (!data.json) {
+                            try {
+                                data.json = JSON.parse(response.body.data);
+                            }
+                            catch (e) {
+                                data.json = response.body.data;
+                            }
+                        }
+                    }
+                    else {
+                        data.json = response.body.data;
+                    }
+                }
             }
             else {
                 data.statusCode = "ERR";
-            }
-            if (bbody && typeof bbody === "string") {
-                data.json = _this.toolbox.xml2json(bbody);
-                if (!data.json) {
-                    try {
-                        data.json = JSON.parse(bbody);
-                    }
-                    catch (e) {
-                        data.json = undefined;
-                    }
-                }
             }
             _this.toolbox.log(url + JSON.stringify(data), _this.logFileName, _this.logToConsole);
             if (callback) {
