@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.Rest = void 0;
 var toolbox_1 = require("./toolbox");
 var Rest = /** @class */ (function () {

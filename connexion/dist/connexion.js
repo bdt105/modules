@@ -86,7 +86,7 @@ var Connexion = /** @class */ (function () {
         if (this.mySqlPool) {
             this.mySqlPool.end(function (err) {
                 if (err) {
-                    _this.log("Error ending mysqlpool" + querystring_1.stringify(err));
+                    _this.log("Error ending mysqlpool" + (0, querystring_1.stringify)(err));
                 }
                 else {
                     _this.log("Mysql pool ended");
@@ -115,7 +115,7 @@ var Connexion = /** @class */ (function () {
                     if (closePool) {
                         _this.endSqlPool(function (err) {
                             if (err) {
-                                _this.log("queryPool - Error ending mysqlpool" + querystring_1.stringify(err));
+                                _this.log("queryPool - Error ending mysqlpool" + (0, querystring_1.stringify)(err));
                             }
                             else {
                                 _this.log("queryPool - Mysql pool ended");
@@ -278,6 +278,25 @@ var Connexion = /** @class */ (function () {
     };
     Connexion.prototype.tryConnectSql = function () {
         this.connectSql();
+    };
+    Connexion.prototype.checkToken = function (callback, token) {
+        var ret = this.checkJwt(token);
+        if (ret && ret.decoded) {
+            ret.decoded.type = "standard";
+            callback(ret, null);
+        }
+        else {
+            this.checkGoogleApi(function (data, error) {
+                if (data && data.json) {
+                    data.json.type = "google";
+                    var ret_2 = new Token(token, Connexion.jwtStatusOk, data.json);
+                    callback(ret_2, null);
+                }
+                else {
+                    callback(null, error);
+                }
+            }, token);
+        }
     };
     Connexion.jwtStatusOk = "OK";
     Connexion.jwtStatusERR = "ERR";

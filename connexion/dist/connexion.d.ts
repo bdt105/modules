@@ -61,4 +61,5 @@ export declare class Connexion {
     encrypt(plain: string): string;
     compareEncrypt(encrypted: string, plain: string): boolean;
     tryConnectSql(): void;
+    checkToken(callback: Function, token: string): void;
 }

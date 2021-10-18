@@ -314,4 +314,24 @@ export class Connexion {
         this.connectSql();
     }
 
+    checkToken(callback: Function, token: string) {
+        let ret: any = this.checkJwt(token);
+        if (ret && ret.decoded) {
+            ret.decoded.type = "standard";
+            callback(ret, null);
+        } else {
+            this.checkGoogleApi(
+                (data: any, error: any) => {
+                    if (data && data.json) {
+                        data.json.type = "google";
+                        let ret = new Token(token, Connexion.jwtStatusOk, data.json);
+                        callback(ret, null)
+                    } else {
+                        callback(null, error)
+                    }
+                }, token
+            )
+        }
+    }
+
 }

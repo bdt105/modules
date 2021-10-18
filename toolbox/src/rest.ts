@@ -101,6 +101,7 @@ export class Rest {
                 if (response.body) {
                     data.statusCode = response.statusCode;
                     data.statusText = this.statusText[data.statusCode];
+                    data.body = response.body;
                     if (response.body.data && typeof response.body.data === "string") {
                         data.json = this.toolbox.xml2json(response.body.data);
                         if (!data.json) {
