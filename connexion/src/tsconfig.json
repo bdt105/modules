@@ -1,11 +1,14 @@
 { 
     "compilerOptions": { 
         "noImplicitAny": true, 
-        "target": "es5", 
+        "target": "es6", 
         "module": "commonjs", 
         "outDir": "../dist",
         "sourceMap": true,
-        "declaration": true
+        "declaration": true, 
+        "lib": [
+            "esnext.asynciterable"
+          ]
     }, 
     "exclude" : [ 
         "./build", 

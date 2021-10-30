@@ -1,28 +1,31 @@
 import { Rest } from 'bdt105toolbox/dist'
 import { stringify } from 'querystring';
 
-export class MySqlConfiguration {
-    public host: string;
-    public user: string;
-    public password: string;
-    public port: number;
-    public database: string;
+export class SqlConfiguration {
+    public databaseServer: string;
+    public databaseUser: string;
+    public databasePassword: string;
+    public databasePort: number;
+    public databaseName: string;
     public multipleStatements: boolean;
+    public driver: string;
+    public options: any;
 
     public userTableName: string;
     public loginFieldName: string;
     public passwordFieldName: string;
-
-    constructor(host: string, port: number, user: string, password: string, database: string, userTableName: string = null, idFieldName: string = null, loginFieldName: string = null, passwordFieldName: string = null, emailFieldName: string = null, applicationFieldName: string = null) {
-        this.host = host;
-        this.user = user;
-        this.password = password;
-        this.port = port;
-        this.database = database;
-        this.userTableName = userTableName;
-        this.loginFieldName = loginFieldName;
-        this.passwordFieldName = passwordFieldName;
-    }
+    /*
+        constructor(databaseServer: string, port: number, user: string, password: string, database: string, userTableName: string = null, idFieldName: string = null, loginFieldName: string = null, passwordFieldName: string = null, emailFieldName: string = null, applicationFieldName: string = null) {
+            this.databaseServer = databaseServer;
+            this.user = user;
+            this.password = password;
+            this.port = port;
+            this.database = database;
+            this.userTableName = userTableName;
+            this.loginFieldName = loginFieldName;
+            this.passwordFieldName = passwordFieldName;
+        }
+    */
 }
 
 export class JwtConfiguration {
@@ -51,13 +54,14 @@ export class Token {
 }
 
 export class Connexion {
-    private mySql: any;
-    private sqlConnexion: any;
+    private sqlDriver: any;
+    private mySqlConnexion: any;
     private jsonwebtoken: any;
+    //private mssqlPoolRequest: any;
     public static readonly jwtStatusOk = "OK";
     public static readonly jwtStatusERR = "ERR";
 
-    public mySqlConfiguration: MySqlConfiguration;
+    public sqlConfiguration: SqlConfiguration;
     public jwtConfiguration: JwtConfiguration;
 
     public rows: any;
@@ -66,13 +70,18 @@ export class Connexion {
     public permissions: string;
     public epirationDate: number;
     public mySqlPool: any;
+    public msSqlPool: any;
 
     private rest = new Rest();
 
-    constructor(mySqlConfiguration: MySqlConfiguration = null, jwtConfiguration: JwtConfiguration = null) {
-        this.mySqlConfiguration = mySqlConfiguration;
+    constructor(sqlConfiguration: SqlConfiguration = null, jwtConfiguration: JwtConfiguration = null) {
+        this.sqlConfiguration = sqlConfiguration;
         this.jwtConfiguration = jwtConfiguration;
-        this.mySql = require('mysql');
+        if (sqlConfiguration.driver == 'mssql') {
+            this.sqlDriver = require("mssql/msnodesqlv8")
+        } else {
+            this.sqlDriver = require('mysql');
+        }
         this.jsonwebtoken = require('jsonwebtoken');
     }
 
@@ -80,52 +89,103 @@ export class Connexion {
         console.log(text);
     }
 
-    public connectSql() {
-        this.sqlConnexion = this.mySql.createConnection({
-            "host": this.mySqlConfiguration.host,
-            "user": this.mySqlConfiguration.user,
-            "port": this.mySqlConfiguration.port,
-            "multipleStatements": this.mySqlConfiguration.multipleStatements,
-            "password": this.mySqlConfiguration.password,
-            "database": this.mySqlConfiguration.database
+    private connectMySql() {
+        this.mySqlConnexion = this.sqlDriver.createConnection({
+            "host": this.sqlConfiguration.databaseServer,
+            "user": this.sqlConfiguration.databaseUser,
+            "port": this.sqlConfiguration.databasePort,
+            "multipleStatements": this.sqlConfiguration.multipleStatements,
+            "password": this.sqlConfiguration.databasePassword,
+            "database": this.sqlConfiguration.databaseName
         });
-        if (this.sqlConnexion) {
-            let err = this.sqlConnexion.connect(
+        if (this.mySqlConnexion) {
+            let err = this.mySqlConnexion.connect(
                 (err: any) => this.callbackConnect(err)
             );
         }
-        return this.sqlConnexion;
+        return this.mySqlConnexion;
     }
 
-    public createSqlPool() {
-        this.mySqlPool = this.mySql.createPool({
-            "host": this.mySqlConfiguration.host,
-            "user": this.mySqlConfiguration.user,
-            "port": this.mySqlConfiguration.port,
-            "password": this.mySqlConfiguration.password,
-            "database": this.mySqlConfiguration.database,
-            "multipleStatements": this.mySqlConfiguration.multipleStatements
-        });
-        console.log("Database pool created");
+    private createSqlPool() {
+        if (this.sqlConfiguration.driver == 'mysql') {
+            this.mySqlPool = this.sqlDriver.createPool({
+                "host": this.sqlConfiguration.databaseServer,
+                "user": this.sqlConfiguration.databaseUser,
+                "port": this.sqlConfiguration.databasePort,
+                "password": this.sqlConfiguration.databasePassword,
+                "database": this.sqlConfiguration.databaseName,
+                "multipleStatements": this.sqlConfiguration.multipleStatements
+            });
+            console.log("MySql database pool created");
+        }
+        if (this.sqlConfiguration.driver == 'mssql') {
+            this.msSqlPool = new this.sqlDriver.ConnectionPool({
+                "server": this.sqlConfiguration.databaseServer,
+                "database": this.sqlConfiguration.databaseName,
+                "options": this.sqlConfiguration.options
+            });
+        }
     }
 
     public endSqlPool(callback: Function) {
-        if (this.mySqlPool) {
-            this.mySqlPool.end((err: any) => {
-                if (err) {
-                    this.log("Error ending mysqlpool" + stringify(err));
-                } else {
-                    this.log("Mysql pool ended");
-                }
-                callback(err);
-            });
-        } else {
-            this.log("Mysql pool NOT ended because undefined");
+        if (this.sqlConfiguration.driver == 'mysql') {
+            if (this.mySqlPool) {
+                this.mySqlPool.end((err: any) => {
+                    if (err) {
+                        this.log("Error ending mysqlpool" + stringify(err));
+                    } else {
+                        this.log("Mysql pool ended");
+                    }
+                    callback(err);
+                });
+            } else {
+                this.log("Mysql pool NOT ended because undefined");
+            }
         }
-
+        if (this.sqlConfiguration.driver == 'mssql') {
+            if (this.msSqlPool) {
+                this.msSqlPool.close()
+                this.log("Mssql pool closed");
+                callback(null);
+            }
+        }
     }
 
     public queryPool(callback: Function, sql: string, closePool: boolean = false) {
+        if (this.sqlConfiguration.driver == 'mysql') {
+            this.mySqlQueryPool(callback, sql, closePool);
+        }
+        if (this.sqlConfiguration.driver == 'mssql') {
+            this.msSqlQueryPool(callback, sql, closePool);
+        }
+    }
+
+    private msSqlQueryPool(callback: Function, sql: string, closePool: boolean = false) {
+        if (!this.msSqlPool) {
+            this.createSqlPool();
+        }
+        this.msSqlPool.connect().then((pool: any) => {
+            let poolRequest = pool.request();
+            poolRequest.query(sql, (error: any, result: any) => {
+                if (error) {
+                    callback(error, null);
+                } else {
+                    if (result && result.recordset) {
+                        callback(null, result.recordset);
+                    } else {
+                        callback(null, result);
+                    }
+                }
+                if (closePool) {
+                    this.endSqlPool((err: any) => {
+                        this.log("queryPool - Mssql pool ended");
+                    });
+                }
+            });
+        });
+    }
+
+    private mySqlQueryPool(callback: Function, sql: string, closePool: boolean = false) {
         if (!this.mySqlPool) {
             this.createSqlPool();
         }
@@ -146,25 +206,26 @@ export class Connexion {
                                 }
                             });
                         }
-                        // console.log("Connexion released");
                     });
                 }
             }
         );
     }
 
-    public getSqlConnexion() {
-        return this.sqlConnexion;
-    }
+    /*
+        private getSqlConnexion() {
+            return this.sqlConfiguration.driver == 'mysql' ? this.mySqlConnexion : this.mssqlConnexionPool;
+        }
+    */
 
-    public releaseSql() {
-        if (this.sqlConnexion) {
-            this.sqlConnexion.end(() => {
-                if (this.sqlConnexion) {
-                    this.log('Connexion to the database as id ' + this.sqlConnexion.threadId + ' ended !');
+    private releaseSql() {
+        if (this.sqlConfiguration.driver == 'mysql' && this.mySqlConnexion) {
+            this.mySqlConnexion.end(() => {
+                if (this.mySqlConnexion) {
+                    this.log('Connexion to the database as id ' + this.mySqlConnexion.threadId + ' ended !');
                 }
             });
-            this.sqlConnexion = null;
+            this.mySqlConnexion = null;
         }
     }
 
@@ -175,8 +236,8 @@ export class Connexion {
             this.releaseSql();
             return;
         }
-        if (this.sqlConnexion) {
-            this.log('Connected to the database as id ' + this.sqlConnexion.threadId);
+        if (this.mySqlConnexion) {
+            this.log('Connected to the database as id ' + this.mySqlConnexion.threadId);
         }
     }
 
@@ -191,7 +252,7 @@ export class Connexion {
             user = rows[0];
             if (password != null) {
                 let comparePassword = isPasswordCrypted ? password : this.encrypt(password);
-                passwordOk = comparePassword === user[this.mySqlConfiguration.passwordFieldName];
+                passwordOk = comparePassword === user[this.sqlConfiguration.passwordFieldName];
             }
             if (passwordOk) {
                 jwt = this.createJwt(user, jwtOptions);
@@ -217,23 +278,37 @@ export class Connexion {
     }
 
     querySql(callback: Function, sql: string, releaseConnexion: boolean = false) {
-        this.connectSql();
-        this.sqlConnexion.query(sql,
-            (err: any, rows: any) => this.callbackQuerySql(callback, err, rows, releaseConnexion));
+        if (this.sqlConfiguration.driver == 'mysql') {
+            this.connectMySql();
+            this.mySqlConnexion.query(sql,
+                (err: any, rows: any) => this.callbackQuerySql(callback, err, rows, releaseConnexion));
+        }
+        if (this.sqlConfiguration.driver == 'mssql') {
+
+            this.msSqlQueryPool(
+                (err: any, rows: any) => this.callbackQuerySql(callback, err, rows, releaseConnexion), sql, releaseConnexion);
+        }
     }
 
     querySqlWithoutConnexion(callback: Function, sql: string) {
-        this.sqlConnexion.query(sql,
+        this.mySqlConnexion.query(sql,
             (err: any, rows: any) => callback(err, rows));
     }
 
-    getJwt(callback: Function, login: string, password: string, where: string = null, jwtOptions: any = null, isPasswordCrypted = false) {
-        this.connectSql();
-        if (this.sqlConnexion) {
-            let sql = "select * from " + this.mySqlConfiguration.userTableName + " where " + this.mySqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
-            this.sqlConnexion.query(sql,
-                (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, password, jwtOptions, isPasswordCrypted));
-        }
+    getJwt(callback: Function, login: string, password: string, where: string = null, jwtOptions: any = null, isPasswordCrypted = false, releaseConnexion = true) {
+        let sql = "select * from " + this.sqlConfiguration.userTableName + " where " + this.sqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
+
+        this.querySql(
+            (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, password, jwtOptions, isPasswordCrypted),
+            sql, releaseConnexion)
+        /*            
+                this.connectMySql();
+                if (this.mySqlConnexion) {
+                    let sql = "select * from " + this.sqlConfiguration.userTableName + " where " + this.sqlConfiguration.loginFieldName + " = '" + login + "'" + (where ? " and " + where : "");
+                    this.mySqlConnexion.query(sql,
+                        (err: any, rows: any) => this.callbackGetJwt(callback, err, rows, password, jwtOptions, isPasswordCrypted));
+                }
+        */
     }
 
     createJwt(data: any, options: any = null) {
@@ -311,7 +386,7 @@ export class Connexion {
     }
 
     tryConnectSql() {
-        this.connectSql();
+        this.connectMySql();
     }
 
     checkToken(callback: Function, token: string) {

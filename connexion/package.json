@@ -2,7 +2,7 @@
 	"name": "bdt105connexion",
 	"main": "index.js",
 	"description": "JWT Authentification and MySql connexion",
-	"version": "2.0.33",
+	"version": "3.0.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/bdt105/modules/tree/master/connexion"
@@ -12,10 +12,12 @@
 		"bdt105toolbox": "3.0.5",
 		"jsonwebtoken": "8.5.1",
 		"mysql": "2.17.1",
-		"typescript": "^2.3.4"
+		"typescript": "^2.3.4",
+		"msnodesqlv8": "^2.0.9",
+		"mssql": "^6.3.1"
 	},
 	"devDependencies": {
-		"@types/node": "^8.0.27"
+		"@types/node": "^8.10.66"
 	},
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/"

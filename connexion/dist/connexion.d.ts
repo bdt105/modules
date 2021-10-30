@@ -1,14 +1,15 @@
-export declare class MySqlConfiguration {
-    host: string;
-    user: string;
-    password: string;
-    port: number;
-    database: string;
+export declare class SqlConfiguration {
+    databaseServer: string;
+    databaseUser: string;
+    databasePassword: string;
+    databasePort: number;
+    databaseName: string;
     multipleStatements: boolean;
+    driver: string;
+    options: any;
     userTableName: string;
     loginFieldName: string;
     passwordFieldName: string;
-    constructor(host: string, port: number, user: string, password: string, database: string, userTableName?: string, idFieldName?: string, loginFieldName?: string, passwordFieldName?: string, emailFieldName?: string, applicationFieldName?: string);
 }
 export declare class JwtConfiguration {
     secret: string;
@@ -24,12 +25,12 @@ export declare class Token {
     constructor(token: string, status: string, decoded: any);
 }
 export declare class Connexion {
-    private mySql;
-    private sqlConnexion;
+    private sqlDriver;
+    private mySqlConnexion;
     private jsonwebtoken;
     static readonly jwtStatusOk = "OK";
     static readonly jwtStatusERR = "ERR";
-    mySqlConfiguration: MySqlConfiguration;
+    sqlConfiguration: SqlConfiguration;
     jwtConfiguration: JwtConfiguration;
     rows: any;
     err: any;
@@ -37,21 +38,23 @@ export declare class Connexion {
     permissions: string;
     epirationDate: number;
     mySqlPool: any;
+    msSqlPool: any;
     private rest;
-    constructor(mySqlConfiguration?: MySqlConfiguration, jwtConfiguration?: JwtConfiguration);
+    constructor(sqlConfiguration?: SqlConfiguration, jwtConfiguration?: JwtConfiguration);
     private log;
-    connectSql(): any;
-    createSqlPool(): void;
+    private connectMySql;
+    private createSqlPool;
     endSqlPool(callback: Function): void;
     queryPool(callback: Function, sql: string, closePool?: boolean): void;
-    getSqlConnexion(): any;
-    releaseSql(): void;
+    private msSqlQueryPool;
+    private mySqlQueryPool;
+    private releaseSql;
     private callbackConnect;
     private callbackGetJwt;
     private callbackQuerySql;
     querySql(callback: Function, sql: string, releaseConnexion?: boolean): void;
     querySqlWithoutConnexion(callback: Function, sql: string): void;
-    getJwt(callback: Function, login: string, password: string, where?: string, jwtOptions?: any, isPasswordCrypted?: boolean): void;
+    getJwt(callback: Function, login: string, password: string, where?: string, jwtOptions?: any, isPasswordCrypted?: boolean, releaseConnexion?: boolean): void;
     createJwt(data: any, options?: any): any;
     checkJwt(token: string): Token;
     checkGoogleApi(callback: Function, token: string): void;
