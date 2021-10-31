@@ -112,7 +112,8 @@ export class Rest {
                             }
                         }
                     } else {
-                        data.json = response.body.data;
+                        data.json = (response.body.data ? response.body.data : 
+                            (response.body ? response.body : response));
                     }
                 }
             } else {

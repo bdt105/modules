@@ -4,9 +4,10 @@
     // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Test",
-            "program": "${workspaceFolder}/toolbox/dist/resttest.js",
+            "program": "${workspaceFolder}/connexion/dist/test.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -14,13 +15,22 @@
             "type": "pwa-node"
         },
         {
-            "type": "node",
+            "name": "Create token",
+            "program": "${workspaceFolder}/connexion/dist/createToken.js",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/vidal/src/vidal.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Test Authentification",
+            "program": "${workspaceFolder}/connexion/dist/testConMssql.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
         }
     ]
 }

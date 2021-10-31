@@ -107,7 +107,8 @@ var Rest = /** @class */ (function () {
                         }
                     }
                     else {
-                        data.json = response.body.data;
+                        data.json = (response.body.data ? response.body.data :
+                            (response.body ? response.body : response));
                     }
                 }
             }
