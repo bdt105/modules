@@ -19,7 +19,7 @@
     "bdt105toolbox": "~1.0.81"
   },
   "devDependencies": {
-    "@angular/core": "^5.2.10",
+    "@angular/core": "^11.0.5",
     "@angular/platform-browser": "^5.2.10",
     "@angular/common": "^5.2.10",
     "@angular/compiler": "^5.2.10",
