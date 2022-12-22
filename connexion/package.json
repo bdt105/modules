@@ -10,7 +10,7 @@
 	"dependencies": {
 		"bcryptjs": "2.4.3",
 		"bdt105toolbox": "3.0.7",
-		"jsonwebtoken": "8.5.1",
+		"jsonwebtoken": "9.0.0",
 		"mysql": "2.17.1",
 		"typescript": "^2.3.4",
 		"msnodesqlv8": "^2.0.9",
